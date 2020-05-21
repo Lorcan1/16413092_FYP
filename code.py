@@ -142,16 +142,7 @@ def main():
 
     cpu_num = multiprocessing.cpu_count()
     random.shuffle(a_list)
-    five = numpy.array_split(numpy.array(a_list),3)
-
-    b_list = []
-    b_list.append(([1,0,0,1,0]))
-    b_list.append(([1,0,0,1,0]))
-    b_list.append(([1,0,0,1,0]))
-    c_list = []
-    c_list.append(([1,0,0,1,0]))
-    c_list.append(([1,0,0,1,0]))
-    c_list.append(([1,0,0,1,0]))
+    five = numpy.array_split(numpy.array(a_list),cpu_num)
 
     m = multiprocessing.Manager()   
     processes = []
@@ -165,8 +156,8 @@ def main():
 
     input_list = list(zip(numb_list,itertools.repeat(out_queue0)))
 
-    input_list = [(b_list,out_queue0),(c_list,out_queue0)]
-    pool = Pool(3)
+    
+    pool = Pool(cpu_num)
     pool.map(multi_run_wrapper,input_list)
 
     result = []
@@ -1012,3 +1003,4 @@ def output(df, df2):
 
 if __name__ == "__main__":
    main()
+
