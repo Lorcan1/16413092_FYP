@@ -42,10 +42,10 @@ import itertools
 from multiprocessing import Process, Queue, Pool
 import multiprocessing
 
-def top(my_list, out_queue): #top level function 
+def top(my_list, out_queue): #parrallelized function 
     counter = 0
     bank_dataset = BankDataset()
-    adult_dataset = AdultDataset()    #datasets moved here to try and fix memory issuses
+    adult_dataset = AdultDataset()    #datasets moved here to try and fix memory issuses, 4 datasets called from AIF360
     german_dataset = GermanDataset()
     compas_dataset = CompasDataset()
     df = pd.read_csv('ricci.csv')
@@ -57,7 +57,7 @@ def top(my_list, out_queue): #top level function
     df = df.replace('Captain', 1)
     df = df.replace('Lieutenant', 0)
 
-    ricci_dataset = BinaryLabelDataset( favorable_label='1',
+    ricci_dataset = BinaryLabelDataset( favorable_label='1',      #RIcci dataset read from csv and converted to correct format
                                        unfavorable_label='0',
                                        df=df,
                                        label_names=['Promotion'],
@@ -87,14 +87,14 @@ def top(my_list, out_queue): #top level function
         elif i[0] == 7:
             dataset = ricci_dataset
     
-        top_data_d = data_f(dataset,i[0])
+        top_data_d = data_f(dataset,i[0])       #main pipeline of bma functions called here
         top_pre_d =  pre(i[1], top_data_d)
         top_in_d = in_p(i[2], top_pre_d)
         top_class_d = classifier(i[3],top_in_d)
         top_post_d = post(i[4], top_class_d) #bias mitigation functions
         top_sort_d = sorter(top_post_d)
 
-        out_queue.put(top_sort_d)
+        out_queue.put(top_sort_d)              #result returned through queue
 
         top_data_d.clear()
         top_pre_d.clear()
@@ -140,9 +140,9 @@ def main():
             if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
                      a_list.append(x)
 
-    cpu_num = multiprocessing.cpu_count()
-    random.shuffle(a_list)
-    five = numpy.array_split(numpy.array(a_list),cpu_num)
+    cpu_num = multiprocessing.cpu_count()      #return number of cores present on machine
+    random.shuffle(a_list)                     #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
+    five = numpy.array_split(numpy.array(a_list),cpu_num)      #split input array 
 
     m = multiprocessing.Manager()   
     processes = []
@@ -151,7 +151,7 @@ def main():
     counter = 0
 
     for x in five:
-        numb_list.append((five[counter]))
+        numb_list.append((five[counter]))                 
         counter = counter + 1
 
     input_list = list(zip(numb_list,itertools.repeat(out_queue0)))
@@ -162,12 +162,12 @@ def main():
 
     result = []
 
-    while out_queue0.qsize() != 0:
+    while out_queue0.qsize() != 0:              #prevent deadlock
           result.append(out_queue0.get())
 
     pool.close()
-    dfTemp0 = append_func(result)
-    dfFinal0, dfFinal1 = df_sort(dfTemp0)
+    dfTemp0 = append_func(result)               #append results to dataframe
+    dfFinal0, dfFinal1 = df_sort(dfTemp0)       #clean dataframe, second dataframe is identical bar being ranked differently
     output(dfFinal0,dfFinal1)
 
     return None
@@ -189,7 +189,7 @@ def df_sort(dataframe):      #all dataframe cleaning handled here
     return dfFinal, dfFinal1
 
 def df_orig_value(dataframe):  #appends unmitgated score to equivlaent mitigated row
-    orig_score_df = dataframe[(dataframe['Pre'] == '-') & (dataframe['In_p'] == '-') & (dataframe['Post'] == '-')]
+    orig_score_df = dataframe[(dataframe['Pre'] == '-') & (dataframe['In_p'] == '-') & (dataframe['Post'] == '-')]   #find unmitigated rows
     orig_score_df = orig_score_df[['Theil Index', 'Average Odds Difference' , 'Equal Opportunity Difference',  'Classifier', 'Dataset', 'Sens_Attr']]
     orig_score_df = orig_score_df.rename(columns={"Theil Index" : "Orig Theil",
                                           "Average Odds Difference" : "Orig Av Odds",
@@ -200,7 +200,7 @@ def df_orig_value(dataframe):  #appends unmitgated score to equivlaent mitigated
 
     return new_df
 
-def merge0(dataframe1, dataframe2):  #mereges temp dataframe containing rank averaged across datasets, with original darafame
+def merge0(dataframe1, dataframe2):  #mereges temp dataframe containing rank averaged across datasets, with original datafame
     new_df = pd.merge(dataframe1, dataframe2 , how = 'left',  on = ['Pre', 'In_p' , 'Post', 'Classifier'])
     tempdf = new_df.pop('Ovr_Rank')
     new_df['Ovr_Rank'] = tempdf
@@ -262,10 +262,10 @@ def data_f(dataset,data_used):
 
     sens = sens[0]
     
-    dataset_orig_train, dataset_orig_test = dataset.split([0.7], shuffle=False) 
+    dataset_orig_train, dataset_orig_test = dataset.split([0.7], shuffle=False)  #70/30 split
 
     start = 0
-    start = time.perf_counter()
+    start = time.perf_counter()       #begin timer
     
     data_d = {'dataset' : dataset_orig_train,
          'dataset_test' : dataset_orig_test,
@@ -288,7 +288,7 @@ def data_f(dataset,data_used):
 
     return data_d 
 
-def get_total_finish(fin_dict): #keeps track of total ftime
+def get_total_finish(fin_dict): #keeps track of total time for each combination
     
     total_finish = fin_dict.get('total_finish')
     if total_finish is None:
@@ -299,7 +299,7 @@ def get_total_finish(fin_dict): #keeps track of total ftime
 
     return total_finish
 
-def namer(bma_a, name_dict, name): #names each row
+def namer(bma_a, name_dict, name): #combines names for rows with multiple bmas
     
     if bma_a is None: 
             bma_a = []
@@ -324,7 +324,7 @@ def namer(bma_a, name_dict, name): #names each row
 
 def pre(bma, p_dict): #applies pre-processing BMA
 
-    data = p_dict['dataset'] #take inputs from dictionary 
+    data = p_dict['dataset'] 
     data_used = p_dict['dataset_used']
     unprivileged_groups = p_dict['unprivileged_groups']
     privileged_groups = p_dict['privileged_groups']
@@ -442,7 +442,7 @@ def in_p(bma, in_dict): #applies in-processing classifier
               
     in_p_a , count = namer(in_p_a, in_dict, nam) 
 
-    classified_metric = class_met(dataset_test, data_pred, unprivileged_groups, privileged_groups)
+    classified_metric = class_met(dataset_test, data_pred, unprivileged_groups, privileged_groups) 
     
     in_dict = None
   
