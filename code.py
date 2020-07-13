@@ -140,7 +140,7 @@ def main():
             if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
                      a_list.append(x)
 
-    cpu_num = multiprocessing.cpu_count()      #return number of cores present on machine
+    cpu_num = min(8, multiprocessing.cpu_count())      #return number of cores present on machine
     random.shuffle(a_list)                     #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
     five = numpy.array_split(numpy.array(a_list),cpu_num)      #split input array 
 
