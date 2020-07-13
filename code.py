@@ -595,7 +595,7 @@ def post(bma, post_dict): #applies post-processing algorithms
         CPP = CalibratedEqOddsPostprocessing(privileged_groups = privileged_groups,
                                          unprivileged_groups = unprivileged_groups,
                                          cost_constraint=cost_constraint,
-                                         seed=42)
+                                         seed=None)
         CPP = CPP.fit(dataset_test, data_pred)    
         data_pred = CPP.predict(dataset_test)  
         nam = 'cpp'
@@ -603,7 +603,7 @@ def post(bma, post_dict): #applies post-processing algorithms
     elif bma == 2:
         EOP = EqOddsPostprocessing(privileged_groups = privileged_groups,
                                      unprivileged_groups = unprivileged_groups,
-                                     seed=0)
+                                     seed=None)
         EOP= EOP.fit(dataset_test, data_pred)
         data_pred = EOP.predict(dataset_test)
         nam = 'eop'
