@@ -1,0 +1,1426 @@
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/pandas/compat/__init__.py:117: UserWarning: Could not import the lzma module. Your installed Python is incomplete. Attempting to use lzma compression will result in a RuntimeError.
+  warnings.warn(msg)
+WARNING:root:cannot import name 'BinaryLabelDatasetMetric' from 'aif360.metrics' (/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/metrics/__init__.py): AdversarialDebiasing will be unavailable. To install, run:
+pip install 'aif360[AdversarialDebiasing]'
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 10700 rows removed from BankDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 3620 rows removed from AdultDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+WARNING:root:Missing Data: 5 rows removed from CompasDataset.
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'cholesky':True failed. It is normal for this to happen occasionally, especially as the solution is approached. However, if you see this frequently, consider setting option 'cholesky' to False.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'sym_pos':True failed. It is normal for this to happen occasionally, especially as the solution is approached. However, if you see this frequently, consider setting option 'sym_pos' to False.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'sym_pos':False failed. This may happen occasionally, especially as the solution is approached. However, if you see this frequently, your problem may be numerically challenging. If you cannot improve the formulation, consider setting 'lstsq' to True. Consider also setting `presolve` to True, if it is not already.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'cholesky':True failed. It is normal for this to happen occasionally, especially as the solution is approached. However, if you see this frequently, consider setting option 'cholesky' to False.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'sym_pos':True failed. It is normal for this to happen occasionally, especially as the solution is approached. However, if you see this frequently, consider setting option 'sym_pos' to False.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'sym_pos':False failed. This may happen occasionally, especially as the solution is approached. However, if you see this frequently, your problem may be numerically challenging. If you cannot improve the formulation, consider setting 'lstsq' to True. Consider also setting `presolve` to True, if it is not already.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'cholesky':True failed. It is normal for this to happen occasionally, especially as the solution is approached. However, if you see this frequently, consider setting option 'cholesky' to False.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'sym_pos':True failed. It is normal for this to happen occasionally, especially as the solution is approached. However, if you see this frequently, consider setting option 'sym_pos' to False.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/postprocessing/eq_odds_postprocessing.py:190: OptimizeWarning: Solving system with option 'sym_pos':False failed. This may happen occasionally, especially as the solution is approached. However, if you see this frequently, your problem may be numerically challenging. If you cannot improve the formulation, consider setting 'lstsq' to True. Consider also setting `presolve` to True, if it is not already.
+  self.model_params = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: invalid value encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:90: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:82: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:86: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:89: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:93: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_0 = prob_m1_0 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/FalseDiscovery.py:94: RuntimeWarning: overflow encountered in double_scalars
+  probc_m1_1 = prob_m1_1 / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/sklearn/linear_model/_logistic.py:940: ConvergenceWarning: lbfgs failed to converge (status=1):
+STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+
+Increase the number of iterations (max_iter) or scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  extra_warning_msg=_LOGISTIC_SOLVER_CONVERGENCE_MSG)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/scipy/stats/_multivariate.py:522: RuntimeWarning: overflow encountered in exp
+  out = np.exp(self._logpdf(x, mean, psd.U, psd.log_pdet, psd.rank))
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: invalid value encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: invalid value encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:75: RuntimeWarning: overflow encountered in double_scalars
+  if (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1) == 0:
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:80: RuntimeWarning: overflow encountered in double_scalars
+  prob_y_1 = (prob_1_1 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:83: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_0 = (prob_m1_0 + prob_1_0) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/aif360/algorithms/inprocessing/celisMeta/StatisticalRate.py:84: RuntimeWarning: overflow encountered in double_scalars
+  prob_z_1 = (prob_m1_1 + prob_1_1) / (prob_1_1 + prob_1_0 + prob_m1_0 + prob_m1_1)
+/home/people/scaton/FAIR_ENV/venv01/lib/python3.7/site-packages/numpy/core/fromnumeric.py:87: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
