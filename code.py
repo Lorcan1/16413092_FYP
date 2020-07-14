@@ -289,6 +289,30 @@ def data_f(dataset,data_used):
 
     return data_d 
 
+def StratifiedSample(dataset, testSize):
+    df_conv, _ = dataset.convert_to_dataframe()
+    y = dataset.label_names[0]
+    y = df_conv.pop( y )
+    X_train, X_test, y_train, y_test = train_test_split(df_conv, y, test_size=testSize, stratify=y)
+    train = pd.concat([X_train, y_train], axis=1)
+    test = pd.concat([X_test, y_test], axis=1)
+    
+    trainAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
+                                       unfavorable_label=dataset.unfavorable_label,
+                                       df=train,
+                                       label_names=dataset.label_names,
+                                       protected_attribute_names=dataset.protected_attribute_names,
+                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+    
+    testAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
+                                       unfavorable_label=dataset.unfavorable_label,
+                                       df=test,
+                                       label_names=dataset.label_names,
+                                       protected_attribute_names=dataset.protected_attribute_names,
+                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+    
+    return trainAIF, testAIF
+
 def get_total_finish(fin_dict): #keeps track of total time for each combination
     
     total_finish = fin_dict.get('total_finish')
