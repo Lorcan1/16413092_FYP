@@ -137,8 +137,8 @@ def main():
 
     for x in l:
         if x[2] is 0 and x[3] is not 0 or x[2] is not 0 and x[3] is 0:   #cant have in-processing and classifier
-            if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
-                     a_list.append(x)
+#            if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
+            a_list.append(x)
 
     # upper bound to 12 cores -- added by Simon to be nice on SONIC
     cpu_num = min(12, multiprocessing.cpu_count())      #return number of cores present on machine
