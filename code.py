@@ -140,6 +140,7 @@ def main():
             if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
                      a_list.append(x)
 
+    # upper bound to 8 cores -- added by Simon to be nice on SONIC
     cpu_num = min(8, multiprocessing.cpu_count())      #return number of cores present on machine
     random.shuffle(a_list)                     #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
     five = numpy.array_split(numpy.array(a_list),cpu_num)      #split input array 
@@ -997,8 +998,12 @@ def df_format(df):
         
     return df
 def output(df, df2):
-    df.to_csv('output.csv', index=False)
-    df2.to_csv('output1.csv', index=False)
+    
+    name1 = sys.argv[1] + "-output.csv"
+    name2 = sys.argv[1] + "-output1.csv"
+    
+    df.to_csv(name1, index=False)
+    df2.to_csv(name2, index=False)
     return True
 
 if __name__ == "__main__":
