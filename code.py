@@ -42,27 +42,21 @@ import itertools
 from multiprocessing import Process, Queue, Pool
 import multiprocessing
 
+#Singletons for the datasets
+bank_train = None
+bank_test = None
+adult_train = None
+adult_test = None
+german_train = None
+german_test = None
+compas_train = None
+compas_test = None
+ricci_train = None
+ricci_test = None
+
+
 def top(my_list, out_queue): #parrallelized function 
     counter = 0
-    bank_dataset = BankDataset()
-    adult_dataset = AdultDataset()    #datasets moved here to try and fix memory issuses, 4 datasets called from AIF360
-    german_dataset = GermanDataset()
-    compas_dataset = CompasDataset()
-    df = pd.read_csv('ricci.csv')
-        
-
-    df = df.replace('B', 0)
-    df = df.replace('H', 0)
-    df = df.replace('W', 1)
-    df = df.replace('Captain', 1)
-    df = df.replace('Lieutenant', 0)
-
-    ricci_dataset = BinaryLabelDataset( favorable_label='1',      #RIcci dataset read from csv and converted to correct format
-                                       unfavorable_label='0',
-                                       df=df,
-                                       label_names=['Promotion'],
-                                       protected_attribute_names=['Race'],
-                                       unprivileged_protected_attributes=['0'])
     a = []
 
     for i in my_list:
@@ -125,6 +119,35 @@ def multi_run_wrapper(args):
    return top(*args)
         
 def main():
+    #setting up the datasets
+    bank_dataset = BankDataset()
+    adult_dataset = AdultDataset()
+    german_dataset = GermanDataset()
+    compas_dataset = CompasDataset()
+    df = pd.read_csv('ricci.csv')
+        
+
+    df = df.replace('B', 0)
+    df = df.replace('H', 0)
+    df = df.replace('W', 1)
+    df = df.replace('Captain', 1)
+    df = df.replace('Lieutenant', 0)
+
+    ricci_dataset = BinaryLabelDataset(favorable_label='1',      
+                                       unfavorable_label='0',
+                                       df=df,
+                                       label_names=['Promotion'],
+                                       protected_attribute_names=['Race'],
+                                       unprivileged_protected_attributes=['0'])
+    
+    testSize = .3
+    
+    bank_train, bank_test = sample_data(bank_dataset, testSize)
+    adult_train, adult_test = sample_data(adult_dataset, testSize)
+    german_train, german_test = sample_data(german_dataset, testSize)
+    compas_train, compas_test = sample_data(compas_dataset, testSize)
+    ricci_train, ricci_test = sample_data(ricci_dataset, testSize)
+    
     #1 = dataset
     #2 = pre
     #3= in_p
@@ -226,34 +249,50 @@ def data_f(dataset,data_used):
         nam = 'Bank'
         privileged_groups = [{'age': 1}]
         unprivileged_groups = [{'age': 0}]
+        dataset_orig_train = bank_train
+        dataset_orig_test = bank_test
     elif data_used == 1:      
         nam = 'Adult'
         privileged_groups = [{'sex': 1}]
         unprivileged_groups = [{'sex': 0}]
+        dataset_orig_train = adult_train
+        dataset_orig_test = adult_test
     elif data_used == 2:
         nam = 'Adult'
         privileged_groups = [{'race': 1}]
         unprivileged_groups = [{'race': 0}]
+        dataset_orig_train = adult_train
+        dataset_orig_test = adult_test
     elif data_used == 3:
         nam = 'German'
         privileged_groups = [{'sex': 1}]
         unprivileged_groups = [{'sex': 0}]
+        dataset_orig_train = german_train
+        dataset_orig_test = german_test
     elif data_used == 4:
         nam = 'German' 
         privileged_groups = [{'age': 1}]
         unprivileged_groups = [{'age': 0}]
+        dataset_orig_train = german_train
+        dataset_orig_test = german_test
     elif data_used == 5:
         nam = 'Compas' 
         privileged_groups = [{'sex': 1}]
         unprivileged_groups = [{'sex': 0}]
+        dataset_orig_train = compas_train
+        dataset_orig_test = compas_test
     elif data_used == 6:
         nam = 'Compas'
         privileged_groups = [{'race': 1}]
         unprivileged_groups = [{'race': 0}]
+        dataset_orig_train = compas_train
+        dataset_orig_test = compas_test
     elif data_used == 7:       
         nam = 'Ricci'
         privileged_groups = [{'Race': 1}]
         unprivileged_groups = [{'Race': 0}]
+        dataset_orig_train = ricci_train
+        dataset_orig_test = ricci_test
     
     sens = str(privileged_groups[0])
     sens = sens.split(":")
@@ -262,8 +301,6 @@ def data_f(dataset,data_used):
     sens[0] = sens[0].strip()
 
     sens = sens[0]
-    
-    dataset_orig_train, dataset_orig_test = dataset.split([0.7], shuffle=False)  #70/30 split
 
     start = 0
     start = time.perf_counter()       #begin timer
@@ -289,7 +326,7 @@ def data_f(dataset,data_used):
 
     return data_d 
 
-def StratifiedSample(dataset, testSize):
+def stratified_sample(dataset, testSize):
     df_conv, _ = dataset.convert_to_dataframe()
     y = dataset.label_names[0]
     y = df_conv.pop( y )
@@ -312,6 +349,12 @@ def StratifiedSample(dataset, testSize):
                                        unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
     
     return trainAIF, testAIF
+
+def sample_data(dataset, testSize, stratified=False):
+    if (stratified):
+        return stratified_sample(dataset, testSize)
+    else:
+        return dataset.split([1-testSize], shuffle=False)
 
 def get_total_finish(fin_dict): #keeps track of total time for each combination
     
@@ -1021,6 +1064,7 @@ def df_format(df):
     df['Post'] = df['Post'].apply(lambda x: "".join([str(e) for e in x]))
         
     return df
+
 def output(df, df2):
     
     name1 = sys.argv[1] + "-output.csv"
