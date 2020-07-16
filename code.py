@@ -42,7 +42,7 @@ import itertools
 from multiprocessing import Process, Queue, Pool
 import multiprocessing
 
-#Singletons for the datasets
+#Globals for the datasets
 bank_train = None
 bank_test = None
 adult_train = None
@@ -126,7 +126,6 @@ def main():
     compas_dataset = CompasDataset()
     df = pd.read_csv('ricci.csv')
         
-
     df = df.replace('B', 0)
     df = df.replace('H', 0)
     df = df.replace('W', 1)
@@ -141,6 +140,12 @@ def main():
                                        unprivileged_protected_attributes=['0'])
     
     testSize = .3
+    
+    global bank_train, bank_test
+    global adult_train, adult_test
+    global german_train, german_test
+    global compas_train, compas_test
+    global ricci_train, ricci_test
     
     bank_train, bank_test = sample_data(bank_dataset, testSize)
     adult_train, adult_test = sample_data(adult_dataset, testSize)
