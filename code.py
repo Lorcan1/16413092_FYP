@@ -64,24 +64,24 @@ def top(my_list, out_queue): #parrallelized function
         print(i)
         print('Here is the counter /n')
         print(counter)
-        if i[0] == 0:
-            dataset = bank_dataset
-        elif i[0] == 1:        
-            dataset =  adult_dataset
-        elif i[0] == 2:
-            dataset = adult_dataset
-        elif i[0] == 3:
-            dataset = german_dataset
-        elif i[0] == 4:
-            dataset = german_dataset
-        elif i[0] == 5:
-            dataset = compas_dataset
-        elif i[0] == 6:
-            dataset = compas_dataset
-        elif i[0] == 7:
-            dataset = ricci_dataset
+#        if i[0] == 0:
+#            dataset = bank_dataset
+#        elif i[0] == 1:        
+#            dataset =  adult_dataset
+#        elif i[0] == 2:
+#            dataset = adult_dataset
+#        elif i[0] == 3:
+#            dataset = german_dataset
+#        elif i[0] == 4:
+#            dataset = german_dataset
+#        elif i[0] == 5:
+#            dataset = compas_dataset
+#        elif i[0] == 6:
+#            dataset = compas_dataset
+#        elif i[0] == 7:
+#            dataset = ricci_dataset
     
-        top_data_d = data_f(dataset,i[0])       #main pipeline of bma functions called here
+        top_data_d = data_f(i[0])       #main pipeline of bma functions called here
         top_pre_d =  pre(i[1], top_data_d)
         top_in_d = in_p(i[2], top_pre_d)
         top_class_d = classifier(i[3],top_in_d)
@@ -244,7 +244,7 @@ def merge1(dataframe1, dataframe2): #similar to above but with perf-rank and fai
 
     return new_df
 
-def data_f(dataset,data_used):  
+def data_f(data_used):  
     if data_used == 0:
         nam = 'Bank'
         privileged_groups = [{'age': 1}]
