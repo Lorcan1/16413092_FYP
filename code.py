@@ -355,7 +355,7 @@ def stratified_sample(dataset, testSize):
     
     return trainAIF, testAIF
 
-def sample_data(dataset, testSize, stratified=False):
+def sample_data(dataset, testSize, stratified=True):
     if (stratified):
         return stratified_sample(dataset, testSize)
     else:
