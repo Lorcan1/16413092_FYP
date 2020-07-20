@@ -127,3 +127,41 @@ ggplot(combined, aes(x=Diff)) + geom_histogram()
 # a basic paired Wilcoxon test for differences in ranks
 wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE) 
 # p value 0.65, meaning that there's no systematic positive or negative change in ranks
+
+# add some stats for comparing combination of approaches
+combined$Combo <- as.character(combined$Combo)
+
+combined$Pre = ""
+combined$In = ""
+combined$Post = ""
+combined$Algo = ""
+
+for (i in 1:nrow(combined)){
+  approach <- strsplit(combined$Combo[i], split='\\+')
+  combined$Pre[i] = approach[[1]][1]
+  combined$In[i] = approach[[1]][2]
+  combined$Post[i] = approach[[1]][3]
+  combined$Algo[i] = approach[[1]][4]  
+}
+
+only_pre <- combined %>% filter(Pre != "-", In == "-", Post == '-')
+only_in <- combined %>% filter(In != "-", Pre == "-", Post == '-')
+only_post <- combined %>% filter(Post != "-", In == "-", Pre == '-')
+pre_in <- combined %>% filter(Pre != "-", In != "-", Post == '-')
+pre_post <- combined %>% filter(Pre != "-", In == "-", Post != '-')
+in_post <- combined %>% filter(Pre == "-", In != "-", Post != '-')
+pre_in_post <- combined %>% filter(Pre != "-", In != "-", Post != '-')
+only_classification <- combined %>% filter(Pre == "-", In == "-", Post == '-')
+
+only_pre$Scenario = 'only_pre'
+only_in$Scenario = 'only_in'
+only_post$Scenario = 'only_post'
+pre_in$Scenario = 'pre_in'
+pre_post$Scenario = 'pre_post'
+in_post$Scenario = 'in_post'
+pre_in_post$Scenario = 'pre_in_post'
+only_classification$Scenario = 'only_classification'
+
+combined_new <- rbind(only_pre, only_in, only_post, pre_in, pre_post, in_post, pre_in_post, only_classification)
+
+ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank.x, fill=Scenario)) + geom_boxplot()
