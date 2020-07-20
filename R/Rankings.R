@@ -107,7 +107,7 @@ randomResults <- deriveEqualRank(parseResultFiles("SingleSamples"))
 combined <- merge(stratResults, randomResults, by="Combo")
 combined$Diff <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
 hist(combined$Diff, breaks=15)
-summary(combined$Diff)
+summary(combined$Diff) 
 
 
 
