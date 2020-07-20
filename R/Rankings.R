@@ -5,13 +5,15 @@ library(dplyr)
 #### Functions ####
 
 #reads in csvs and aggregates by dataset and combination
-parseResultFiles <- function(nameTemplate, endTemplate="output.csv") {
-  files <- list.files(path=getwd())
+parseResultFiles <- function(nameTemplate, endTemplate="output.csv",pathname) {
+  # files <- list.files(path=getwd())
+  files <- list.files(path=pathname)
   files <- files[startsWith(files, nameTemplate) & endsWith(files, endTemplate)]
   
   df <- data.frame()
   for (name in files) {
-    df <- rbind(df, read.csv(paste0(getwd(),"/", name)))
+    # df <- rbind(df, read.csv(paste0(getwd(),"/", name)))
+    df <- rbind(df, read.csv(paste0(pathname,"/", name)))
   }
   
   df$Time <- gsub('\\{', '', df$Time)
@@ -85,11 +87,16 @@ computePerfRank <- function(df) {
 # assumes df contains results for just one dataset
 # considers all five fairness measures equal
 computeFairRank <- function(df) {
-  fairRank <- rank(df$Mean.Difference, ties.method= "min") + 
-    rank(1- df$Disparate.Impact, ties.method= "min") + 
+  # fairRank <- rank(df$Mean.Difference, ties.method= "min") + 
+  #   rank(1- df$Disparate.Impact, ties.method= "min") +
+  #   rank(df$Theil.Index, ties.method= "min") + 
+  #   rank(df$Average.Odds.Difference, ties.method= "min") + 
+  #   rank(df$Equal.Opportunity.Difference, ties.method= "min") 
+  fairRank <- rank(abs(df$Mean.Difference), ties.method= "min") + 
+    rank(abs(1- df$Disparate.Impact), ties.method= "min") +
     rank(df$Theil.Index, ties.method= "min") + 
-    rank(df$Average.Odds.Difference, ties.method= "min") + 
-    rank(df$Equal.Opportunity.Difference, ties.method= "min") 
+    rank(abs(df$Average.Odds.Difference), ties.method= "min") + 
+    rank(abs(df$Equal.Opportunity.Difference), ties.method= "min") 
   
   fairRank <- fairRank / 5
   fairRank <- rank(fairRank, ties.method= "min")
@@ -99,18 +106,24 @@ computeFairRank <- function(df) {
 
 #### Run #####
 
-setwd("/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/data/basic")
+# setwd("/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/data/basic")
+tryCatch({
+  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+}, error=function(cond){message(paste("cannot change working directory"))
+})
 
-stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples"))
-randomResults <- deriveEqualRank(parseResultFiles("SingleSamples"))
+stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples",pathname='../data/basic/'))
+randomResults <- deriveEqualRank(parseResultFiles("SingleSamples",pathname='../data/basic/'))
 
 combined <- merge(stratResults, randomResults, by="Combo")
 combined$Diff <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
 hist(combined$Diff, breaks=15)
 summary(combined$Diff) 
 
+library(ggplot2)
 
+ggplot(combined, aes(x=Diff)) + geom_histogram()
 
-
-
-
+# a basic paired Wilcoxon test for differences in ranks
+wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE) 
+# p value 0.65, meaning that there's no systematic positive or negative change in ranks
