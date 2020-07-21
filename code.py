@@ -45,14 +45,23 @@ import multiprocessing
 #Globals for the datasets
 bank_train = None
 bank_test = None
+bank_valid = None
+
 adult_train = None
 adult_test = None
+adult_valid = None
+
 german_train = None
 german_test = None
+german_valid = None
+
 compas_train = None
 compas_test = None
+compas_valid = None
+
 ricci_train = None
 ricci_test = None
+ricci_valid = None
 
 
 def top(my_list, out_queue): #parrallelized function 
@@ -139,19 +148,29 @@ def main():
                                        protected_attribute_names=['Race'],
                                        unprivileged_protected_attributes=['0'])
     
-    testSize = .3
+    testSize = .4
+    stratified = sys.argv[2].lower() == 'true'
     
-    global bank_train, bank_test
-    global adult_train, adult_test
-    global german_train, german_test
-    global compas_train, compas_test
-    global ricci_train, ricci_test
+    global bank_train, bank_test, bank_valid
+    global adult_train, adult_test, adult_valid
+    global german_train, german_test, german_valid
+    global compas_train, compas_test, compas_valid
+    global ricci_train, ricci_test, ricci_valid
     
-    bank_train, bank_test = sample_data(bank_dataset, testSize)
-    adult_train, adult_test = sample_data(adult_dataset, testSize)
-    german_train, german_test = sample_data(german_dataset, testSize)
-    compas_train, compas_test = sample_data(compas_dataset, testSize)
-    ricci_train, ricci_test = sample_data(ricci_dataset, testSize)
+    bank_train, bank_vt = sample_data(bank_dataset, testSize, stratified)
+    bank_test, bank_valid = sample_data(bank_vt, .5, stratified)
+    
+    adult_train, adult_vt = sample_data(adult_dataset, testSize, stratified)
+    adult_test, adult_valid = sample_data(adult_vt, .5, stratified)
+    
+    german_train, german_vt = sample_data(german_dataset, testSize, stratified)
+    german_test, german_valid = sample_data(german_vt, .5, stratified)
+    
+    compas_train, compas_vt = sample_data(compas_dataset, testSize, stratified)
+    compas_test, compas_valid = sample_data(compas_vt, .5, stratified)
+    
+    ricci_train, ricci_vt = sample_data(ricci_dataset, testSize, stratified)
+    ricci_test, ricci_valid = sample_data(ricci_vt, .5, stratified)
     
     #1 = dataset
     #2 = pre
@@ -256,48 +275,56 @@ def data_f(data_used):
         unprivileged_groups = [{'age': 0}]
         dataset_orig_train = bank_train
         dataset_orig_test = bank_test
+        dataset_orig_valid = bank_valid
     elif data_used == 1:      
         nam = 'Adult'
         privileged_groups = [{'sex': 1}]
         unprivileged_groups = [{'sex': 0}]
         dataset_orig_train = adult_train
         dataset_orig_test = adult_test
+        dataset_orig_valid = adult_valid
     elif data_used == 2:
         nam = 'Adult'
         privileged_groups = [{'race': 1}]
         unprivileged_groups = [{'race': 0}]
         dataset_orig_train = adult_train
         dataset_orig_test = adult_test
+        dataset_orig_valid = adult_valid
     elif data_used == 3:
         nam = 'German'
         privileged_groups = [{'sex': 1}]
         unprivileged_groups = [{'sex': 0}]
         dataset_orig_train = german_train
         dataset_orig_test = german_test
+        dataset_orig_valid = german_valid
     elif data_used == 4:
         nam = 'German' 
         privileged_groups = [{'age': 1}]
         unprivileged_groups = [{'age': 0}]
         dataset_orig_train = german_train
         dataset_orig_test = german_test
+        dataset_orig_valid = german_valid
     elif data_used == 5:
         nam = 'Compas' 
         privileged_groups = [{'sex': 1}]
         unprivileged_groups = [{'sex': 0}]
         dataset_orig_train = compas_train
         dataset_orig_test = compas_test
+        dataset_orig_valid = compas_valid
     elif data_used == 6:
         nam = 'Compas'
         privileged_groups = [{'race': 1}]
         unprivileged_groups = [{'race': 0}]
         dataset_orig_train = compas_train
         dataset_orig_test = compas_test
+        dataset_orig_valid = compas_valid
     elif data_used == 7:       
         nam = 'Ricci'
         privileged_groups = [{'Race': 1}]
         unprivileged_groups = [{'Race': 0}]
         dataset_orig_train = ricci_train
         dataset_orig_test = ricci_test
+        dataset_orig_valid = ricci_valid
     
     sens = str(privileged_groups[0])
     sens = sens.split(":")
@@ -312,6 +339,7 @@ def data_f(data_used):
     
     data_d = {'dataset' : dataset_orig_train,
          'dataset_test' : dataset_orig_test,
+         'dataset_valid': dataset_orig_valid,
          'dataset_used' : nam,
          'privileged_groups' : privileged_groups, 
          'unprivileged_groups' : unprivileged_groups,                                           
@@ -405,6 +433,7 @@ def pre(bma, p_dict): #applies pre-processing BMA
     start = p_dict['start']
 
     dataset_test = p_dict['dataset_test']
+    dataset_valid = p_dict['dataset_valid']
      
     if bma == 1:
         DI = DisparateImpactRemover(repair_level=1.0, sensitive_attribute = sens)
@@ -445,6 +474,7 @@ def pre(bma, p_dict): #applies pre-processing BMA
           'count' : count,
           'sens' : sens,
           'dataset_test' : dataset_test,
+          'dataset_valid': dataset_valid,
           'class' : name,
           'start' : start,
           'finish' : total_finish}
@@ -464,6 +494,7 @@ def pre(bma, p_dict): #applies pre-processing BMA
     finish = None
     total_finish = None
     dataset_test = None
+    dataset_valid = None
     bma = None
     nam = None
 
@@ -477,6 +508,7 @@ def in_p(bma, in_dict): #applies in-processing classifier
     privileged_groups = in_dict['privileged_groups']
     sens = in_dict['sens']
     dataset_test = in_dict['dataset_test']
+    dataset_valid = in_dict['dataset_valid']
     start = in_dict['start']      
 
     if bma == 1:
@@ -532,6 +564,7 @@ def in_p(bma, in_dict): #applies in-processing classifier
          'count' : count,
          'sens' : sens,
          'dataset_test' : dataset_test,
+         'dataset_valid': dataset_valid,
          'data_pred' : data_pred,
          'pred' : pred,
          'class' : name,
@@ -549,6 +582,7 @@ def in_p(bma, in_dict): #applies in-processing classifier
     count= None
     sens= None
     dataset_test= None
+    dataset_valid = None
     name= None
     start= None
     total_finish = None
@@ -569,6 +603,7 @@ def classifier(clss, class_dict):
     privileged_groups = class_dict['privileged_groups']
     sens = class_dict['sens']
     dataset_test = class_dict['dataset_test']
+    dataset_valid = class_dict['dataset_valid']
     start = class_dict['start']
 
     if clss == 1:
@@ -626,6 +661,7 @@ def classifier(clss, class_dict):
          'count': count,
          'sens' : sens,
          'dataset_test' : dataset_test,
+         'dataset_valid': dataset_valid,
          'data_pred' : data_pred,
          'pred' : pred,
          'class' : name,
@@ -643,6 +679,7 @@ def classifier(clss, class_dict):
     count= None
     sens= None
     dataset_test= None
+    dataset_valid = None
     name= None
     start= None
     total_finish = None
@@ -662,6 +699,7 @@ def post(bma, post_dict): #applies post-processing algorithms
     privileged_groups = post_dict['privileged_groups']
     sens = post_dict['sens']
     dataset_test = post_dict['dataset_test']  
+    dataset_valid = post_dict['dataset_valid']
     data_pred = post_dict.get('data_pred')
     pred = post_dict.get('pred')
     start = post_dict['start']
@@ -672,8 +710,9 @@ def post(bma, post_dict): #applies post-processing algorithms
                                          unprivileged_groups = unprivileged_groups,
                                          cost_constraint=cost_constraint,
                                          seed=None)
-        CPP = CPP.fit(dataset_test, data_pred)    
-        data_pred = CPP.predict(dataset_test)  
+        CPP = CPP.fit(dataset_test, data_pred)   
+        #data_pred = CPP.predict(dataset_test)  
+        data_pred = CPP.predict(dataset_valid)  
         nam = 'cpp'
         CPP = None       
     elif bma == 2:
@@ -681,14 +720,16 @@ def post(bma, post_dict): #applies post-processing algorithms
                                      unprivileged_groups = unprivileged_groups,
                                      seed=None)
         EOP= EOP.fit(dataset_test, data_pred)
-        data_pred = EOP.predict(dataset_test)
+        #data_pred = EOP.predict(dataset_test)
+        data_pred = EOP.predict(dataset_valid)
         nam = 'eop'
         EOP = None
     elif bma == 3:
         ROC = RejectOptionClassification(privileged_groups = privileged_groups,
                                  unprivileged_groups = unprivileged_groups)
         ROC = ROC.fit(dataset_test, data_pred)
-        data_pred = ROC.predict(dataset_test)
+        #data_pred = ROC.predict(dataset_test)
+        data_pref = ROC.predict(dataset_valid)
         nam = 'roc'
         ROC = None       
     elif bma == 0:
@@ -722,6 +763,7 @@ def post(bma, post_dict): #applies post-processing algorithms
          'sens' : sens,
          'dataset_test' : dataset_test,
          'data_pred' : data_pred,
+         'dataset_valid' : dataset_valid,
          'pred' : pred,
          'class' : name,
          'class_met' : classified_metric,
@@ -737,6 +779,7 @@ def post(bma, post_dict): #applies post-processing algorithms
     count= None
     sens= None
     dataset_test= None
+    dataset_valid = None
     name= None
     start= None
     total_finish = None
