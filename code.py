@@ -149,7 +149,12 @@ def main():
                                        unprivileged_protected_attributes=['0'])
     
     testSize = .4
-    stratified = sys.argv[2].lower() == 'true'
+    if (len(sys.argv) < 3): 
+        stratified= True
+    else:
+        stratified = sys.argv[2].lower() == 'true'
+    
+    print ('Stratified sampling enabled: ', stratified)
     
     global bank_train, bank_test, bank_valid
     global adult_train, adult_test, adult_valid
@@ -187,10 +192,21 @@ def main():
 #            if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
             a_list.append(x)
 
-    # upper bound to 12 cores -- added by Simon to be nice on SONIC
-    cpu_num = min(12, multiprocessing.cpu_count())      #return number of cores present on machine
-    random.shuffle(a_list)                     #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
-    five = numpy.array_split(numpy.array(a_list),cpu_num)      #split input array 
+    # upper bound to n cores -- added by Simon to be nice on SONIC
+    if (len(sys.argv) < 4):
+        num_proc = 12
+    else:
+        num_proc = int(sys.argv[3])
+        
+    #return number of cores present on machine
+    cpu_num = min(num_proc, multiprocessing.cpu_count())  
+    print ('Using ', cpu_num, ' cores')
+    
+    #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
+    random.shuffle(a_list)    
+
+    #split input array                  
+    five = numpy.array_split(numpy.array(a_list),cpu_num)      
 
     m = multiprocessing.Manager()   
     processes = []
