@@ -92,8 +92,8 @@ def top(my_list, out_queue): #parrallelized function
     
         top_data_d = data_f(i[0])       #main pipeline of bma functions called here
         top_pre_d =  pre(i[1], top_data_d)
-        top_in_d = in_p(i[2], top_pre_d, i[4]>0)
-        top_class_d = classifier(i[3],top_in_d, i[4]>0)
+        top_in_d = in_p(i[2], top_pre_d)
+        top_class_d = classifier(i[3],top_in_d)
         top_post_d = post(i[4], top_class_d) #bias mitigation functions
         top_sort_d = sorter(top_post_d)
 
@@ -517,8 +517,7 @@ def pre(bma, p_dict): #applies pre-processing BMA
     return pre_d 
 
 
-#if post processing will be applied test the model against the validation set, not test set
-def in_p(bma, in_dict, use_valid_set): #applies in-processing classifier
+def in_p(bma, in_dict): #applies in-processing classifier
         
     data = in_dict['dataset']
     data_used = in_dict['dataset_used']
@@ -533,24 +532,24 @@ def in_p(bma, in_dict, use_valid_set): #applies in-processing classifier
         # MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
         MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
         MFC = MFC.fit(data)
-        if (use_valid_set):
-            data_pred = MFC.predict(dataset_valid)
-        else:
-            data_pred = MFC.predict(dataset_test)
+        
+        data_pred_valid = MFC.predict(dataset_valid)
+        data_pred = MFC.predict(dataset_test)
         
         pred = data_pred.labels
+        pred_valid = data_pred_valid.labels
         nam = 'mfc_sr'
         MFC = None
     if bma == 2:
         # MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
         MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
         MFC2 = MFC2.fit(data)
-        if (use_valid_set):
-            data_pred = MFC2.predict(dataset_valid)
-        else:
-            data_pred = MFC2.predict(dataset_test)
+        
+        data_pred_valid = MFC2.predict(dataset_valid)
+        data_pred = MFC2.predict(dataset_test)
             
         pred = data_pred.labels
+        pred_valid = data_pred_valid.labels
         nam = 'mfc_fdr'
         MFC2 = None       
     elif bma == 3:
@@ -558,12 +557,11 @@ def in_p(bma, in_dict, use_valid_set): #applies in-processing classifier
         PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
         PR = PR.fit(data)
         
-        if (use_valid_set):
-            data_pred = PR.predict(dataset_valid)
-        else:
-            data_pred = PR.predict(dataset_test)
+        data_pred = PR.predict(dataset_valid)
+        data_pred = PR.predict(dataset_test)
             
         pred = data_pred.labels
+        pred_valid = data_pred_valid.labels
         nam = 'pr'
         PR = None       
     elif bma == 0:
@@ -597,7 +595,9 @@ def in_p(bma, in_dict, use_valid_set): #applies in-processing classifier
          'dataset_test' : dataset_test,
          'dataset_valid': dataset_valid,
          'data_pred' : data_pred,
+         'data_pred_valid' : data_pred_valid,
          'pred' : pred,
+         'pred_valid' : pred_valid,
          'class' : name,
          'class_met' : classified_metric,
          'start' : start,
@@ -618,7 +618,9 @@ def in_p(bma, in_dict, use_valid_set): #applies in-processing classifier
     start= None
     total_finish = None
     data_pred = None
+    data_pred_valid = None
     pred = None
+    pred_valid = None
     classified_metric = None
     bma = None
     finish = None
@@ -626,8 +628,7 @@ def in_p(bma, in_dict, use_valid_set): #applies in-processing classifier
 
     return in_d         
 
-#if post processing will be applied test the model against the validation set, not test set
-def classifier(clss, class_dict, use_valid_set):
+def classifier(clss, class_dict):
    
     data = class_dict['dataset']
     data_used = class_dict['dataset_used']
@@ -643,13 +644,15 @@ def classifier(clss, class_dict, use_valid_set):
         lr = LogisticRegression()
         lr = lr.fit(data.features, data.labels.ravel()) #fitted on train(transformed) datatset   
         
-        if (use_valid_set):
-            pred = lr.predict(dataset_valid.features)  
-        else:
-            pred = lr.predict(dataset_test.features)  
+        pred_valid = lr.predict(dataset_valid.features)  
+        pred = lr.predict(dataset_test.features)  
                 
         data_pred = dataset_test.copy()
-        data_pred.labels = pred                   
+        data_pred.labels = pred   
+        
+        data_pred_valid = dataset_valid.copy()
+        data_pred_valid.labels = pred_valid
+                
         name = 'Logistic Regression'
         lr = None        
     elif clss == 2:
@@ -657,26 +660,28 @@ def classifier(clss, class_dict, use_valid_set):
                                max_features = 'sqrt')
         rf = rf.fit(data.features, data.labels.ravel())   
         
-        if (use_valid_set):
-            pred = rf.predict(dataset_valid.features)  
-        else:
-            pred = rf.predict(dataset_test.features)  
-            
+        pred_valid = rf.predict(dataset_valid.features)  
+        pred = rf.predict(dataset_test.features)  
+                
         data_pred = dataset_test.copy()
         data_pred.labels = pred   
+        
+        data_pred_valid = dataset_valid.copy()
+        data_pred_valid.labels = pred_valid
         name = 'Random Forest'
         rf = None        
     elif clss == 3: 
         nb = GaussianNB()
         nb = nb.fit(data.features,data.labels.ravel())   
         
-        if (use_valid_set):
-            pred = nb.predict(dataset_valid.features)  
-        else:
-            pred = nb.predict(dataset_test.features) 
-            
+        pred_valid = nb.predict(dataset_valid.features)  
+        pred = nb.predict(dataset_test.features)  
+                
         data_pred = dataset_test.copy()
-        data_pred.labels = pred
+        data_pred.labels = pred   
+        
+        data_pred_valid = dataset_valid.copy()
+        data_pred_valid.labels = pred_valid
         name = 'Naive Bayes'
         nb = None
         
@@ -710,6 +715,7 @@ def classifier(clss, class_dict, use_valid_set):
          'dataset_test' : dataset_test,
          'dataset_valid': dataset_valid,
          'data_pred' : data_pred,
+         'data_pred_valid' : data_pred_valid,
          'pred' : pred,
          'class' : name,
          'class_met' : classified_metric,
@@ -731,6 +737,7 @@ def classifier(clss, class_dict, use_valid_set):
     start= None
     total_finish = None
     data_pred = None
+    data_pred_valid = None
     pred = None
     classified_metric = None
     clss = None
@@ -748,6 +755,7 @@ def post(bma, post_dict): #applies post-processing algorithms
     dataset_test = post_dict['dataset_test']  
     dataset_valid = post_dict['dataset_valid']
     data_pred = post_dict.get('data_pred')
+    data_pred_valid = post_dict.get('data_pred_valid')
     pred = post_dict.get('pred')
     start = post_dict['start']
         
@@ -757,7 +765,7 @@ def post(bma, post_dict): #applies post-processing algorithms
                                          unprivileged_groups = unprivileged_groups,
                                          cost_constraint=cost_constraint,
                                          seed=None)
-        CPP = CPP.fit(dataset_test, data_pred)   
+        CPP = CPP.fit(dataset_valid, data_pred_valid)   
         data_pred = CPP.predict(dataset_test)  
         nam = 'cpp'
         CPP = None       
@@ -765,14 +773,14 @@ def post(bma, post_dict): #applies post-processing algorithms
         EOP = EqOddsPostprocessing(privileged_groups = privileged_groups,
                                      unprivileged_groups = unprivileged_groups,
                                      seed=None)
-        EOP= EOP.fit(dataset_test, data_pred)
+        EOP= EOP.fit(dataset_valid, data_pred_valid)  
         data_pred = EOP.predict(dataset_test)
         nam = 'eop'
         EOP = None
     elif bma == 3:
         ROC = RejectOptionClassification(privileged_groups = privileged_groups,
                                  unprivileged_groups = unprivileged_groups)
-        ROC = ROC.fit(dataset_test, data_pred)
+        ROC = ROC.fit(dataset_valid, data_pred_valid)  
         data_pred = ROC.predict(dataset_test)
         nam = 'roc'
         ROC = None       
