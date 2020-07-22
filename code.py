@@ -92,8 +92,8 @@ def top(my_list, out_queue): #parrallelized function
     
         top_data_d = data_f(i[0])       #main pipeline of bma functions called here
         top_pre_d =  pre(i[1], top_data_d)
-        top_in_d = in_p(i[2], top_pre_d)
-        top_class_d = classifier(i[3],top_in_d)
+        top_in_d = in_p(i[2], top_pre_d, i[4]>0)
+        top_class_d = classifier(i[3],top_in_d, i[4]>0)
         top_post_d = post(i[4], top_class_d) #bias mitigation functions
         top_sort_d = sorter(top_post_d)
 
@@ -516,7 +516,9 @@ def pre(bma, p_dict): #applies pre-processing BMA
 
     return pre_d 
 
-def in_p(bma, in_dict): #applies in-processing classifier
+
+#if post processing will be applied test the model against the validation set, not test set
+def in_p(bma, in_dict, use_valid_set): #applies in-processing classifier
         
     data = in_dict['dataset']
     data_used = in_dict['dataset_used']
@@ -531,7 +533,11 @@ def in_p(bma, in_dict): #applies in-processing classifier
         # MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
         MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
         MFC = MFC.fit(data)
-        data_pred = MFC.predict(dataset_test)
+        if (use_valid_set):
+            data_pred = MFC.predict(dataset_valid)
+        else:
+            data_pred = MFC.predict(dataset_test)
+        
         pred = data_pred.labels
         nam = 'mfc_sr'
         MFC = None
@@ -539,7 +545,11 @@ def in_p(bma, in_dict): #applies in-processing classifier
         # MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
         MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
         MFC2 = MFC2.fit(data)
-        data_pred = MFC2.predict(dataset_test)
+        if (use_valid_set):
+            data_pred = MFC2.predict(dataset_valid)
+        else:
+            data_pred = MFC2.predict(dataset_test)
+            
         pred = data_pred.labels
         nam = 'mfc_fdr'
         MFC2 = None       
@@ -547,7 +557,12 @@ def in_p(bma, in_dict): #applies in-processing classifier
         # PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
         PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
         PR = PR.fit(data)
-        data_pred = PR.predict(dataset_test)
+        
+        if (use_valid_set):
+            data_pred = PR.predict(dataset_valid)
+        else:
+            data_pred = PR.predict(dataset_test)
+            
         pred = data_pred.labels
         nam = 'pr'
         PR = None       
@@ -611,7 +626,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
 
     return in_d         
 
-def classifier(clss, class_dict):
+#if post processing will be applied test the model against the validation set, not test set
+def classifier(clss, class_dict, use_valid_set):
    
     data = class_dict['dataset']
     data_used = class_dict['dataset_used']
@@ -626,7 +642,12 @@ def classifier(clss, class_dict):
         
         lr = LogisticRegression()
         lr = lr.fit(data.features, data.labels.ravel()) #fitted on train(transformed) datatset   
-        pred = lr.predict(dataset_test.features)    #test datasets predicted    
+        
+        if (use_valid_set):
+            pred = lr.predict(dataset_valid.features)  
+        else:
+            pred = lr.predict(dataset_test.features)  
+                
         data_pred = dataset_test.copy()
         data_pred.labels = pred                   
         name = 'Logistic Regression'
@@ -634,16 +655,26 @@ def classifier(clss, class_dict):
     elif clss == 2:
         rf = RandomForestClassifier(n_estimators=100, 
                                max_features = 'sqrt')
-        rf = rf.fit(data.features, data.labels.ravel())       
-        pred = rf.predict(dataset_test.features)
+        rf = rf.fit(data.features, data.labels.ravel())   
+        
+        if (use_valid_set):
+            pred = rf.predict(dataset_valid.features)  
+        else:
+            pred = rf.predict(dataset_test.features)  
+            
         data_pred = dataset_test.copy()
         data_pred.labels = pred   
         name = 'Random Forest'
         rf = None        
     elif clss == 3: 
         nb = GaussianNB()
-        nb = nb.fit(data.features,data.labels.ravel())     
-        pred = nb.predict(dataset_test.features)
+        nb = nb.fit(data.features,data.labels.ravel())   
+        
+        if (use_valid_set):
+            pred = nb.predict(dataset_valid.features)  
+        else:
+            pred = nb.predict(dataset_test.features) 
+            
         data_pred = dataset_test.copy()
         data_pred.labels = pred
         name = 'Naive Bayes'
@@ -727,8 +758,7 @@ def post(bma, post_dict): #applies post-processing algorithms
                                          cost_constraint=cost_constraint,
                                          seed=None)
         CPP = CPP.fit(dataset_test, data_pred)   
-        #data_pred = CPP.predict(dataset_test)  
-        data_pred = CPP.predict(dataset_valid)  
+        data_pred = CPP.predict(dataset_test)  
         nam = 'cpp'
         CPP = None       
     elif bma == 2:
@@ -736,16 +766,14 @@ def post(bma, post_dict): #applies post-processing algorithms
                                      unprivileged_groups = unprivileged_groups,
                                      seed=None)
         EOP= EOP.fit(dataset_test, data_pred)
-        #data_pred = EOP.predict(dataset_test)
-        data_pred = EOP.predict(dataset_valid)
+        data_pred = EOP.predict(dataset_test)
         nam = 'eop'
         EOP = None
     elif bma == 3:
         ROC = RejectOptionClassification(privileged_groups = privileged_groups,
                                  unprivileged_groups = unprivileged_groups)
         ROC = ROC.fit(dataset_test, data_pred)
-        #data_pred = ROC.predict(dataset_test)
-        data_pref = ROC.predict(dataset_valid)
+        data_pred = ROC.predict(dataset_test)
         nam = 'roc'
         ROC = None       
     elif bma == 0:
