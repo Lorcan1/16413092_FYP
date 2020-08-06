@@ -31,7 +31,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB 
 
-from aif360.algorithms.preprocessing.optim_preproc_helpers.data_preproc_functions            import load_preproc_data_adult, load_preproc_data_german, load_preproc_data_compas
+from aif360.algorithms.preprocessing.optim_preproc_helpers.data_preproc_functions import load_preproc_data_adult, load_preproc_data_german, load_preproc_data_compas
 from aif360.datasets import BinaryLabelDataset
 import time
 import gc
@@ -529,8 +529,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
     start = in_dict['start']      
 
     if bma == 1:
-        # MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
-        MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
+        MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
+        #MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
         MFC = MFC.fit(data)
         
         data_pred_valid = MFC.predict(dataset_valid)
@@ -541,8 +541,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
         nam = 'mfc_sr'
         MFC = None
     if bma == 2:
-        # MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
-        MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
+        MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
+        #MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
         MFC2 = MFC2.fit(data)
         
         data_pred_valid = MFC2.predict(dataset_valid)
@@ -553,8 +553,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
         nam = 'mfc_fdr'
         MFC2 = None       
     elif bma == 3:
-        # PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
-        PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
+        PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
+        #PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
         PR = PR.fit(data)
         
         data_pred = PR.predict(dataset_valid)
