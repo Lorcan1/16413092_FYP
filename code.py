@@ -8,7 +8,8 @@ np.random.seed(0)
 import numpy
 import random
 
-from pprint import pprint
+import pprint
+import json
 
 from aif360.datasets import AdultDataset, GermanDataset, CompasDataset, BankDataset
 from aif360.metrics import BinaryLabelDatasetMetric , ClassificationMetric
@@ -64,15 +65,25 @@ ricci_test = None
 ricci_valid = None
 
 
+def log(message, dictionary=True):
+    name = sys.argv[1] + '.log'
+    f=open(name, "a+")
+    if (dictionary):
+        t = time.localtime()
+        current_time = time.strftime("%H:%M:%S", t)
+        f.write('[' + current_time + '] ' + message + '\n')
+    else:
+        print(message, file=f)
+    f.close()
+
 def top(my_list, out_queue): #parrallelized function 
     counter = 0
     a = []
 
     for i in my_list:
-        print('Here is the row:')
-        print(i)
-        print('Here is the counter /n')
-        print(counter)
+        log('Here is the row: ' + str(i))
+        log('Here is the counter ' + str(counter))
+        
 #        if i[0] == 0:
 #            dataset = bank_dataset
 #        elif i[0] == 1:        
@@ -92,12 +103,17 @@ def top(my_list, out_queue): #parrallelized function
     
         top_data_d = data_f(i[0])       #main pipeline of bma functions called here
         top_pre_d =  pre(i[1], top_data_d)
+        log(str(i) + ' pre complete')
         top_in_d = in_p(i[2], top_pre_d)
         top_class_d = classifier(i[3],top_in_d)
+        log(str(i) + ' in/class complete')
         top_post_d = post(i[4], top_class_d) #bias mitigation functions
+        log(str(i) + ' post complete')
         top_sort_d = sorter(top_post_d)
 
         out_queue.put(top_sort_d)              #result returned through queue
+        #log(pprint.pformat(top_sort_d))
+        log(top_sort_d, False)
 
         top_data_d.clear()
         top_pre_d.clear()
@@ -154,7 +170,7 @@ def main():
     else:
         stratified = sys.argv[2].lower() == 'true'
     
-    print ('Stratified sampling enabled: ', stratified)
+    log('Stratified sampling enabled: ' + str(stratified))
     
     global bank_train, bank_test, bank_valid
     global adult_train, adult_test, adult_valid
@@ -199,8 +215,8 @@ def main():
         num_proc = int(sys.argv[3])
         
     #return number of cores present on machine
-    cpu_num = min(num_proc, multiprocessing.cpu_count())  
-    print ('Using ', cpu_num, ' cores')
+    cpu_num = int(max(1, min(num_proc, multiprocessing.cpu_count()) / 4))
+    log('Using ' + str(cpu_num) + ' cores')
     
     #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
     random.shuffle(a_list)    
