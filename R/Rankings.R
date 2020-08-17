@@ -112,8 +112,14 @@ tryCatch({
 }, error=function(cond){message(paste("cannot change working directory"))
 })
 
+## With validation
+stratResults <- deriveEqualRank(parseResultFiles("LogDefaultStratValid",pathname='../data/basic/'))
+randomResults <- deriveEqualRank(parseResultFiles("LogDefaultRadValid",pathname='../data/basic/'))
+
+#Without validation
 stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples",pathname='../data/basic/'))
 randomResults <- deriveEqualRank(parseResultFiles("SingleSamples",pathname='../data/basic/'))
+
 
 combined <- merge(stratResults, randomResults, by="Combo")
 combined$Diff <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
@@ -165,3 +171,4 @@ only_classification$Scenario = 'only_classification'
 combined_new <- rbind(only_pre, only_in, only_post, pre_in, pre_post, in_post, pre_in_post, only_classification)
 
 ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank.x, fill=Scenario)) + geom_boxplot()
+
