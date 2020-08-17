@@ -104,12 +104,22 @@ def top(my_list, out_queue): #parrallelized function
         top_data_d = data_f(i[0])       #main pipeline of bma functions called here
         top_pre_d =  pre(i[1], top_data_d)
         log(str(i) + ' pre complete')
-        top_in_d = in_p(i[2], top_pre_d)
-        top_class_d = classifier(i[3],top_in_d)
-        log(str(i) + ' in/class complete')
-        top_post_d = post(i[4], top_class_d) #bias mitigation functions
-        log(str(i) + ' post complete')
-        top_sort_d = sorter(top_post_d)
+        if (sanity_check(top_pre_d)):
+            top_in_d = in_p(i[2], top_pre_d)
+            top_class_d = classifier(i[3],top_in_d)
+            log(str(i) + ' in/class complete')
+            
+            if (sanity_check(top_class_d)):
+                top_post_d = post(i[4], top_class_d) #bias mitigation functions
+                log(str(i) + ' post complete')
+                top_sort_d = sorter(top_post_d)
+            else:
+                log('Sanity Check Failed in in/class' + str(i))
+                top_sort_d = resolve_failed(top_class_d, 'in/class')
+        else:
+            log('Sanity Check Failed in pre' + str(i))
+            top_sort_d = resolve_failed(top_pre_d, 'pre')
+
 
         out_queue.put(top_sort_d)              #result returned through queue
         #log(pprint.pformat(top_sort_d))
@@ -130,6 +140,7 @@ def top(my_list, out_queue): #parrallelized function
         top_sort_d = None
     
         counter = counter + 1
+    
  
 def split_list(a_list):
     half = len(a_list)//2
@@ -454,6 +465,23 @@ def namer(bma_a, name_dict, name): #combines names for rows with multiple bmas
     name = None
    
     return bma_a, count
+
+def sanity_check(p_dict):
+    #check if the previous part of the pipeline broke the training data
+    data = p_dict['dataset'] 
+    
+    fail = False
+    
+    y = data.labels
+    if (len(np.unique(y)) == 1):
+        fail=True
+        
+    return fail
+
+def resolve_failed(p_dict, stage):
+    p_dict['failed']=stage
+    return p_dict
+    
 
 def pre(bma, p_dict): #applies pre-processing BMA
 
@@ -875,88 +903,114 @@ def class_met(cm_dataset, classified_dataset, unprivileged_groups, privileged_gr
             
 def sorter(sort_dict): #prepare for dataframe, delete datasets from memory
 
-    pre = sort_dict['pre']
-    in_p = sort_dict['in']
-    post = sort_dict['post']
-    data_pred = sort_dict['data_pred']
-    unprivileged_groups = sort_dict['unprivileged_groups']
-    privileged_groups = sort_dict['privileged_groups']
-    classified_metric = sort_dict['class_met']
-    dataset_test = sort_dict['dataset_test']
-    pred = sort_dict['pred']
-    data_used = sort_dict['dataset_used']
-    class_name = sort_dict.get('class')
-    sens = sort_dict['sens']
-    finish = sort_dict['finish']
-    start = sort_dict['start']
-    t = {round(finish-start, 2)}
-
-    mean_diff, dis_impact = metric(data_pred, unprivileged_groups, privileged_groups) #calculate fairness scores
-    theil, av_odds, eq_opp_diff = classified_metric_func(classified_metric) #calculate fairness scores
-    mean_diff_orig, dis_impact_orig = metric(dataset_test, unprivileged_groups, privileged_groups) #get the original scores
-    acc, prec, rec = apr_score(dataset_test, pred) #calculate performance metrics
-    data_used_name = data_used.title()
-    auc = roc_auc_score(dataset_test.labels, pred) #get auc 
-    maj_class = count_maj(dataset_test, data_used) #get majority class percentage
-    acc_check = acc_checker(maj_class, acc) #compare majority class to accuracy
-    data_used = data_used.strip()
-    sens_name = sens.title()
-
-    sort_dict = None
-
-    sort_d = { 'pre' : pre, 
-               'in': in_p,
-               'post' : post,     
-               'mean_diff' : mean_diff,
-               'dis_impact': dis_impact,
-               'theil'  : theil,
-               'av_odds' :av_odds,
-                'eq_opp_diff'  : eq_opp_diff, 
-                'mean_diff_orig' : mean_diff_orig,
-                'dis_impact_orig' : dis_impact_orig,
-                'acc' : acc, #hold out, labels of testing data vs labels of transformed 
-                'prec': prec,
-                'rec' : rec,
-                'auc' : auc,
-                'class_name' : class_name,
-                'data_used_name' :data_used_name,
-                'sens_name' : sens_name,
-                'acc_check' : acc_check,
-                't' : t}
-    pre= None
-    in_p= None
-    post= None
-    data_pred = None
-    privileged_groups= None
-    unprivileged_groups= None
-    classified_metric = None
-    dataset_test= None
-    pred = None
-    data_used= None
-    class_name = None
-    sens= None
-    start= None
-    finish = None
-    t = None
-    data_used_name = None
-    sens = None
-    mean_diff = None
-    dis_impact = None
-    theil = None
-    av_odd = None
-    eq_opp_diff = None
-    mean_diff_orig = None 
-    dis_impact_orig = None
-    acc = None
-    prec = None
-    rec = None
-    class_name = None
-    data_used_name = None
-    sens_name = None
-    auc = None
-
-    maj_class = None
-    acc_check = None
+    if ('failed' in sort_dict):
+        
+        sort_d = { 'pre' : sort_dict['pre'], 
+                   'in': sort_dict['in'],
+                   'post' : sort_dict['post'],     
+                   'mean_diff' : None,
+                   'dis_impact': None,
+                   'theil'  : None,
+                   'av_odds' :None,
+                    'eq_opp_diff'  : None, 
+                    'mean_diff_orig' : None,
+                    'dis_impact_orig' : None,
+                    'acc' : None, #hold out, labels of testing data vs labels of transformed 
+                    'prec': None,
+                    'rec' : None,
+                    'auc' : None,
+                    'class_name' : sort_dict.get('class'),
+                    'data_used_name' : sort_dict['dataset_used'].title(),
+                    'sens_name' : sort_dict['sens'].title(),
+                    'acc_check' : True,
+                    't' : None,
+                    'failed' : sort_dict['failed']}
+        
+    else:
+    
+        pre = sort_dict['pre']
+        in_p = sort_dict['in']
+        post = sort_dict['post']
+        data_pred = sort_dict['data_pred']
+        unprivileged_groups = sort_dict['unprivileged_groups']
+        privileged_groups = sort_dict['privileged_groups']
+        classified_metric = sort_dict['class_met']
+        dataset_test = sort_dict['dataset_test']
+        pred = sort_dict['pred']
+        data_used = sort_dict['dataset_used']
+        class_name = sort_dict.get('class')
+        sens = sort_dict['sens']
+        finish = sort_dict['finish']
+        start = sort_dict['start']
+        t = {round(finish-start, 2)}
+    
+        mean_diff, dis_impact = metric(data_pred, unprivileged_groups, privileged_groups) #calculate fairness scores
+        theil, av_odds, eq_opp_diff = classified_metric_func(classified_metric) #calculate fairness scores
+        mean_diff_orig, dis_impact_orig = metric(dataset_test, unprivileged_groups, privileged_groups) #get the original scores
+        acc, prec, rec = apr_score(dataset_test, pred) #calculate performance metrics
+        data_used_name = data_used.title()
+        auc = roc_auc_score(dataset_test.labels, pred) #get auc 
+        maj_class = count_maj(dataset_test, data_used) #get majority class percentage
+        acc_check = acc_checker(maj_class, acc) #compare majority class to accuracy
+        data_used = data_used.strip()
+        sens_name = sens.title()
+    
+        sort_dict = None
+    
+        sort_d = { 'pre' : pre, 
+                   'in': in_p,
+                   'post' : post,     
+                   'mean_diff' : mean_diff,
+                   'dis_impact': dis_impact,
+                   'theil'  : theil,
+                   'av_odds' :av_odds,
+                    'eq_opp_diff'  : eq_opp_diff, 
+                    'mean_diff_orig' : mean_diff_orig,
+                    'dis_impact_orig' : dis_impact_orig,
+                    'acc' : acc, #hold out, labels of testing data vs labels of transformed 
+                    'prec': prec,
+                    'rec' : rec,
+                    'auc' : auc,
+                    'class_name' : class_name,
+                    'data_used_name' :data_used_name,
+                    'sens_name' : sens_name,
+                    'acc_check' : acc_check,
+                    't' : t,
+                    'failed' : None}
+        pre= None
+        in_p= None
+        post= None
+        data_pred = None
+        privileged_groups= None
+        unprivileged_groups= None
+        classified_metric = None
+        dataset_test= None
+        pred = None
+        data_used= None
+        class_name = None
+        sens= None
+        start= None
+        finish = None
+        t = None
+        data_used_name = None
+        sens = None
+        mean_diff = None
+        dis_impact = None
+        theil = None
+        av_odd = None
+        eq_opp_diff = None
+        mean_diff_orig = None 
+        dis_impact_orig = None
+        acc = None
+        prec = None
+        rec = None
+        class_name = None
+        data_used_name = None
+        sens_name = None
+        auc = None
+    
+        maj_class = None
+        acc_check = None
 
     return sort_d
 
