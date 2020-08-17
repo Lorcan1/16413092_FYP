@@ -597,8 +597,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
         nam = 'mfc_fdr'
         MFC2 = None       
     elif bma == 3:
-        PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
-        #PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
+        #PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
+        PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
         PR = PR.fit(data)
         
         data_pred = PR.predict(dataset_valid)
