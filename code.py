@@ -65,15 +65,18 @@ ricci_test = None
 ricci_valid = None
 
 
-def log(message, dictionary=True):
+def log(message, dictionary=False):
     name = sys.argv[1] + '.log'
     f=open(name, "a+")
     if (dictionary):
+        message.pop('dataset', None)
+        message.pop('dataset_test', None)
+        message.pop('dataset_valid', None)
+        print(message, file=f)
+    else:
         t = time.localtime()
         current_time = time.strftime("%H:%M:%S", t)
         f.write('[' + current_time + '] ' + message + '\n')
-    else:
-        print(message, file=f)
     f.close()
 
 def top(my_list, out_queue): #parrallelized function 
@@ -103,34 +106,48 @@ def top(my_list, out_queue): #parrallelized function
     
         top_data_d = data_f(i[0])       #main pipeline of bma functions called here
         top_pre_d =  pre(i[1], top_data_d)
+        
+        passed = 0
+        
         log(str(i) + ' pre complete')
         if (sanity_check(top_pre_d)):
+            passed += 1
+            
             top_in_d = in_p(i[2], top_pre_d)
             top_class_d = classifier(i[3],top_in_d)
+            
             log(str(i) + ' in/class complete')
             
             if (sanity_check(top_class_d)):
                 top_post_d = post(i[4], top_class_d) #bias mitigation functions
                 log(str(i) + ' post complete')
                 top_sort_d = sorter(top_post_d)
+                passed += 1
+                
             else:
                 log('Sanity Check Failed in in/class' + str(i))
-                top_sort_d = resolve_failed(top_class_d, 'in/class')
+                top_sort_d = resolve_failed(top_class_d, 'in/class', i)
+                
         else:
             log('Sanity Check Failed in pre' + str(i))
-            top_sort_d = resolve_failed(top_pre_d, 'pre')
+            top_sort_d = resolve_failed(top_pre_d, 'pre', i)
 
+        
 
         out_queue.put(top_sort_d)              #result returned through queue
         #log(pprint.pformat(top_sort_d))
-        log(top_sort_d, False)
-
+        log(top_sort_d, True)
+        
+        top_sort_d.clear()
         top_data_d.clear()
         top_pre_d.clear()
-        top_in_d.clear()
-        top_class_d.clear()
-        top_post_d.clear()
-        top_sort_d.clear()
+        
+        if passed >= 1:
+            top_in_d.clear()
+            top_class_d.clear()
+        
+        if passed >= 2:
+            top_post_d.clear()
 
         top_data_d = None
         top_pre_d = None
@@ -470,18 +487,78 @@ def sanity_check(p_dict):
     #check if the previous part of the pipeline broke the training data
     data = p_dict['dataset'] 
     
-    fail = False
+    fail = True
     
     y = data.labels
+    print(np.unique(y))
+    print(len(np.unique(y)))
+    
     if (len(np.unique(y)) == 1):
-        fail=True
+        fail=False
         
     return fail
 
-def resolve_failed(p_dict, stage):
-    p_dict['failed']=stage
-    return p_dict
+def resolve_failed(p_dict, stage, i):
     
+    results = {'pre' : lookup_pre(i[1]),
+        'in' : lookup_in(i[2]),
+        'class_name' : lookup_class(i[3]),
+        'post' : lookup_post(i[4]),
+        'mean_diff' : None,
+        'dis_impact' : None,
+        'theil' : None,
+        'av_odds' : None,
+        'eq_opp_diff' : None,
+        'mean_diff_orig' : None,             
+        'dis_impact_orig' : None,
+        'prec' : None,
+        'rec' : None,
+        'auc' : None,
+        'data_used_name' : p_dict['dataset_used'],
+        'sens_name' : p_dict['sens'],
+        'acc_check' : 'Fail',
+        't' : {0},      
+        'failed' :stage}
+        
+    return results
+
+def lookup_pre(i):
+    if i == 1:
+        return ['di', i]
+    elif i == 2:
+        return ['rw', i]
+    else:
+        return None
+
+def lookup_in(i):
+    if i == 1:
+        return ['mfc_sr', i]
+    elif i == 2:
+        return ['mfc_fdr', i]
+    elif i == 3:
+        return ['pr', i]
+    else:
+        return None
+
+def lookup_class(i):
+    if i == 1:
+        return 'Logisitic Regression'
+    elif i == 2:
+        return 'Random Forest'
+    elif i == 3:
+        return 'Naive Bayes'
+    else:
+        return None
+    
+def lookup_post(i):
+    if i == 1:
+        return ['cpp', i]
+    elif i == 2:
+        return ['eop', i]
+    elif i == 3:
+        return ['roc', i]
+    else:
+        return None    
 
 def pre(bma, p_dict): #applies pre-processing BMA
 
@@ -560,7 +637,6 @@ def pre(bma, p_dict): #applies pre-processing BMA
 
     return pre_d 
 
-
 def in_p(bma, in_dict): #applies in-processing classifier
         
     data = in_dict['dataset']
@@ -573,8 +649,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
     start = in_dict['start']      
 
     if bma == 1:
-        #MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
-        MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
+        MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
+        #MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
         MFC = MFC.fit(data)
         
         data_pred_valid = MFC.predict(dataset_valid)
@@ -585,8 +661,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
         nam = 'mfc_sr'
         MFC = None
     if bma == 2:
-        #MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
-        MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
+        MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
+        #MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
         MFC2 = MFC2.fit(data)
         
         data_pred_valid = MFC2.predict(dataset_valid)
@@ -670,7 +746,7 @@ def in_p(bma, in_dict): #applies in-processing classifier
     finish = None
     nam = None
 
-    return in_d         
+    return in_d     
 
 def classifier(clss, class_dict):
    
