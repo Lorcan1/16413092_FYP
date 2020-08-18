@@ -65,6 +65,11 @@ ricci_test = None
 ricci_valid = None
 
 
+def set_default(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError
+
 def log(message, dictionary=False):
     name = sys.argv[1] + '.log'
     f=open(name, "a+")
@@ -72,7 +77,7 @@ def log(message, dictionary=False):
         message.pop('dataset', None)
         message.pop('dataset_test', None)
         message.pop('dataset_valid', None)
-        print(message, file=f)
+        print(json.dumps(message, default=set_default), file=f)
     else:
         t = time.localtime()
         current_time = time.strftime("%H:%M:%S", t)
@@ -228,8 +233,8 @@ def main():
     #5 = post
      
     a_list = []
-    m,j,k = 2,3,4
-    l = [(a,b,c,d,e)  for a in range(8) for b in range(j) for c in range(j) for d in range(k)for e in range(k)] #create list of inputs
+    pre_p, in_p, class_p, post_p = 3, 4, 4, 4
+    l = [(a,b,c,d,e)  for a in range(8) for b in range(pre_p) for c in range(in_p) for d in range(class_p)for e in range(post_p)] #create list of inputs
 
     for x in l:
         if x[2] is 0 and x[3] is not 0 or x[2] is not 0 and x[3] is 0:   #cant have in-processing and classifier
@@ -487,11 +492,8 @@ def sanity_check(p_dict):
     #check if the previous part of the pipeline broke the training data
     data = p_dict['dataset'] 
     
-    fail = True
-    
+    fail = True    
     y = data.labels
-    print(np.unique(y))
-    print(len(np.unique(y)))
     
     if (len(np.unique(y)) == 1):
         fail=False
@@ -657,6 +659,7 @@ def in_p(bma, in_dict): #applies in-processing classifier
         data_pred = MFC.predict(dataset_test)
         
         pred = data_pred.labels
+        pred_prob = data_pred.scores
         pred_valid = data_pred_valid.labels
         nam = 'mfc_sr'
         MFC = None
@@ -669,18 +672,20 @@ def in_p(bma, in_dict): #applies in-processing classifier
         data_pred = MFC2.predict(dataset_test)
             
         pred = data_pred.labels
+        pred_prob = data_pred.scores
         pred_valid = data_pred_valid.labels
         nam = 'mfc_fdr'
         MFC2 = None       
     elif bma == 3:
-        #PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
-        PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
+        PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
+        #PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
         PR = PR.fit(data)
         
-        data_pred = PR.predict(dataset_valid)
+        data_pred_valid = PR.predict(dataset_valid)
         data_pred = PR.predict(dataset_test)
             
         pred = data_pred.labels
+        pred_prob = data_pred.scores
         pred_valid = data_pred_valid.labels
         nam = 'pr'
         PR = None       
@@ -717,6 +722,7 @@ def in_p(bma, in_dict): #applies in-processing classifier
          'data_pred' : data_pred,
          'data_pred_valid' : data_pred_valid,
          'pred' : pred,
+         'pred_prob' : pred_prob,
          'pred_valid' : pred_valid,
          'class' : name,
          'class_met' : classified_metric,
@@ -758,14 +764,17 @@ def classifier(clss, class_dict):
     dataset_test = class_dict['dataset_test']
     dataset_valid = class_dict['dataset_valid']
     start = class_dict['start']
+    
+    pred_thres = .5
 
     if clss == 1:
         
         lr = LogisticRegression()
         lr = lr.fit(data.features, data.labels.ravel()) #fitted on train(transformed) datatset   
         
-        pred_valid = lr.predict(dataset_valid.features)  
-        pred = lr.predict(dataset_test.features)  
+        pred_valid = lr.predict(dataset_valid.features)
+        pred_prob = lr.predict_proba(dataset_test.features)  
+        pred = (pred_prob >= pred_thres).astype(int)
                 
         data_pred = dataset_test.copy()
         data_pred.labels = pred   
@@ -780,8 +789,9 @@ def classifier(clss, class_dict):
                                max_features = 'sqrt')
         rf = rf.fit(data.features, data.labels.ravel())   
         
-        pred_valid = rf.predict(dataset_valid.features)  
-        pred = rf.predict(dataset_test.features)  
+        pred_valid = rf.predict_prob(dataset_valid.features)  
+        pred_prob = rf.predict_proba(dataset_test.features)  
+        pred = (pred_prob >= pred_thres).astype(int)
                 
         data_pred = dataset_test.copy()
         data_pred.labels = pred   
@@ -795,7 +805,8 @@ def classifier(clss, class_dict):
         nb = nb.fit(data.features,data.labels.ravel())   
         
         pred_valid = nb.predict(dataset_valid.features)  
-        pred = nb.predict(dataset_test.features)  
+        pred_prob = nb.predict_proba(dataset_test.features)  
+        pred = (pred_prob >= pred_thres).astype(int)
                 
         data_pred = dataset_test.copy()
         data_pred.labels = pred   
@@ -837,6 +848,7 @@ def classifier(clss, class_dict):
          'data_pred' : data_pred,
          'data_pred_valid' : data_pred_valid,
          'pred' : pred,
+         'pred_prob' : pred_prob,
          'class' : name,
          'class_met' : classified_metric,
          'start' : start,
@@ -877,6 +889,7 @@ def post(bma, post_dict): #applies post-processing algorithms
     data_pred = post_dict.get('data_pred')
     data_pred_valid = post_dict.get('data_pred_valid')
     pred = post_dict.get('pred')
+    pred_prob = post_dict('pred_prob')
     start = post_dict['start']
         
     if bma == 1:
@@ -886,7 +899,9 @@ def post(bma, post_dict): #applies post-processing algorithms
                                          cost_constraint=cost_constraint,
                                          seed=None)
         CPP = CPP.fit(dataset_valid, data_pred_valid)   
-        data_pred = CPP.predict(dataset_test)  
+        data_pred = CPP.predict(dataset_test) 
+        pred = data_pred.labels
+        pred_prob = data_pred.scores
         nam = 'cpp'
         CPP = None       
     elif bma == 2:
@@ -895,6 +910,8 @@ def post(bma, post_dict): #applies post-processing algorithms
                                      seed=None)
         EOP= EOP.fit(dataset_valid, data_pred_valid)  
         data_pred = EOP.predict(dataset_test)
+        pred = data_pred.labels
+        pred_prob = data_pred.scores
         nam = 'eop'
         EOP = None
     elif bma == 3:
@@ -902,6 +919,8 @@ def post(bma, post_dict): #applies post-processing algorithms
                                  unprivileged_groups = unprivileged_groups)
         ROC = ROC.fit(dataset_valid, data_pred_valid)  
         data_pred = ROC.predict(dataset_test)
+        pred = data_pred.labels
+        pred_prob = data_pred.scores
         nam = 'roc'
         ROC = None       
     elif bma == 0:
@@ -937,6 +956,7 @@ def post(bma, post_dict): #applies post-processing algorithms
          'data_pred' : data_pred,
          'dataset_valid' : dataset_valid,
          'pred' : pred,
+         'pred_prob' : pred_prob,
          'class' : name,
          'class_met' : classified_metric,
          'start' : start,
@@ -1013,19 +1033,22 @@ def sorter(sort_dict): #prepare for dataframe, delete datasets from memory
         classified_metric = sort_dict['class_met']
         dataset_test = sort_dict['dataset_test']
         pred = sort_dict['pred']
+        pred_prob = sort_dict['pred_prob']
         data_used = sort_dict['dataset_used']
         class_name = sort_dict.get('class')
         sens = sort_dict['sens']
         finish = sort_dict['finish']
         start = sort_dict['start']
         t = {round(finish-start, 2)}
+        
+        print (pred)
     
         mean_diff, dis_impact = metric(data_pred, unprivileged_groups, privileged_groups) #calculate fairness scores
         theil, av_odds, eq_opp_diff = classified_metric_func(classified_metric) #calculate fairness scores
         mean_diff_orig, dis_impact_orig = metric(dataset_test, unprivileged_groups, privileged_groups) #get the original scores
         acc, prec, rec = apr_score(dataset_test, pred) #calculate performance metrics
         data_used_name = data_used.title()
-        auc = roc_auc_score(dataset_test.labels, pred) #get auc 
+        auc = roc_auc_score(dataset_test.labels, pred_prob) #get auc 
         maj_class = count_maj(dataset_test, data_used) #get majority class percentage
         acc_check = acc_checker(maj_class, acc) #compare majority class to accuracy
         data_used = data_used.strip()
@@ -1094,7 +1117,7 @@ def append_func(result): #append results to dataframe
     
     dfTest = pd.DataFrame(columns = [ 'Pre', 'In_p', 'Post', 'Mean Difference' , 'Disparate Impact', 'Theil Index',
                                      'Average Odds Difference',   'Equal Opportunity Difference', 'Accuracy',
-                                      'Precision', 'Recall', 'Classifier', 'Dataset', 'Sens_Attr', 'Valid' , 'Time'])
+                                      'Precision', 'Recall', 'Classifier', 'Dataset', 'Sens_Attr', 'Valid' , 'Time', 'Failed'])
     for x in result:
                
         pre = x['pre']
@@ -1121,6 +1144,7 @@ def append_func(result): #append results to dataframe
         acc_check = x['acc_check']
 
         t = x['t']
+        failed = x['failed']
 
         dfTest = dfTest.append({ 'Pre' : pre, 
                                  'In_p': in_p,
@@ -1140,7 +1164,8 @@ def append_func(result): #append results to dataframe
                                  'Dataset' :data_used_name,
                                  'Sens_Attr' : sens_name,
                                  'Valid' : acc_check,
-                                 'Time' : t}, ignore_index = True)
+                                 'Time' : t,
+                                 'Failed' : failed}, ignore_index = True)
 
     return dfTest
 
@@ -1323,6 +1348,23 @@ def output(df, df2):
     df2.to_csv(name2, index=False)
     return True
 
+def rebuild_from_log(filename, output=None):
+    f = open(filename, 'r')
+    
+    results = []
+    
+    for line in f:
+        if line.startswith('{'):
+            result = json.loads(line)
+            results.append(result)
+    
+    f.close()
+
+    dfTemp0 = append_func(results)               #append results to dataframe
+    df, _ = df_sort(dfTemp0)
+    df.to_csv(output, index=False)
+    
+    
 if __name__ == "__main__":
    main()
-
+   #rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/blah.log', '/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/blah.csv')
