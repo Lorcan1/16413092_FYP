@@ -789,7 +789,7 @@ def classifier(clss, class_dict):
                                max_features = 'sqrt')
         rf = rf.fit(data.features, data.labels.ravel())   
         
-        pred_valid = rf.predict_prob(dataset_valid.features)  
+        pred_valid = rf.predict(dataset_valid.features)  
         pred_prob = rf.predict_proba(dataset_test.features)  
         pred = (pred_prob >= pred_thres).astype(int)
                 
@@ -889,7 +889,7 @@ def post(bma, post_dict): #applies post-processing algorithms
     data_pred = post_dict.get('data_pred')
     data_pred_valid = post_dict.get('data_pred_valid')
     pred = post_dict.get('pred')
-    pred_prob = post_dict('pred_prob')
+    pred_prob = post_dict.get('pred_prob')
     start = post_dict['start']
         
     if bma == 1:
