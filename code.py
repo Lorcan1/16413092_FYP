@@ -658,8 +658,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
     start = in_dict['start']      
 
     if bma == 1:
-        MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
-        #MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
+        #MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
+        MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
         MFC = MFC.fit(data)
         
         data_pred_valid = MFC.predict(dataset_valid)
@@ -671,8 +671,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
         nam = 'mfc_sr'
         MFC = None
     if bma == 2:
-        MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
-        #MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
+        #MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
+        MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
         MFC2 = MFC2.fit(data)
         
         data_pred_valid = MFC2.predict(dataset_valid)
@@ -684,8 +684,8 @@ def in_p(bma, in_dict): #applies in-processing classifier
         nam = 'mfc_fdr'
         MFC2 = None       
     elif bma == 3:
-        PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
-        #PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
+        #PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
+        PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
         PR = PR.fit(data)
         
         data_pred_valid = PR.predict(dataset_valid)
