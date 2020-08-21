@@ -118,20 +118,27 @@ def top(my_list, out_queue): #parrallelized function
         if (sanity_check(top_pre_d)):
             passed += 1
             
-            top_in_d = in_p(i[2], top_pre_d)
-            top_class_d = classifier(i[3],top_in_d)
+            try:
+                top_in_d = in_p(i[2], top_pre_d)
+                top_class_d = classifier(i[3],top_in_d)
             
-            log(str(i) + ' in/class complete')
+                log(str(i) + ' in/class complete')
             
-            if (sanity_check(top_class_d)):
-                top_post_d = post(i[4], top_class_d) #bias mitigation functions
-                log(str(i) + ' post complete')
-                top_sort_d = sorter(top_post_d)
-                passed += 1
-                
-            else:
-                log('Sanity Check Failed in in/class' + str(i))
-                top_sort_d = resolve_failed(top_class_d, 'in/class', i)
+                if (sanity_check(top_class_d)):
+                    try:
+                        top_post_d = post(i[4], top_class_d) #bias mitigation functions
+                        log(str(i) + ' post complete')
+                        top_sort_d = sorter(top_post_d)
+                        passed += 1
+                    except: 
+                        log(str(i) + "Unexpected error during post: " + sys.exc_info()[0])
+                        top_sort_d = resolve_failed(top_pre_d, 'post', i)
+                else:
+                    log('Sanity Check Failed in in/class' + str(i))
+                    top_sort_d = resolve_failed(top_class_d, 'in/class', i)
+            except:
+                log(str(i) + "Unexpected error during in/class: " + sys.exc_info()[0])
+                top_sort_d = resolve_failed(top_pre_d, 'in/class', i)
                 
         else:
             log('Sanity Check Failed in pre' + str(i))
@@ -1367,4 +1374,4 @@ def rebuild_from_log(filename, output=None):
     
 if __name__ == "__main__":
    main()
-   #rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/blah.log', '/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/blah.csv')
+   #rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/SanityChecksTestMFC-3.log', '/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/MFC.csv')
