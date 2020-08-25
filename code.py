@@ -10,6 +10,7 @@ import random
 
 import pprint
 import json
+import traceback
 
 from aif360.datasets import AdultDataset, GermanDataset, CompasDataset, BankDataset
 from aif360.metrics import BinaryLabelDatasetMetric , ClassificationMetric
@@ -66,9 +67,19 @@ ricci_valid = None
 
 
 def set_default(obj):
+    #print(obj)
     if isinstance(obj, set):
         return list(obj)
     raise TypeError
+
+def log_error(stage, exc_type, exc_value, exc_traceback):
+    name = sys.argv[1] + '.log'
+    f=open(name, "a+")
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
+    f.write('[' + current_time + '] ' + stage + '\n')
+    traceback.print_exception(exc_type, exc_value, exc_traceback, file=f)
+    f.close()
 
 def log(message, dictionary=False):
     name = sys.argv[1] + '.log'
@@ -77,7 +88,8 @@ def log(message, dictionary=False):
         message.pop('dataset', None)
         message.pop('dataset_test', None)
         message.pop('dataset_valid', None)
-        print(json.dumps(message, default=set_default), file=f)
+        #print(message)
+        print(json.dumps(str(message), default=set_default), file=f)
     else:
         t = time.localtime()
         current_time = time.strftime("%H:%M:%S", t)
@@ -119,46 +131,54 @@ def top(my_list, out_queue): #parrallelized function
             passed += 1
             
             try:
+                #log('throwing error')
+                #raise TypeError('somthing')
                 top_in_d = in_p(i[2], top_pre_d)
                 top_class_d = classifier(i[3],top_in_d)
             
                 log(str(i) + ' in/class complete')
             
                 if (sanity_check(top_class_d)):
+                    passed += 1
                     try:
                         top_post_d = post(i[4], top_class_d) #bias mitigation functions
                         log(str(i) + ' post complete')
                         top_sort_d = sorter(top_post_d)
                         passed += 1
                     except: 
-                        log(str(i) + "Unexpected error during post: " + sys.exc_info()[0])
-                        top_sort_d = resolve_failed(top_pre_d, 'post', i)
+                        log('caught error in post')
+                        exc_type, exc_value, exc_traceback = sys.exc_info()
+                        log_error('post', exc_type, exc_value, exc_traceback)
+                        top_sort_d = resolve_failed(top_class_d, 'post', i)
                 else:
                     log('Sanity Check Failed in in/class' + str(i))
                     top_sort_d = resolve_failed(top_class_d, 'in/class', i)
             except:
-                log(str(i) + "Unexpected error during in/class: " + sys.exc_info()[0])
+                log('caught error in in/class')
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                log_error('in/class', exc_type, exc_value, exc_traceback)
                 top_sort_d = resolve_failed(top_pre_d, 'in/class', i)
                 
         else:
             log('Sanity Check Failed in pre' + str(i))
             top_sort_d = resolve_failed(top_pre_d, 'pre', i)
 
+        #print(top_sort_d)
+        log(message=top_sort_d, dictionary=True)  
         
-
         out_queue.put(top_sort_d)              #result returned through queue
         #log(pprint.pformat(top_sort_d))
-        log(top_sort_d, True)
+
         
         top_sort_d.clear()
         top_data_d.clear()
         top_pre_d.clear()
         
-        if passed >= 1:
+        if passed > 1:
             top_in_d.clear()
             top_class_d.clear()
         
-        if passed >= 2:
+        if passed > 2:
             top_post_d.clear()
 
         top_data_d = None
@@ -240,8 +260,9 @@ def main():
     #5 = post
      
     a_list = []
-    pre_p, in_p, class_p, post_p = 3, 4, 4, 4
-    l = [(a,b,c,d,e)  for a in range(8) for b in range(pre_p) for c in range(in_p) for d in range(class_p)for e in range(post_p)] #create list of inputs
+    #data, pre_p, in_p, class_p, post_p = 8, 3, 4, 4, 4
+    data, pre_p, in_p, class_p, post_p = 8, 1, 1, 2, 1
+    l = [(a,b,c,d,e)  for a in range(data) for b in range(pre_p) for c in range(in_p) for d in range(class_p)for e in range(post_p)] #create list of inputs
 
     for x in l:
         if x[2] is 0 and x[3] is not 0 or x[2] is not 0 and x[3] is 0:   #cant have in-processing and classifier
@@ -511,7 +532,6 @@ def resolve_failed(p_dict, stage, i):
     
     results = {'pre' : lookup_pre(i[1]),
         'in' : lookup_in(i[2]),
-        'class_name' : lookup_class(i[3]),
         'post' : lookup_post(i[4]),
         'mean_diff' : None,
         'dis_impact' : None,
@@ -520,9 +540,11 @@ def resolve_failed(p_dict, stage, i):
         'eq_opp_diff' : None,
         'mean_diff_orig' : None,             
         'dis_impact_orig' : None,
+        'acc' : None,
         'prec' : None,
         'rec' : None,
         'auc' : None,
+        'class_name' : lookup_class(i[3]),
         'data_used_name' : p_dict['dataset_used'],
         'sens_name' : p_dict['sens'],
         'acc_check' : 'Fail',
@@ -532,22 +554,38 @@ def resolve_failed(p_dict, stage, i):
     return results
 
 def lookup_pre(i):
+    
+    pre = []
+    
     if i == 1:
-        return ['di', i]
+        pre.append('di')
+        pre.append(i)
     elif i == 2:
-        return ['rw', i]
-    else:
+        pre.append('rw')
+        pre.append(i)
+    else: 
         return None
 
+    return pre
+
+
 def lookup_in(i):
+    
+    in_p = []
+    
     if i == 1:
-        return ['mfc_sr', i]
+        in_p.append('mfc_sr')
+        in_p.append(i)
     elif i == 2:
-        return ['mfc_fdr', i]
+        in_p.append('mfc_fdr')
+        in_p.append(i)
     elif i == 3:
-        return ['pr', i]
-    else:
+        in_p.append('pr')
+        in_p.append(i)
+    else: 
         return None
+
+    return in_p
 
 def lookup_class(i):
     if i == 1:
@@ -560,14 +598,20 @@ def lookup_class(i):
         return None
     
 def lookup_post(i):
+    post = []
     if i == 1:
-        return ['cpp', i]
+        post.append('cpp')
+        post.append(i)
     elif i == 2:
-        return ['eop', i]
+        post.append('eop')
+        post.append(i)
     elif i == 3:
-        return ['roc', i]
-    else:
-        return None    
+        post.append('roc')
+        post.append(i)
+    else: 
+        return None
+
+    return post  
 
 def pre(bma, p_dict): #applies pre-processing BMA
 
@@ -780,11 +824,12 @@ def classifier(clss, class_dict):
         lr = lr.fit(data.features, data.labels.ravel()) #fitted on train(transformed) datatset   
         
         pred_valid = lr.predict(dataset_valid.features)
+        pred = lr.predict(dataset_test.features)  
         pred_prob = lr.predict_proba(dataset_test.features)  
-        pred = (pred_prob >= pred_thres).astype(int)
                 
         data_pred = dataset_test.copy()
         data_pred.labels = pred   
+        #data_pred.scores = pred_prob
         
         data_pred_valid = dataset_valid.copy()
         data_pred_valid.labels = pred_valid
@@ -798,10 +843,11 @@ def classifier(clss, class_dict):
         
         pred_valid = rf.predict(dataset_valid.features)  
         pred_prob = rf.predict_proba(dataset_test.features)  
-        pred = (pred_prob >= pred_thres).astype(int)
+        pred = rf.predict(dataset_test.features)  
                 
         data_pred = dataset_test.copy()
-        data_pred.labels = pred   
+        data_pred.labels = pred      
+        #data_pred.scores = pred_prob
         
         data_pred_valid = dataset_valid.copy()
         data_pred_valid.labels = pred_valid
@@ -813,10 +859,11 @@ def classifier(clss, class_dict):
         
         pred_valid = nb.predict(dataset_valid.features)  
         pred_prob = nb.predict_proba(dataset_test.features)  
-        pred = (pred_prob >= pred_thres).astype(int)
+        pred = nb.predict(dataset_test.features)  
                 
         data_pred = dataset_test.copy()
-        data_pred.labels = pred   
+        data_pred.labels = pred      
+        #data_pred.scores = pred_prob
         
         data_pred_valid = dataset_valid.copy()
         data_pred_valid.labels = pred_valid
@@ -825,6 +872,17 @@ def classifier(clss, class_dict):
         
     elif clss == 0:
         return class_dict
+    
+    if data_used == 'German':
+        pred_prob = pred_prob[:,1]
+    elif data_used == 'Adult':
+        pred_prob = pred_prob[:,1]
+    elif data_used == 'Bank':
+        pred_prob = pred_prob[:,1]
+    elif data_used == 'Compas':
+        pred_prob = pred_prob[:,1]
+    elif data_used == 'Ricci':
+        pred_prob = pred_prob[:,1] 
                           
     finish = 0    
     finish = time.perf_counter()
@@ -837,7 +895,8 @@ def classifier(clss, class_dict):
     post = class_dict.get('post', None)
     count = class_dict.get('count')
 
-    classified_metric = class_met(dataset_test, data_pred, unprivileged_groups, privileged_groups)       
+    classified_metric = class_met(dataset_test, data_pred, unprivileged_groups, privileged_groups) 
+       
     
     class_dict =  None
 
@@ -1026,7 +1085,7 @@ def sorter(sort_dict): #prepare for dataframe, delete datasets from memory
                     'data_used_name' : sort_dict['dataset_used'].title(),
                     'sens_name' : sort_dict['sens'].title(),
                     'acc_check' : True,
-                    't' : None,
+                    't' : {0},
                     'failed' : sort_dict['failed']}
         
     else:
@@ -1048,7 +1107,12 @@ def sorter(sort_dict): #prepare for dataframe, delete datasets from memory
         start = sort_dict['start']
         t = {round(finish-start, 2)}
         
-        print (pred)
+        #df = bank_test.convert_to_dataframe()
+        #print('in nsorter' + str(df[0].shape[0]) + ' rows, ' + str(df[0].shape[1]) + ' cols')
+        #print(df[0].columns)
+        
+        #print (pred)
+        #print (pred_prob)
     
         mean_diff, dis_impact = metric(data_pred, unprivileged_groups, privileged_groups) #calculate fairness scores
         theil, av_odds, eq_opp_diff = classified_metric_func(classified_metric) #calculate fairness scores
