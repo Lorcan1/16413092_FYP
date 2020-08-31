@@ -260,8 +260,8 @@ def main():
     #5 = post
      
     a_list = []
-    #data, pre_p, in_p, class_p, post_p = 8, 3, 4, 4, 4
-    data, pre_p, in_p, class_p, post_p = 8, 1, 1, 2, 1
+    data, pre_p, in_p, class_p, post_p = 8, 3, 4, 4, 4
+    #data, pre_p, in_p, class_p, post_p = 8, 1, 1, 2, 1
     l = [(a,b,c,d,e)  for a in range(data) for b in range(pre_p) for c in range(in_p) for d in range(class_p)for e in range(post_p)] #create list of inputs
 
     for x in l:
