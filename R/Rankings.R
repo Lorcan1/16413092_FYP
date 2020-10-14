@@ -1,6 +1,8 @@
 ###### R script for deriving various rankings for AIF360 pipelines ########
 
 library(dplyr)
+library(splitstackshape)
+library(ggplot2)
 
 #### Functions ####
 
@@ -8,8 +10,17 @@ library(dplyr)
 parseResultFiles <- function(nameTemplate, endTemplate="output.csv",pathname) {
   # files <- list.files(path=getwd())
   files <- list.files(path=pathname)
-  files <- files[startsWith(files, nameTemplate) & endsWith(files, endTemplate)]
   
+  if (length(nameTemplate) == 1) {
+    files <- files[startsWith(files, nameTemplate) & endsWith(files, endTemplate)]
+  } else {
+    fileset <- c()
+    for (name in nameTemplate) {
+      fileset <- rbind(fileset, files[startsWith(files, name) & endsWith(files, endTemplate)])
+    }
+    files <- fileset
+  }
+
   df <- data.frame()
   for (name in files) {
     # df <- rbind(df, read.csv(paste0(getwd(),"/", name)))
@@ -25,6 +36,15 @@ parseResultFiles <- function(nameTemplate, endTemplate="output.csv",pathname) {
   df$Score <- NULL
   df$Rank <- NULL
   
+  write.csv(df, file=paste0(getwd(), "/fairCombos.csv"), row.names = F)
+  
+  t <- table(df$Combo, df$Dataset)
+  write.table(t, file=paste0(getwd(), "/combos.csv"), sep = ",")
+  
+  return (aggregateResults(df))
+}
+
+aggregateResults <- function(df) {
   aggDF <- aggregate(df, by=list(df$Combo, df$Dataset), FUN = mean)
   s <- data.frame(do.call(rbind, strsplit(as.character(aggDF$Group.1), '\\+')))
   names(s) <- c(names(df)[1:4])
@@ -43,26 +63,39 @@ parseResultFiles <- function(nameTemplate, endTemplate="output.csv",pathname) {
   return(aggDF)
 }
 
+#draws a sample of n observations of each combination
+sampleNObs <- function(df, n=5, cols) {
+  
+  strat <- stratified(df, cols, n)
+  
+}
+
 #derives an equally weighted rank for both fairness and performance measures
 #derives ranks per dataset then averages them to produce an average rank per combo
 #depends on: computePerfRank and computeFairRank
 deriveEqualRank <- function(df) {
   perfDF <- data.frame()
   fairDF <- data.frame()
+  runtimeDF <- data.frame()
   
   for (dataset in levels(df$Dataset)) {
     perfDF <- rbind(perfDF, computePerfRank(df[df$Dataset == dataset, ]))
     fairDF <- rbind(fairDF, computeFairRank(df[df$Dataset == dataset, ]))
+    runtimeDF <- rbind(runtimeDF, computeRuntimeRank(df[df$Dataset == dataset, ]))
   }
   
   perfAgg <- aggregate(perfDF$PerfRank, by=list(perfDF$Combo), FUN=mean)
   fairAgg <- aggregate(fairDF$FairRank, by=list(fairDF$Combo), FUN=mean)
+  runtimeAgg <- aggregate(runtimeDF$RuntimeRank, by=list(runtimeDF$Combo), FUN=mean)
   
   names(perfAgg) <- c("Combo", "PerfRank")
   names(fairAgg) <- c("Combo", "FairRank")
+  names(runtimeAgg) <- c("Combo", "RuntimeRank")
   
   rankDF <- merge(perfAgg, fairAgg, by="Combo")
-  rankDF$EqualWeightRank <- (rankDF$PerfRank + rankDF$FairRank) / 2 
+  rankDF <- merge(rankDF, runtimeAgg, by="Combo")
+  rankDF$EqualWeightRank <- (rankDF$PerfRank + rankDF$FairRank + rankDF$RuntimeRank) / 3 
+  rankDF$PerfFairEqualRank <- (rankDF$PerfRank + rankDF$FairRank) / 2
   
   return(rankDF)
 }
@@ -73,11 +106,11 @@ deriveEqualRank <- function(df) {
 computePerfRank <- function(df) {
   
   perfRank <- rank(1- df$Accuracy, ties.method= "min") + 
-    rank(1- df$AUC, ties.method= "min") + 
+    #rank(1- df$AUC, ties.method= "min") + 
     rank(1- df$Precision, ties.method= "min") + 
     rank(1 - df$Recall, ties.method= "min")
   
-  perfRank <- perfRank / 4
+  perfRank <- perfRank / 3
   perfRank <- rank(perfRank, ties.method= "min")
   
   return (data.frame(Combo=df$Combo, PerfRank = perfRank))
@@ -104,6 +137,15 @@ computeFairRank <- function(df) {
   return (data.frame(Combo=df$Combo, FairRank = fairRank))
 }
 
+#ranks on the basis of runtime
+computeRuntimeRank <- function(df) {
+  #remove combos that failed (they are hardcoded to have a runtime of 0)
+  df$Time[df$Time == 0] <- NA
+  
+  runtimeRank <-  rank(df$Time, ties.method = "min")
+  return (data.frame(Combo=df$Combo, RuntimeRank = runtimeRank))
+}
+
 #### Run #####
 
 # setwd("/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/data/basic")
@@ -120,13 +162,19 @@ randomResults <- deriveEqualRank(parseResultFiles("LogDefaultRadValid",pathname=
 stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples",pathname='../data/basic/'))
 randomResults <- deriveEqualRank(parseResultFiles("SingleSamples",pathname='../data/basic/'))
 
-
+#New results
+run1 <- deriveEqualRank(parseResultFiles("Run2Strat",pathname='../../logs/', endTemplate=".csv"))
+run2 <- deriveEqualRank(parseResultFiles("ErrorHandlingStrat",pathname='../../logs/', endTemplate=".csv"))
+  
+runCombined <- deriveEqualRank(parseResultFiles(nameTemplate = c("Run2Strat", "ErrorHandlingStrat"),pathname='../../logs/', endTemplate=".csv"))
+  
+  
 combined <- merge(stratResults, randomResults, by="Combo")
 combined$Diff <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
 hist(combined$Diff, breaks=15)
 summary(combined$Diff) 
 
-library(ggplot2)
+#### random vs stratified ####
 
 ggplot(combined, aes(x=Diff)) + geom_histogram()
 
@@ -136,6 +184,15 @@ wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRU
 
 # add some stats for comparing combination of approaches
 combined$Combo <- as.character(combined$Combo)
+
+#### sampled results ####
+
+df <- read.csv(paste0(getwd(), "/fairCombos.csv"), stringsAsFactors = T)
+df <- sampleNObs(df, 5, c("Combo", "Dataset", "Sens_Attr"))
+combined <- deriveEqualRank(aggregateResults(aggDF))
+View(combined)
+
+#### plots ####
 
 combined$Pre = ""
 combined$In = ""
@@ -169,6 +226,15 @@ pre_in_post$Scenario = 'pre_in_post'
 only_classification$Scenario = 'only_classification'
 
 combined_new <- rbind(only_pre, only_in, only_post, pre_in, pre_post, in_post, pre_in_post, only_classification)
+combined_new$Scenario <- factor(combined_new$Scenario, 
+                                levels=c('only_classification', 'only_pre', 'only_in', 'only_post', 
+                                         'pre_in', 'pre_post', 'in_post', 'pre_in_post'),
+                                labels=c('only_classification', 'only_pre', 'only_in', 'only_post', 
+                                         'pre_in', 'pre_post', 'in_post', 'pre_in_post'),
+                                ordered=T)
 
-ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank.x, fill=Scenario)) + geom_boxplot()
-
+ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
+ggplot(combined_new, aes(x=Scenario,y=PerfFairEqualRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair")
+ggplot(combined_new, aes(x=Scenario,y=PerfRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Perf")
+ggplot(combined_new, aes(x=Scenario,y=FairRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Fair")
+ggplot(combined_new, aes(x=Scenario,y=RuntimeRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Runtime")

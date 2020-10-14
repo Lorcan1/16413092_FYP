@@ -1422,10 +1422,18 @@ def output(df, df2):
 def rebuild_from_log(filename, output=None):
     f = open(filename, 'r')
     
+    print('reading: ' + filename)
+    
     results = []
     
     for line in f:
-        if line.startswith('{'):
+        if line.startswith('\"{'):
+            line = line[1:-2].replace("\'", "\"")
+            line = line.replace("None", "null")
+            line = line.replace("{", "\"{")
+            line = line.replace("}", "}\"")
+            line = line[1:-1]
+            #print(line)
             result = json.loads(line)
             results.append(result)
     
@@ -1437,5 +1445,7 @@ def rebuild_from_log(filename, output=None):
     
     
 if __name__ == "__main__":
-   main()
-   #rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/SanityChecksTestMFC-3.log', '/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/MFC.csv')
+   #main()
+   name = "Run2Strat"
+   for i in range(10):
+       rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.log', '/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.csv')
