@@ -191,7 +191,6 @@ combined$Combo <- as.character(combined$Combo)
 df <- read.csv(paste0(getwd(), "/fairCombos.csv"), stringsAsFactors = T)
 df <- sampleNObs(df, 5, c("Combo", "Dataset", "Sens_Attr"))
 combined <- deriveEqualRank(aggregateResults(df))
-View(combined)
 combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
@@ -216,6 +215,7 @@ combined$Classifier[combined$Classifier == "Naive Bayes"] <- "NB"
 combined$Classifier[combined$Classifier == "Random Forest"] <- "RF"
 
 combined <- combined[, c(6, 7, 9, 8, 1:5)]
+View(combined)
 
 print(xtable(combined), file=paste0(getwd(), "/results.tex"), compress=F)
 
