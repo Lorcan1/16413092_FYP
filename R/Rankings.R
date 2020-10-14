@@ -3,6 +3,7 @@
 library(dplyr)
 library(splitstackshape)
 library(ggplot2)
+library(xtable)
 
 #### Functions ####
 
@@ -189,23 +190,34 @@ combined$Combo <- as.character(combined$Combo)
 
 df <- read.csv(paste0(getwd(), "/fairCombos.csv"), stringsAsFactors = T)
 df <- sampleNObs(df, 5, c("Combo", "Dataset", "Sens_Attr"))
-combined <- deriveEqualRank(aggregateResults(aggDF))
+combined <- deriveEqualRank(aggregateResults(df))
 View(combined)
+combined <- combined[order(combined$PerfFairEqualRank), ]
 
-#### plots ####
+#### tidy up and rebuild ####
 
+combined$Combo <- as.character(combined$Combo)
 combined$Pre = ""
 combined$In = ""
 combined$Post = ""
-combined$Algo = ""
+combined$Classifier = ""
 
 for (i in 1:nrow(combined)){
   approach <- strsplit(combined$Combo[i], split='\\+')
   combined$Pre[i] = approach[[1]][1]
   combined$In[i] = approach[[1]][2]
   combined$Post[i] = approach[[1]][3]
-  combined$Algo[i] = approach[[1]][4]  
+  combined$Classifier[i] = approach[[1]][4]  
 }
+
+combined$Combo <- NULL
+combined$Classifier[combined$Classifier == "Logistic Regression"] <- "LR"
+combined$Classifier[combined$Classifier == "Naive Bayes"] <- "NB"
+combined$Classifier[combined$Classifier == "Random Forest"] <- "RF"
+
+combined <- combined[, c(6, 7, 9, 8, 1:5)]
+
+print(xtable(combined), file=paste0(getwd(), "/results.tex"), compress=F)
 
 only_pre <- combined %>% filter(Pre != "-", In == "-", Post == '-')
 only_in <- combined %>% filter(In != "-", Pre == "-", Post == '-')
@@ -232,6 +244,8 @@ combined_new$Scenario <- factor(combined_new$Scenario,
                                 labels=c('only_classification', 'only_pre', 'only_in', 'only_post', 
                                          'pre_in', 'pre_post', 'in_post', 'pre_in_post'),
                                 ordered=T)
+
+#### plots ####
 
 ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
 ggplot(combined_new, aes(x=Scenario,y=PerfFairEqualRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair")
