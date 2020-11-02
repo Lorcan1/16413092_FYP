@@ -1446,7 +1446,7 @@ def rebuild_from_log(filename, output=None):
     
     
 if __name__ == "__main__":
-   #main()
-   name = "Run2Strat"
-   for i in range(10):
-       rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.log', '/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.csv')
+   main()
+   #name = "Run2Strat"
+   #for i in range(10):
+   #    rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.log', '/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.csv')
