@@ -267,7 +267,7 @@ def main():
     for x in l:
         if x[2] is 0 and x[3] is not 0 or x[2] is not 0 and x[3] is 0:   #cant have in-processing and classifier
 #            if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
-            if x[2] is not 1 and x[2] is not 2:                         #dont run MFC
+            if x[2] is 1 or x[2] is 2:                         # run only MFC
                 a_list.append(x)
 
     # upper bound to n cores -- added by Simon to be nice on SONIC
@@ -453,6 +453,35 @@ def data_f(data_used):
 
     return data_d 
 
+def two_dimensional_stratified_sample(dataset, testSize):
+    df_conv, _ = dataset.convert_to_dataframe()
+    y = dataset.label_names[0]
+    protected = dataset.protected_attribute_names[0]
+    
+    strata = df_conv[y].astype(str) + "-" + df_conv[protected].astype(str)
+    
+    y = df_conv.pop( y )
+    
+    X_train, X_test, y_train, y_test = train_test_split(df_conv, y, test_size=testSize, stratify=strata)
+    train = pd.concat([X_train, y_train], axis=1)
+    test = pd.concat([X_test, y_test], axis=1)
+    
+    trainAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
+                                       unfavorable_label=dataset.unfavorable_label,
+                                       df=train,
+                                       label_names=dataset.label_names,
+                                       protected_attribute_names=dataset.protected_attribute_names,
+                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+    
+    testAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
+                                       unfavorable_label=dataset.unfavorable_label,
+                                       df=test,
+                                       label_names=dataset.label_names,
+                                       protected_attribute_names=dataset.protected_attribute_names,
+                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+    
+    return trainAIF, testAIF
+
 def stratified_sample(dataset, testSize):
     df_conv, _ = dataset.convert_to_dataframe()
     y = dataset.label_names[0]
@@ -479,7 +508,7 @@ def stratified_sample(dataset, testSize):
 
 def sample_data(dataset, testSize, stratified=True):
     if (stratified):
-        return stratified_sample(dataset, testSize)
+        return two_dimensional_stratified_sample(dataset, testSize)
     else:
         return dataset.split([1-testSize], shuffle=False)
 
