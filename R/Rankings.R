@@ -45,6 +45,11 @@ parseResultFiles <- function(nameTemplate, endTemplate="output.csv",pathname) {
   return (aggregateResults(df))
 }
 
+getRuntime <- function() {
+  runtime <-  read.csv(file=paste0(getwd(), "/fairCombos.csv"))
+  return (sum(runtime$Time))
+}
+
 aggregateResults <- function(df) {
   aggDF <- aggregate(df, by=list(df$Combo, df$Dataset), FUN = mean)
   s <- data.frame(do.call(rbind, strsplit(as.character(aggDF$Group.1), '\\+')))
@@ -69,6 +74,10 @@ sampleNObs <- function(df, n=5, cols) {
   
   strat <- stratified(df, cols, n)
   
+  print(sum(strat$Time) / 3600)
+  
+  return(strat)
+  
 }
 
 #derives an equally weighted rank for both fairness and performance measures
@@ -87,13 +96,19 @@ deriveEqualRank <- function(df) {
   
   perfAgg <- aggregate(perfDF$PerfRank, by=list(perfDF$Combo), FUN=mean)
   fairAgg <- aggregate(fairDF$FairRank, by=list(fairDF$Combo), FUN=mean)
+  fairAggIndiv <- aggregate(fairDF$IndivFairRank, by=list(fairDF$Combo), FUN=mean)
+  fairAggGroup <- aggregate(fairDF$GroupFairRank, by=list(fairDF$Combo), FUN=mean)
   runtimeAgg <- aggregate(runtimeDF$RuntimeRank, by=list(runtimeDF$Combo), FUN=mean)
   
   names(perfAgg) <- c("Combo", "PerfRank")
   names(fairAgg) <- c("Combo", "FairRank")
+  names(fairAggIndiv) <- c("Combo", "FairRankIndiv")
+  names(fairAggGroup) <- c("Combo", "FairRankGroup")
   names(runtimeAgg) <- c("Combo", "RuntimeRank")
   
   rankDF <- merge(perfAgg, fairAgg, by="Combo")
+  rankDF <- merge(rankDF, fairAggIndiv, by="Combo")
+  rankDF <- merge(rankDF, fairAggGroup, by="Combo")
   rankDF <- merge(rankDF, runtimeAgg, by="Combo")
   rankDF$EqualWeightRank <- (rankDF$PerfRank + rankDF$FairRank + rankDF$RuntimeRank) / 3 
   rankDF$PerfFairEqualRank <- (rankDF$PerfRank + rankDF$FairRank) / 2
@@ -112,7 +127,7 @@ computePerfRank <- function(df) {
     rank(1 - df$Recall, ties.method= "min")
   
   perfRank <- perfRank / 3
-  perfRank <- rank(perfRank, ties.method= "min")
+  #perfRank <- rank(perfRank, ties.method= "min")
   
   return (data.frame(Combo=df$Combo, PerfRank = perfRank))
 }
@@ -132,10 +147,20 @@ computeFairRank <- function(df) {
     rank(abs(df$Average.Odds.Difference), ties.method= "min") + 
     rank(abs(df$Equal.Opportunity.Difference), ties.method= "min") 
   
-  fairRank <- fairRank / 5
-  fairRank <- rank(fairRank, ties.method= "min")
+  fairIndivRank <- rank(df$Theil.Index, ties.method= "min")
   
-  return (data.frame(Combo=df$Combo, FairRank = fairRank))
+  fairGroupRank <- rank(abs(df$Mean.Difference), ties.method= "min") + 
+    rank(abs(1- df$Disparate.Impact), ties.method= "min") +
+    rank(abs(df$Average.Odds.Difference), ties.method= "min") + 
+    rank(abs(df$Equal.Opportunity.Difference), ties.method= "min") 
+  
+  fairRank <- fairRank / 5
+  #fairRank <- rank(fairRank, ties.method= "min")
+  
+  fairGroupRank <- fairGroupRank / 4
+  #fairGroupRank <- rank(fairGroupRank, ties.method= "min")
+  
+  return (data.frame(Combo=df$Combo, FairRank = fairRank, IndivFairRank = fairIndivRank, GroupFairRank = fairGroupRank))
 }
 
 #ranks on the basis of runtime
@@ -156,8 +181,8 @@ tryCatch({
 })
 
 ## With validation
-stratResults <- deriveEqualRank(parseResultFiles("LogDefaultStratValid",pathname='../data/basic/'))
-randomResults <- deriveEqualRank(parseResultFiles("LogDefaultRadValid",pathname='../data/basic/'))
+stratResults <- deriveEqualRank(parseResultFiles("SamplingStratComp",pathname='../data/StratVsRand/'))
+randomResults <- deriveEqualRank(parseResultFiles("SamplingRandComp",pathname='../data/StratVsRand/'))
 
 #Without validation
 stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples",pathname='../data/basic/'))
@@ -171,7 +196,7 @@ runCombined <- deriveEqualRank(parseResultFiles(nameTemplate = c("Run2Strat", "E
   
   
 combined <- merge(stratResults, randomResults, by="Combo")
-combined$Diff <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
+combined$DiffEqual <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
 hist(combined$Diff, breaks=15)
 summary(combined$Diff) 
 
@@ -181,7 +206,20 @@ ggplot(combined, aes(x=Diff)) + geom_histogram()
 
 # a basic paired Wilcoxon test for differences in ranks
 wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE) 
-# p value 0.65, meaning that there's no systematic positive or negative change in ranks
+# p value 0.8906, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRank.x, combined$FairRank.y, paired = TRUE) 
+# p value 0.4019, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankIndiv.x, combined$FairRankIndiv.y, paired = TRUE) 
+# p value 0.9874, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankGroup.x, combined$FairRankGroup.y, paired = TRUE) 
+# p value 0.2645, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$RuntimeRank.x, combined$RuntimeRank.y, paired = TRUE) 
+# p value 0.3461, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$PerfRank.x, combined$PerfRank.y, paired = TRUE) 
+# p value 0.7529, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$PerfFairEqualRank.x, combined$PerfFairEqualRank.y, paired = TRUE) 
+# p value 0.7694, meaning that there's no systematic positive or negative change in ranks
+
 
 # add some stats for comparing combination of approaches
 combined$Combo <- as.character(combined$Combo)
@@ -214,9 +252,10 @@ combined$Classifier[combined$Classifier == "Logistic Regression"] <- "LR"
 combined$Classifier[combined$Classifier == "Naive Bayes"] <- "NB"
 combined$Classifier[combined$Classifier == "Random Forest"] <- "RF"
 
-combined <- combined[, c(6, 7, 9, 8, 1:5)]
+combined <- combined[, c(8, 9, 11, 10, 1:7)]
 View(combined)
 
+row.names(combined) <- NULL
 print(xtable(combined), file=paste0(getwd(), "/results.tex"), compress=F)
 
 only_pre <- combined %>% filter(Pre != "-", In == "-", Post == '-')
