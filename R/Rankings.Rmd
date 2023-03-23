@@ -1,0 +1,603 @@
+---
+title: "Rankings"
+author: "Christian Haas"
+date: "`r Sys.Date()`"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Function Definition
+
+```{r}
+###### R script for deriving various rankings for AIF360 pipelines ########
+
+library(dplyr)
+library(splitstackshape)
+library(ggplot2)
+library(xtable)
+
+#### Functions ####
+
+#reads in csvs and aggregates by dataset and combination
+parseResultFiles <- function(nameTemplate, endTemplate="output.csv",pathname) {
+  # files <- list.files(path=getwd())
+  files <- list.files(path=pathname)
+  
+  if (length(nameTemplate) == 1) {
+    files <- files[startsWith(files, nameTemplate) & endsWith(files, endTemplate)]
+  } else {
+    fileset <- c()
+    for (name in nameTemplate) {
+      fileset <- rbind(fileset, files[startsWith(files, name) & endsWith(files, endTemplate)])
+    }
+    files <- fileset
+  }
+
+  df <- data.frame()
+  for (name in files) {
+    # df <- rbind(df, read.csv(paste0(getwd(),"/", name)))
+    df <- rbind(df, read.csv(paste0(pathname,"/", name)))
+  }
+  
+  df$Time <- gsub('\\{', '', df$Time)
+  df$Time <- gsub('\\}', '', df$Time)
+  df$Time <- as.numeric(df$Time)
+  
+  df$Combo <- paste0(df$Pre, '+', df$In_p, '+', df$Post, '+', df$Classifier)
+  df$Combo <- factor(df$Combo)
+  df$Score <- NULL
+  df$Rank <- NULL
+  
+  write.csv(df, file=paste0(getwd(), "/fairCombos.csv"), row.names = F)
+  
+  t <- table(df$Combo, df$Dataset)
+  write.table(t, file=paste0(getwd(), "/combos.csv"), sep = ",")
+  
+  return (aggregateResults(df))
+}
+
+getRuntime <- function() {
+  runtime <-  read.csv(file=paste0(getwd(), "/fairCombos.csv"))
+  return (sum(runtime$Time))
+}
+
+aggregateResults <- function(df) {
+  aggDF <- aggregate(df, by=list(df$Combo, df$Dataset), FUN = mean)
+  s <- data.frame(do.call(rbind, strsplit(as.character(aggDF$Group.1), '\\+')))
+  names(s) <- c(names(df)[1:4])
+  
+  aggDF$Pre <- s$Pre
+  aggDF$In_p <- s$In_p
+  aggDF$Post <- s$Post
+  aggDF$Classifier <- s$Classifier
+  aggDF$Dataset <- aggDF$Group.2
+  aggDF$Group.2 <- NULL
+  aggDF$Combo <- aggDF$Group.1
+  aggDF$Group.1 <- NULL
+  aggDF$Sens_Attr <- NULL
+  aggDF$Valid <- NULL
+  
+  return(aggDF)
+}
+
+#draws a sample of n observations of each combination
+sampleNObs <- function(df, n=5, cols) {
+  
+  strat <- stratified(df, cols, n)
+  
+  print(sum(strat$Time) / 3600)
+  
+  return(strat)
+  
+}
+
+#derives an equally weighted rank for both fairness and performance measures
+#derives ranks per dataset then averages them to produce an average rank per combo
+#depends on: computePerfRank and computeFairRank
+## update: now allows to specify parameters for unequal ranks
+deriveEqualRank <- function(df, weightAcc=1, weightPrec=1, weightRec=1,
+                            weightSP=1, weightDI=1, weightTI=1, weightAO=1, 
+                            weightEO=1, weightInd=1, weightGroup=1,
+                            weightFair=1, weightPerf=1, weightRun=1) {
+  perfDF <- data.frame()
+  fairDF <- data.frame()
+  runtimeDF <- data.frame()
+  
+  for (dataset in unique(df$Dataset)) {
+    perfDF <- rbind(perfDF, computePerfRank(df[df$Dataset == dataset, ], weightAcc, weightPrec, weightRec))
+    fairDF <- rbind(fairDF, computeFairRank(df[df$Dataset == dataset, ], weightSP, weightDI, weightTI, weightAO, weightEO, weightInd, weightGroup))
+    runtimeDF <- rbind(runtimeDF, computeRuntimeRank(df[df$Dataset == dataset, ]))
+  }
+  
+  perfAgg <- aggregate(perfDF$PerfRank, by=list(perfDF$Combo), FUN=mean)
+  fairAggAll <- aggregate(fairDF$FairRankAll, by=list(fairDF$Combo), FUN=mean)
+  fairAggIndGroup <- aggregate(fairDF$FairRankIndGroup, by=list(fairDF$Combo), FUN=mean)
+  fairAggIndiv <- aggregate(fairDF$IndivFairRank, by=list(fairDF$Combo), FUN=mean)
+  fairAggGroup <- aggregate(fairDF$GroupFairRank, by=list(fairDF$Combo), FUN=mean)
+  runtimeAgg <- aggregate(runtimeDF$RuntimeRank, by=list(runtimeDF$Combo), FUN=mean)
+  
+  names(perfAgg) <- c("Combo", "PerfRank")
+  names(fairAggAll) <- c("Combo", "FairRankAll")
+  names(fairAggIndGroup) <- c("Combo", "FairRankIndivGroup")
+  names(fairAggIndiv) <- c("Combo", "FairRankIndiv")
+  names(fairAggGroup) <- c("Combo", "FairRankGroup")
+  names(runtimeAgg) <- c("Combo", "RuntimeRank")
+  
+  rankDF <- merge(perfAgg, fairAggAll, by="Combo")
+  rankDF <- merge(rankDF, fairAggIndGroup, by="Combo")
+  rankDF <- merge(rankDF, fairAggIndiv, by="Combo")
+  rankDF <- merge(rankDF, fairAggGroup, by="Combo")
+  rankDF <- merge(rankDF, runtimeAgg, by="Combo")
+  #rankDF$EqualWeightRank <- (rankDF$PerfRank + rankDF$FairRank + rankDF$RuntimeRank) / 3 
+  #rankDF$PerfFairEqualRank <- (rankDF$PerfRank + rankDF$FairRank) / 2
+  rankDF$EqualWeightRank <- (weightPerf*rankDF$PerfRank + weightFair*rankDF$FairRankAll + weightRun*rankDF$RuntimeRank) / (weightFair + weightPerf + weightRun) 
+  rankDF$PerfFairEqualRank <- (weightPerf*rankDF$PerfRank + weightFair*rankDF$FairRankAll) / (weightPerf + weightFair)
+    rankDF$PerfFairEqualRankIndGroup <- (weightPerf*rankDF$PerfRank + weightFair*rankDF$FairRankIndivGroup) / (weightPerf + weightFair)
+  
+  return(rankDF)
+}
+
+# derives an performance rank 
+# assumes df contains results for just one dataset
+# considers all four performance variables equal
+computePerfRank <- function(df, weightAcc=1, weightPrec=1, weightRec=1) {
+  
+  perfRank <- (weightAcc*rank(1- df$Accuracy, ties.method= "min") + 
+    #rank(1- df$AUC, ties.method= "min") + 
+    weightPrec*rank(1- df$Precision, ties.method= "min") + 
+    weightRec*rank(1 - df$Recall, ties.method= "min"))
+  
+  perfRank <- perfRank / (weightAcc + weightPrec + weightRec)
+  #perfRank <- rank(perfRank, ties.method= "min")
+  
+  return (data.frame(Combo=df$Combo, PerfRank = perfRank))
+}
+
+# derives an performance rank 
+# assumes df contains results for just one dataset
+# considers all five fairness measures equal
+computeFairRank <- function(df, weightSP=1, weightDI=1, weightTI=1, weightAO=1, weightEO=1, weightInd=1, weightGroup=1) {
+  # fairRank <- rank(df$Mean.Difference, ties.method= "min") + 
+  #   rank(1- df$Disparate.Impact, ties.method= "min") +
+  #   rank(df$Theil.Index, ties.method= "min") + 
+  #   rank(df$Average.Odds.Difference, ties.method= "min") + 
+  #   rank(df$Equal.Opportunity.Difference, ties.method= "min") 
+  fairRankAll <- (weightSP*rank(abs(df$Mean.Difference), ties.method= "min") + 
+    weightDI*rank(abs(1- df$Disparate.Impact), ties.method= "min") +
+    weightTI*rank(df$Theil.Index, ties.method= "min") + 
+    weightAO*rank(abs(df$Average.Odds.Difference), ties.method= "min") + 
+    weightEO*rank(abs(df$Equal.Opportunity.Difference), ties.method= "min")) / (weightSP + weightDI + weightAO + weightEO + weightTI) 
+  
+  fairIndivRank <- rank(df$Theil.Index, ties.method= "min")
+  
+  fairGroupRank <- (weightSP*rank(abs(df$Mean.Difference), ties.method= "min") + 
+    weightDI*rank(abs(1- df$Disparate.Impact), ties.method= "min") +
+    weightAO*rank(abs(df$Average.Odds.Difference), ties.method= "min") + 
+    weightEO*rank(abs(df$Equal.Opportunity.Difference), ties.method= "min")) / (weightSP + weightDI + weightAO + weightEO) 
+  
+  fairRankIndGroup <- (weightInd*fairIndivRank + weightGroup*fairGroupRank)/(weightInd + weightGroup)
+  #fairRank <- fairRank / 5
+  #
+  #fairRank <- rank(fairRank, ties.method= "min")
+  
+  # fairGroupRank <- fairGroupRank / 4
+  #fairGroupRank <- rank(fairGroupRank, ties.method= "min")
+  
+  return (data.frame(Combo=df$Combo, FairRankAll = fairRankAll, IndivFairRank = fairIndivRank, GroupFairRank = fairGroupRank, FairRankIndGroup = fairRankIndGroup))
+}
+
+#ranks on the basis of runtime
+computeRuntimeRank <- function(df) {
+  #remove combos that failed (they are hardcoded to have a runtime of 0)
+  df$Time[df$Time == 0] <- NA
+  
+  runtimeRank <-  rank(df$Time, ties.method = "min")
+  return (data.frame(Combo=df$Combo, RuntimeRank = runtimeRank))
+}
+
+# new function for data processing to make it easier to re-calculate everything for different weights
+
+tidyCombined <- function(combined){
+  combined$Combo <- as.character(combined$Combo)
+  combined$Pre = ""
+  combined$In = ""
+  combined$Post = ""
+  combined$Classifier = ""
+  
+  for (i in 1:nrow(combined)){
+    approach <- strsplit(combined$Combo[i], split='\\+')
+    combined$Pre[i] = approach[[1]][1]
+    combined$In[i] = approach[[1]][2]
+    combined$Post[i] = approach[[1]][3]
+    combined$Classifier[i] = approach[[1]][4]  
+  }
+  
+  combined$Combo <- NULL
+  combined$Classifier[combined$Classifier == "Logistic Regression"] <- "LR"
+  combined$Classifier[combined$Classifier == "Naive Bayes"] <- "NB"
+  combined$Classifier[combined$Classifier == "Random Forest"] <- "RF"
+  
+  combined <- combined[, c(10, 11, 13, 12, 1:9)]
+  
+  row.names(combined) <- NULL
+  print(xtable(combined), file=paste0(getwd(), "/results.tex"), compress=F)
+  
+  only_pre <- combined %>% filter(Pre != "-", In == "-", Post == '-')
+  only_in <- combined %>% filter(In != "-", Pre == "-", Post == '-')
+  only_post <- combined %>% filter(Post != "-", In == "-", Pre == '-')
+  pre_in <- combined %>% filter(Pre != "-", In != "-", Post == '-')
+  pre_post <- combined %>% filter(Pre != "-", In == "-", Post != '-')
+  in_post <- combined %>% filter(Pre == "-", In != "-", Post != '-')
+  pre_in_post <- combined %>% filter(Pre != "-", In != "-", Post != '-')
+  only_classification <- combined %>% filter(Pre == "-", In == "-", Post == '-')
+  
+  only_pre$Scenario = 'only_pre'
+  only_in$Scenario = 'only_in'
+  only_post$Scenario = 'only_post'
+  pre_in$Scenario = 'pre_in'
+  pre_post$Scenario = 'pre_post'
+  in_post$Scenario = 'in_post'
+  pre_in_post$Scenario = 'pre_in_post'
+  only_classification$Scenario = 'only_classification'
+  
+  combined_new <- rbind(only_pre, only_in, only_post, pre_in, pre_post, in_post, pre_in_post, only_classification)
+  combined_new$Scenario <- factor(combined_new$Scenario, 
+                                  levels=c('only_classification', 'only_pre', 'only_in', 'only_post', 
+                                           'pre_in', 'pre_post', 'in_post', 'pre_in_post'),
+                                  labels=c('only_classification', 'only_pre', 'only_in', 'only_post', 
+                                           'pre_in', 'pre_post', 'in_post', 'pre_in_post'),
+                                  ordered=T)
+  return(combined_new)
+}
+```
+
+## Load Data
+
+```{r}
+#### Run #####
+
+# setwd("/Users/scaton/Documents/Papers/FairMLComp/16413092_FYP/data/basic")
+tryCatch({
+  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+}, error=function(cond){message(paste("cannot change working directory"))
+})
+
+## With validation
+stratResults <- deriveEqualRank(parseResultFiles("SamplingStratComp",pathname='../data/StratVsRand/'))
+randomResults <- deriveEqualRank(parseResultFiles("SamplingRandComp",pathname='../data/StratVsRand/'))
+
+#Without validation
+stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples",pathname='../data/basic/'))
+randomResults <- deriveEqualRank(parseResultFiles("SingleSamples",pathname='../data/basic/'))
+
+# #New results
+# run1 <- deriveEqualRank(parseResultFiles("Run2Strat",pathname='../../logs/', endTemplate=".csv"))
+# run2 <- deriveEqualRank(parseResultFiles("ErrorHandlingStrat",pathname='../../logs/', endTemplate=".csv"))
+#   
+# runCombined <- deriveEqualRank(parseResultFiles(nameTemplate = c("Run2Strat", "ErrorHandlingStrat"),pathname='../../logs/', endTemplate=".csv"))
+  
+
+```
+
+## Sample analysis and tests
+
+```{r}
+
+  
+combined <- merge(stratResults, randomResults, by="Combo")
+combined$DiffEqual <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
+hist(combined$Diff, breaks=15)
+summary(combined$Diff) 
+
+#### random vs stratified ####
+
+ggplot(combined, aes(x=DiffEqual)) + geom_histogram()
+
+# a basic paired Wilcoxon test for differences in ranks
+wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE) 
+# p value 0.8906, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankAll.x, combined$FairRankAll.y, paired = TRUE) 
+# p value 0.4019, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankIndiv.x, combined$FairRankIndiv.y, paired = TRUE) 
+# p value 0.9874, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankGroup.x, combined$FairRankGroup.y, paired = TRUE) 
+# p value 0.2645, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$RuntimeRank.x, combined$RuntimeRank.y, paired = TRUE) 
+# p value 0.3461, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$PerfRank.x, combined$PerfRank.y, paired = TRUE) 
+# p value 0.7529, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$PerfFairEqualRank.x, combined$PerfFairEqualRank.y, paired = TRUE) 
+# p value 0.7694, meaning that there's no systematic positive or negative change in ranks
+
+
+# add some stats for comparing combination of approaches
+combined$Combo <- as.character(combined$Combo)
+```
+
+## Analysis Prep
+
+```{r}
+#### sampled results ####
+set.seed(1)
+df <- read.csv(paste0(getwd(), "/fairCombosOrig.csv"), stringsAsFactors = T)
+df <- sampleNObs(df, 5, c("Combo", "Dataset", "Sens_Attr"))
+combined <- deriveEqualRank(aggregateResults(df))
+combined <- combined[order(combined$PerfFairEqualRank), ]
+
+#### tidy up and rebuild ####
+
+combined_new <- tidyCombined(combined)
+```
+
+## Visual Analysis
+
+```{r}
+#### plots ####
+
+ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
+ggsave("BoxplotMeanWeightedRankAll.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=PerfFairEqualRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair")
+ggsave("BoxplotMeanWeightedRankPerfFair.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=PerfRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Perf")
+ggsave("BoxplotMeanWeightedRankPerf.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=FairRankAll, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Fair")
+ggsave("BoxplotMeanWeightedRankFair.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=FairRankIndivGroup, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Fair")
+ggsave("BoxplotMeanWeightedRankFairIndGroup.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=RuntimeRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Runtime")
+ggsave("BoxplotMeanWeightedRankRuntime.png", width = 20, height = 14, units = "cm")
+
+## now with violin plots
+
+ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
+ggsave("BoxplotMeanWeightedRankAllViolin.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=PerfFairEqualRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Weighted Rank: Perf + Fair")
+ggsave("BoxplotMeanWeightedRankPerfFairViolin.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=PerfRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Perf")
+ggsave("BoxplotMeanWeightedRankPerfViolin.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=FairRankAll, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Fair")
+ggsave("BoxplotMeanWeightedRankFairViolin.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=FairRankIndivGroup, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Fair")
+ggsave("BoxplotMeanWeightedRankFairIndGroupViolin.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=RuntimeRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Runtime")
+ggsave("BoxplotMeanWeightedRankRuntimeViolin.png", width = 20, height = 14, units = "cm")
+
+```
+
+## Correlation Plot
+
+```{r}
+library(corrplot)
+
+corr_matrix <- cor(combined_new %>% 
+                     select(PerfRank, FairRankAll, 
+                            FairRankIndiv,
+                            FairRankGroup,
+                            RuntimeRank,
+                            EqualWeightRank,
+                            PerfFairEqualRank))
+
+file_path= "RankingsCorrelationPlot.png"
+png(height=20, width=20, units="cm", file=file_path,
+    res = 250)
+
+corrplot.mixed(corr_matrix, tl.pos = "lt")
+dev.off()
+```
+
+## Pareto Front Analysis
+
+```{r}
+# trying a pareto front
+# example 1: runtime vs equal fairness and performance
+library(rPref)
+prefs <- low(PerfFairEqualRank) * low(RuntimeRank)
+skyl <- psel(combined_new, prefs) %>% 
+  mutate("Type"="Non-dominated")
+# add dominated/non-dominated info to df
+combined_new_temp <- combined_new %>% 
+  left_join(skyl) %>% 
+  mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
+  mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
+
+ggplot(combined_new_temp, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(aes(shape = factor(Type))) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
+
+ggsave("EqualFairPerfRuntime.png", width = 15, height = 10, units = "cm")
+
+# pref <- low(PerfFairEqualRank) * low(RuntimeRank)
+# res <- psel(combined_new, pref, top = nrow(combined_new))
+# ggplot(res, aes(x = PerfFairEqualRank, y = RuntimeRank, color = factor(.level))) +
+#   geom_point(size = 3) 
+# ggplot(res, aes(x = PerfFairEqualRank, y = RuntimeRank, color = factor(Scenario))) +
+#   geom_point(size = 3) 
+
+# example 2: fairness vs performance
+prefs_2 <- low(PerfRank) * low(FairRankAll)
+skyl_2 <- psel(combined_new, prefs_2)%>% 
+  mutate("Type"="Non-dominated")
+# add dominated/non-dominated info to df
+combined_new_temp <- combined_new %>% 
+  left_join(skyl_2) %>% 
+  mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
+  mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
+
+ggplot(combined_new_temp, aes(x = PerfRank, y = FairRankAll)) + geom_point(aes(shape = Type)) + plot_front(combined_new, prefs_2) +   geom_point(data = skyl_2, size = 3, aes(color=Scenario)) + geom_step(data = skyl_2,direction = "vh")+ xlab("Performance Rank") + ylab("Fairness Rank") + labs(shape="Combination")
+ggsave("FairVsPerf.png", width = 15, height = 10, units = "cm")
+
+# example 3: individual fairness vs group fairness
+prefs_3 <- low(FairRankIndiv) * low(FairRankGroup)
+skyl_3 <- psel(combined_new, prefs_3)%>% 
+  mutate("Type"="Non-dominated")
+# add dominated/non-dominated info to df
+combined_new_temp <- combined_new %>% 
+  left_join(skyl_3) %>% 
+  mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
+  mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
+
+ggplot(combined_new_temp, aes(x = FairRankIndiv, y = FairRankGroup)) + geom_point(aes(shape = Type)) + plot_front(combined_new, prefs_3) +   geom_point(data = skyl_3, size = 3, aes(color=Scenario))  + geom_step(data = skyl_3,direction = "vh")+ xlab("Individual Fairness Rank") + ylab("Group Fairness Rank") + labs(shape="Combination")
+ggsave("IndVsGroupFairness.png", width = 15, height = 10, units = "cm")
+
+
+# example 4: derive the better-than graph
+pref <- low(PerfFairEqualRank) * low(RuntimeRank)
+btg <- get_btg(combined_new, pref)
+# Create labels for the nodes containing relevant values
+labels <- paste0(combined_new$PerfFairEqualRank, "\n", combined_new$RuntimeRank)
+plot_btg(combined_new, pref, labels) 
+
+combined_grouped <- combined_new %>% 
+  group_by(Scenario) %>% 
+  summarise(mean_PerfFairEqualRank = mean(PerfFairEqualRank),
+            mean_RuntimeRank = mean(RuntimeRank)) %>% 
+  ungroup()
+
+pref_g <- low(mean_PerfFairEqualRank) * low(mean_RuntimeRank)
+btg_g <- get_btg(combined_grouped, pref_g)
+# Create labels for the nodes containing relevant values
+labels_g <- paste0(combined_grouped$Scenario)
+
+plot_btg(combined_grouped, pref_g, labels_g) 
+
+```
+
+## Pareto-front with non-equal weights
+
+```{r}
+
+weightAcc=1
+weightPrec=1
+weightRec=1
+weightSP=1
+weightDI=1
+weightTI=1
+weightAO=1
+weightEO=1
+weightInd=1
+weightGroup=1
+weightFair=2
+weightPerf=2
+weightRun=1
+
+combined <- deriveEqualRank(aggregateResults(df), weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- combined[order(combined$PerfFairEqualRank), ]
+
+#### tidy up and rebuild ####
+combined_new <- tidyCombined(combined)
+
+prefs <- low(PerfFairEqualRankIndGroup) * low(RuntimeRank)
+skyl <- psel(combined_new, prefs)%>% 
+  mutate("Type"="Non-dominated")
+# add dominated/non-dominated info to df
+combined_new_temp <- combined_new %>% 
+  left_join(skyl) %>% 
+  mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
+  mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
+ggplot(combined_new_temp, aes(x = PerfFairEqualRankIndGroup, y = RuntimeRank)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (with focus on Group Fairness) and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
+
+ggsave("HigherFairPerfRuntime.png", width = 15, height = 10, units = "cm")
+
+
+# now with higher emphasis on group fairness
+
+weightAcc=1
+weightPrec=1
+weightRec=1
+weightSP=1
+weightDI=1
+weightTI=1
+weightAO=1
+weightEO=1
+weightInd=1
+weightGroup=2
+weightFair=1
+weightPerf=1
+weightRun=1
+
+combined <- deriveEqualRank(aggregateResults(df), weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- combined[order(combined$PerfFairEqualRank), ]
+
+#### tidy up and rebuild ####
+combined_new <- tidyCombined(combined)
+
+prefs <- low(FairRankGroup) * low(FairRankIndiv)
+
+skyl <- psel(combined_new, prefs)%>% 
+  mutate("Type"="Non-dominated")
+# add dominated/non-dominated info to df
+combined_new_temp <- combined_new %>% 
+  left_join(skyl) %>% 
+  mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
+  mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
+
+ggplot(combined_new_temp, aes(x = FairRankGroup, y = FairRankIndiv)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Group Fairness Rank") + ylab("Individul Fairness Rank") + labs(shape="Combination")
+
+ggsave("HigherGroupFair.png", width = 15, height = 10, units = "cm")
+
+# and now, put higher emphasis on specific fairness attribute
+
+weightAcc=0
+weightPrec=0
+weightRec=1
+weightSP=0
+weightDI=0
+weightTI=0
+weightAO=1
+weightEO=0
+weightInd=1
+weightGroup=1
+weightFair=1
+weightPerf=1
+weightRun=1
+
+combined <- deriveEqualRank(aggregateResults(df), weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- combined[order(combined$PerfFairEqualRank), ]
+
+#### tidy up and rebuild ####
+combined_new_test <- tidyCombined(combined)
+
+prefs <- low(PerfFairEqualRank) * low(RuntimeRank)
+skyl <- psel(combined_new_test, prefs)%>% 
+  mutate("Type"="Non-dominated")
+# add dominated/non-dominated info to df
+combined_new_test <- combined_new_test %>% 
+  left_join(skyl) %>% 
+  mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
+  mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
+ggplot(combined_new_test, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_test, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (Average Odds) and Performance (Recall) Rank") + ylab("Runtime Rank") +labs(shape="Combination")
+
+ggsave("OnlyIndividualComponents.png", width = 20, height = 14, units = "cm")
+
+
+```
+
+Test code
+
+```{r}
+# trying a 3-dimensional Pareto front
+
+prefs_3dim <- low(PerfRank) * low(FairRank) * low(RuntimeRank)
+skyl_3dim <- psel(combined_new, prefs_3dim)
+
+library(rgl)
+mat_3d <- cbind(combined_new$PerfRank, combined_new$FairRank, 
+              combined_new$RuntimeRank)
+# open3d()
+persp3d(mat_3d[,1],mat_3d[,2],mat_3d[,3], alpha=0.7)
+
+ggplot(combined_new, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(shape = 21) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh")
+```
