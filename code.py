@@ -13,8 +13,8 @@ import json
 import traceback
 
 from aif360.datasets import AdultDataset, GermanDataset, CompasDataset, BankDataset
-from aif360.metrics import BinaryLabelDatasetMetric , ClassificationMetric
-from aif360.algorithms.inprocessing import AdversarialDebiasing
+from aif360.metrics import BinaryLabelDatasetMetric, ClassificationMetric
+# from aif360.algorithms.inprocessing import AdversarialDebiasing
 
 from aif360.algorithms.preprocessing import DisparateImpactRemover, LFR, Reweighing
 from aif360.algorithms.inprocessing import MetaFairClassifier, PrejudiceRemover
@@ -73,7 +73,10 @@ def set_default(obj):
     raise TypeError
 
 def log_error(stage, exc_type, exc_value, exc_traceback):
-    name = sys.argv[1] + '.log'
+    if len(sys.argv) > 1:
+       name = sys.argv[1] + '.log'
+    else:
+        name="StandardErrorLog.log"
     f=open(name, "a+")
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
@@ -82,7 +85,10 @@ def log_error(stage, exc_type, exc_value, exc_traceback):
     f.close()
 
 def log(message, dictionary=False):
-    name = sys.argv[1] + '.log'
+    if len(sys.argv) > 1:
+       name = sys.argv[1] + '.log'
+    else:
+        name="StandardLog.log"
     f=open(name, "a+")
     if (dictionary):
         message.pop('dataset', None)
@@ -95,6 +101,63 @@ def log(message, dictionary=False):
         current_time = time.strftime("%H:%M:%S", t)
         f.write('[' + current_time + '] ' + message + '\n')
     f.close()
+
+
+def top_single(my_list):  # not parrallelized function
+    counter = 0
+    a = []
+
+    for i in my_list:
+        log('Here is the row: ' + str(i))
+        log('Here is the counter ' + str(counter))
+
+        top_data_d = data_f(i[0])  # main pipeline of bma functions called here
+        top_pre_d = pre(i[1], top_data_d)
+
+        passed = 0
+
+        log(str(i) + ' pre complete')
+        if (sanity_check(top_pre_d)):
+            passed += 1
+
+            try:
+                # log('throwing error')
+                # raise TypeError('somthing')
+                top_in_d = in_p(i[2], top_pre_d)
+                top_class_d = classifier(i[3], top_in_d)
+
+                log(str(i) + ' in/class complete')
+
+                if (sanity_check(top_class_d)):
+                    passed += 1
+                    try:
+                        top_post_d = post(i[4], top_class_d)  # bias mitigation functions
+                        log(str(i) + ' post complete')
+                        top_sort_d = sorter(top_post_d)
+                        passed += 1
+                    except:
+                        log('caught error in post')
+                        exc_type, exc_value, exc_traceback = sys.exc_info()
+                        log_error('post', exc_type, exc_value, exc_traceback)
+                        top_sort_d = resolve_failed(top_class_d, 'post', i)
+                else:
+                    log('Sanity Check Failed in in/class' + str(i))
+                    top_sort_d = resolve_failed(top_class_d, 'in/class', i)
+            except:
+                log('caught error in in/class')
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                log_error('in/class', exc_type, exc_value, exc_traceback)
+                top_sort_d = resolve_failed(top_pre_d, 'in/class', i)
+
+        else:
+            log('Sanity Check Failed in pre' + str(i))
+            top_sort_d = resolve_failed(top_pre_d, 'pre', i)
+
+        # print(top_sort_d)
+        log(message=top_sort_d, dictionary=True)
+
+        a.append(top_sort_d)
+    return a
 
 def top(my_list, out_queue): #parrallelized function 
     counter = 0
@@ -122,7 +185,7 @@ def top(my_list, out_queue): #parrallelized function
 #            dataset = ricci_dataset
     
         top_data_d = data_f(i[0])       #main pipeline of bma functions called here
-        top_pre_d =  pre(i[1], top_data_d)
+        top_pre_d = pre(i[1], top_data_d)
         
         passed = 0
         
@@ -203,7 +266,7 @@ def divide_chunks(l, n):
 def multi_run_wrapper(args):
    return top(*args)
         
-def main():
+def main(runParallel=False):
     #setting up the datasets
     bank_dataset = BankDataset()
     adult_dataset = AdultDataset()
@@ -217,8 +280,8 @@ def main():
     df = df.replace('Captain', 1)
     df = df.replace('Lieutenant', 0)
 
-    ricci_dataset = BinaryLabelDataset(favorable_label='1',      
-                                       unfavorable_label='0',
+    ricci_dataset = BinaryLabelDataset(favorable_label=1,
+                                       unfavorable_label=0,
                                        df=df,
                                        label_names=['Promotion'],
                                        protected_attribute_names=['Race'],
@@ -260,54 +323,61 @@ def main():
     #5 = post
      
     a_list = []
-    data, pre_p, in_p, class_p, post_p = 8, 3, 4, 4, 4
+
+    dataset, pre_proc, in_proc, class_proc, post_proc = 8, 3, 4, 4, 4
+    dataset, pre_proc, in_proc, class_proc, post_proc = 8, 2, 1, 2, 3
     #data, pre_p, in_p, class_p, post_p = 8, 1, 1, 2, 1
-    l = [(a,b,c,d,e)  for a in range(data) for b in range(pre_p) for c in range(in_p) for d in range(class_p)for e in range(post_p)] #create list of inputs
+    l = [(a,b,c,d,e)  for a in range(dataset) for b in range(pre_proc) for c in range(in_proc) for d in range(class_proc)for e in range(post_proc)] #create list of inputs
 
     for x in l:
-        if x[2] is 0 and x[3] is not 0 or x[2] is not 0 and x[3] is 0:   #cant have in-processing and classifier
-#            if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
-            if x[2] is 1 or x[2] is 2:                         # run only MFC
-                a_list.append(x)
+        if (x[2] == 0 and x[3] != 0) or (x[2] != 0 and x[3] == 0):  # cant have in-processing and classifier
+            #            if x[4] is not 3:                                            #ROC was calculated seperatedly as it is a memory hog
+            # if (x[2] == 1) or (x[2] == 2):  # run only MFC
+            a_list.append(x)
 
-    # upper bound to n cores -- added by Simon to be nice on SONIC
-    if (len(sys.argv) < 4):
-        num_proc = 12
+    if runParallel:
+        # upper bound to n cores -- added by Simon to be nice on SONIC
+        if (len(sys.argv) < 4):
+            num_proc = 12
+        else:
+            num_proc = int(sys.argv[3])
+
+        #return number of cores present on machine
+        cpu_num = int(max(1, min(num_proc, multiprocessing.cpu_count()) / 4))
+        log('Using ' + str(cpu_num) + ' cores')
+
+        #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
+        random.shuffle(a_list)
+
+        #split input array
+        five = numpy.array_split(numpy.array(a_list),cpu_num)
+
+        m = multiprocessing.Manager()
+        processes = []
+        out_queue0 = m.Queue()
+        numb_list = []
+        counter = 0
+
+        for x in five:
+            numb_list.append((five[counter]))
+            counter = counter + 1
+
+        input_list = list(zip(numb_list,itertools.repeat(out_queue0)))
+
+
+        pool = Pool(cpu_num)
+        pool.map(multi_run_wrapper,input_list)
+
+        result = []
+
+        while out_queue0.qsize() != 0:              #prevent deadlock
+              result.append(out_queue0.get())
+
+        pool.close()
     else:
-        num_proc = int(sys.argv[3])
-        
-    #return number of cores present on machine
-    cpu_num = int(max(1, min(num_proc, multiprocessing.cpu_count()) / 4))
-    log('Using ' + str(cpu_num) + ' cores')
-    
-    #randomly shuffle  input list before splitting to achieve a more equal runtime during parallelization
-    random.shuffle(a_list)    
-
-    #split input array                  
-    five = numpy.array_split(numpy.array(a_list),cpu_num)      
-
-    m = multiprocessing.Manager()   
-    processes = []
-    out_queue0 = m.Queue()
-    numb_list = []
-    counter = 0
-
-    for x in five:
-        numb_list.append((five[counter]))                 
-        counter = counter + 1
-
-    input_list = list(zip(numb_list,itertools.repeat(out_queue0)))
-
-    
-    pool = Pool(cpu_num)
-    pool.map(multi_run_wrapper,input_list)
-
-    result = []
-
-    while out_queue0.qsize() != 0:              #prevent deadlock
-          result.append(out_queue0.get())
-
-    pool.close()
+        print('starting sequential processing')
+        result = top_single(a_list)
+        print('sequential processing stopped')
     dfTemp0 = append_func(result)               #append results to dataframe
     dfFinal0, dfFinal1 = df_sort(dfTemp0)       #clean dataframe, second dataframe is identical bar being ranked differently
     output(dfFinal0,dfFinal1)
@@ -845,90 +915,101 @@ def classifier(clss, class_dict):
     dataset_test = class_dict['dataset_test']
     dataset_valid = class_dict['dataset_valid']
     start = class_dict['start']
-    
+
     pred_thres = .5
+    data_pred = dataset_test.copy()
+    data_pred_valid = dataset_valid.copy()
 
     if clss == 1:
-        
+
         lr = LogisticRegression()
-        lr = lr.fit(data.features, data.labels.ravel()) #fitted on train(transformed) datatset   
-        
-        pred_valid = lr.predict(dataset_valid.features)
-        pred = lr.predict(dataset_test.features)  
-        pred_prob = lr.predict_proba(dataset_test.features)  
-                
-        data_pred = dataset_test.copy()
-        data_pred.labels = pred   
-        #data_pred.scores = pred_prob
-        
-        data_pred_valid = dataset_valid.copy()
-        data_pred_valid.labels = pred_valid
-                
+        lr = lr.fit(data.features, data.labels.ravel(),
+                    sample_weight=data.instance_weights) #fitted on train(transformed) datatset
+
+        pred_valid = lr.predict(dataset_valid.features).reshape(-1, 1)
+        pred = lr.predict(dataset_test.features).reshape(-1, 1)
+        pos_ind = np.where(lr.classes_ == data.favorable_label)[0][0]
+        pred_prob = lr.predict_proba(dataset_test.features)[:, pos_ind].reshape(-1, 1)
+        pred_prob_val = lr.predict_proba(dataset_valid.features)[:, pos_ind].reshape(-1, 1)
+
+        data_pred_valid.scores = pred_prob_val
+        data_pred.scores = pred_prob
+
+        y_valid_pred = np.zeros_like(data_pred_valid.labels)
+        y_valid_pred[pred_prob_val >= pred_thres] = data_pred_valid.favorable_label
+        y_valid_pred[~(pred_prob_val >= pred_thres)] = data_pred_valid.unfavorable_label
+        data_pred_valid.labels = y_valid_pred
+
+        y_test_pred = np.zeros_like(data_pred.labels)
+        y_test_pred[pred_prob >= pred_thres] = data_pred.favorable_label
+        y_test_pred[~(pred_prob >= pred_thres)] = data_pred.unfavorable_label
+        data_pred.labels = y_test_pred
+
         name = 'Logistic Regression'
-        lr = None        
+        lr = None
     elif clss == 2:
-        rf = RandomForestClassifier(n_estimators=100, 
-                               max_features = 'sqrt')
-        rf = rf.fit(data.features, data.labels.ravel())   
-        
-        pred_valid = rf.predict(dataset_valid.features)  
-        pred_prob = rf.predict_proba(dataset_test.features)  
-        pred = rf.predict(dataset_test.features)  
-                
-        data_pred = dataset_test.copy()
-        data_pred.labels = pred      
-        #data_pred.scores = pred_prob
-        
-        data_pred_valid = dataset_valid.copy()
-        data_pred_valid.labels = pred_valid
+        rf = RandomForestClassifier(n_estimators=100,
+                                    max_features='sqrt')
+        rf = rf.fit(data.features, data.labels.ravel(),
+                    sample_weight=data.instance_weights) #fitted on train(transformed) datatset
+
+        pred_valid = rf.predict(dataset_valid.features).reshape(-1, 1)
+        pos_ind = np.where(rf.classes_ == data.favorable_label)[0][0]
+        pred_prob = rf.predict_proba(dataset_test.features)[:, pos_ind].reshape(-1, 1)
+        pred = rf.predict(dataset_test.features).reshape(-1, 1)
+        pred_prob_val = rf.predict_proba(dataset_valid.features)[:, pos_ind].reshape(-1, 1)
+
+        y_valid_pred = np.zeros_like(data_pred_valid.labels)
+        y_valid_pred[pred_prob_val >= pred_thres] = data_pred_valid.favorable_label
+        y_valid_pred[~(pred_prob_val >= pred_thres)] = data_pred_valid.unfavorable_label
+        data_pred_valid.labels = y_valid_pred
+
+        y_test_pred = np.zeros_like(data_pred.labels)
+        y_test_pred[pred_prob >= pred_thres] = data_pred.favorable_label
+        y_test_pred[~(pred_prob >= pred_thres)] = data_pred.unfavorable_label
+        data_pred.labels = y_test_pred
         name = 'Random Forest'
-        rf = None        
-    elif clss == 3: 
+        rf = None
+    elif clss == 3:
         nb = GaussianNB()
-        nb = nb.fit(data.features,data.labels.ravel())   
-        
-        pred_valid = nb.predict(dataset_valid.features)  
-        pred_prob = nb.predict_proba(dataset_test.features)  
-        pred = nb.predict(dataset_test.features)  
-                
-        data_pred = dataset_test.copy()
-        data_pred.labels = pred      
-        #data_pred.scores = pred_prob
-        
-        data_pred_valid = dataset_valid.copy()
-        data_pred_valid.labels = pred_valid
+        nb = nb.fit(data.features, data.labels.ravel(),
+                    sample_weight=data.instance_weights) #fitted on train(transformed) datatset
+
+        pred_valid = nb.predict(dataset_valid.features).reshape(-1, 1)
+        pos_ind = np.where(nb.classes_ == data.favorable_label)[0][0]
+        pred_prob = nb.predict_proba(dataset_test.features)[:, pos_ind].reshape(-1, 1)
+        pred = nb.predict(dataset_test.features).reshape(-1, 1)
+        pred_prob_val = nb.predict_proba(dataset_valid.features)[:, pos_ind].reshape(-1, 1)
+
+        y_valid_pred = np.zeros_like(data_pred_valid.labels)
+        y_valid_pred[pred_prob_val >= pred_thres] = data_pred_valid.favorable_label
+        y_valid_pred[~(pred_prob_val >= pred_thres)] = data_pred_valid.unfavorable_label
+        data_pred_valid.labels = y_valid_pred
+
+        y_test_pred = np.zeros_like(data_pred.labels)
+        y_test_pred[pred_prob >= pred_thres] = data_pred.favorable_label
+        y_test_pred[~(pred_prob >= pred_thres)] = data_pred.unfavorable_label
+        data_pred.labels = y_test_pred
         name = 'Naive Bayes'
         nb = None
-        
+
     elif clss == 0:
         return class_dict
-    
-    if data_used == 'German':
-        pred_prob = pred_prob[:,1]
-    elif data_used == 'Adult':
-        pred_prob = pred_prob[:,1]
-    elif data_used == 'Bank':
-        pred_prob = pred_prob[:,1]
-    elif data_used == 'Compas':
-        pred_prob = pred_prob[:,1]
-    elif data_used == 'Ricci':
-        pred_prob = pred_prob[:,1] 
-                          
-    finish = 0    
+
+    finish = 0
     finish = time.perf_counter()
 
     total_finish = get_total_finish(class_dict)
     total_finish = total_finish + finish
-        
+
     pre = class_dict.get('pre', None)
     in_p = class_dict.get('in', None)
     post = class_dict.get('post', None)
     count = class_dict.get('count')
 
-    classified_metric = class_met(dataset_test, data_pred, unprivileged_groups, privileged_groups) 
-       
-    
-    class_dict =  None
+    classified_metric = class_met(dataset_test, data_pred, unprivileged_groups, privileged_groups)
+
+    class_dict = None
 
     class_d = {'dataset' : data,
          'dataset_used' : data_used,
@@ -943,7 +1024,7 @@ def classifier(clss, class_dict):
          'dataset_valid': dataset_valid,
          'data_pred' : data_pred,
          'data_pred_valid' : data_pred_valid,
-         'pred' : pred,
+         'pred' : y_test_pred,
          'pred_prob' : pred_prob,
          'class' : name,
          'class_met' : classified_metric,
@@ -982,7 +1063,7 @@ def post(bma, post_dict): #applies post-processing algorithms
     sens = post_dict['sens']
     dataset_test = post_dict['dataset_test']  
     dataset_valid = post_dict['dataset_valid']
-    data_pred = post_dict.get('data_pred')
+    data_pred = post_dict.get('data_pred').copy(deepcopy=True)
     data_pred_valid = post_dict.get('data_pred_valid')
     pred = post_dict.get('pred')
     pred_prob = post_dict.get('pred_prob')
@@ -995,7 +1076,7 @@ def post(bma, post_dict): #applies post-processing algorithms
                                          cost_constraint=cost_constraint,
                                          seed=None)
         CPP = CPP.fit(dataset_valid, data_pred_valid)   
-        data_pred = CPP.predict(dataset_test) 
+        data_pred = CPP.predict(data_pred)
         pred = data_pred.labels
         pred_prob = data_pred.scores
         nam = 'cpp'
@@ -1005,7 +1086,7 @@ def post(bma, post_dict): #applies post-processing algorithms
                                      unprivileged_groups = unprivileged_groups,
                                      seed=None)
         EOP= EOP.fit(dataset_valid, data_pred_valid)  
-        data_pred = EOP.predict(dataset_test)
+        data_pred = EOP.predict(data_pred)
         pred = data_pred.labels
         pred_prob = data_pred.scores
         nam = 'eop'
@@ -1014,7 +1095,7 @@ def post(bma, post_dict): #applies post-processing algorithms
         ROC = RejectOptionClassification(privileged_groups = privileged_groups,
                                  unprivileged_groups = unprivileged_groups)
         ROC = ROC.fit(dataset_valid, data_pred_valid)  
-        data_pred = ROC.predict(dataset_test)
+        data_pred = ROC.predict(data_pred)
         pred = data_pred.labels
         pred_prob = data_pred.scores
         nam = 'roc'
@@ -1149,7 +1230,10 @@ def sorter(sort_dict): #prepare for dataframe, delete datasets from memory
         mean_diff_orig, dis_impact_orig = metric(dataset_test, unprivileged_groups, privileged_groups) #get the original scores
         acc, prec, rec = apr_score(dataset_test, pred) #calculate performance metrics
         data_used_name = data_used.title()
-        auc = roc_auc_score(dataset_test.labels, pred_prob) #get auc 
+        if np.unique(data_pred.labels)[1] != data_pred.favorable_label:
+            auc = roc_auc_score(dataset_test.labels, 1 - pred_prob)
+        else:
+            auc = roc_auc_score(dataset_test.labels, pred_prob)
         maj_class = count_maj(dataset_test, data_used) #get majority class percentage
         acc_check = acc_checker(maj_class, acc) #compare majority class to accuracy
         data_used = data_used.strip()
@@ -1355,7 +1439,7 @@ def count_maj(count_dataset, string): #returns majority class
     
         count_dataset.labels.flatten()
         
-        if string is 'german':
+        if string == 'german':
             count0 = np.count_nonzero(count_dataset.labels == 1)
             count_1 = np.count_nonzero(count_dataset.labels == 2)
         else:
@@ -1441,10 +1525,13 @@ def df_format(df):
     return df
 
 def output(df, df2):
-    
-    name1 = sys.argv[1] + "-output.csv"
-    name2 = sys.argv[1] + "-output1.csv"
-    
+
+    if len(sys.argv) > 1:
+        name1 = sys.argv[1] + "-output.csv"
+        name2 = sys.argv[1] + "-output1.csv"
+    else:
+        name1 = "Output.csv"
+        name2 = "Output1.csv"
     df.to_csv(name1, index=False)
     df2.to_csv(name2, index=False)
     return True
@@ -1475,7 +1562,8 @@ def rebuild_from_log(filename, output=None):
     
     
 if __name__ == "__main__":
-   main()
+    runParallel=False
+    main(runParallel)
    #name = "Run2Strat"
    #for i in range(10):
    #    rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.log', '/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.csv')
