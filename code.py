@@ -266,7 +266,7 @@ def divide_chunks(l, n):
 def multi_run_wrapper(args):
    return top(*args)
         
-def main(runParallel=False):
+def main(runParallel=False, random_state=None):
     #setting up the datasets
     bank_dataset = BankDataset()
     adult_dataset = AdultDataset()
@@ -301,20 +301,20 @@ def main(runParallel=False):
     global compas_train, compas_test, compas_valid
     global ricci_train, ricci_test, ricci_valid
     
-    bank_train, bank_vt = sample_data(bank_dataset, testSize, stratified)
-    bank_test, bank_valid = sample_data(bank_vt, .5, stratified)
+    bank_train, bank_vt = sample_data(bank_dataset, testSize, stratified, random_state)
+    bank_test, bank_valid = sample_data(bank_vt, .5, stratified, random_state)
     
-    adult_train, adult_vt = sample_data(adult_dataset, testSize, stratified)
-    adult_test, adult_valid = sample_data(adult_vt, .5, stratified)
+    adult_train, adult_vt = sample_data(adult_dataset, testSize, stratified, random_state)
+    adult_test, adult_valid = sample_data(adult_vt, .5, stratified, random_state)
     
-    german_train, german_vt = sample_data(german_dataset, testSize, stratified)
-    german_test, german_valid = sample_data(german_vt, .5, stratified)
+    german_train, german_vt = sample_data(german_dataset, testSize, stratified, random_state)
+    german_test, german_valid = sample_data(german_vt, .5, stratified, random_state)
     
-    compas_train, compas_vt = sample_data(compas_dataset, testSize, stratified)
-    compas_test, compas_valid = sample_data(compas_vt, .5, stratified)
+    compas_train, compas_vt = sample_data(compas_dataset, testSize, stratified, random_state)
+    compas_test, compas_valid = sample_data(compas_vt, .5, stratified, random_state)
     
-    ricci_train, ricci_vt = sample_data(ricci_dataset, testSize, stratified)
-    ricci_test, ricci_valid = sample_data(ricci_vt, .5, stratified)
+    ricci_train, ricci_vt = sample_data(ricci_dataset, testSize, stratified, random_state)
+    ricci_test, ricci_valid = sample_data(ricci_vt, .5, stratified, random_state)
     
     #1 = dataset
     #2 = pre
@@ -521,66 +521,70 @@ def data_f(data_used):
     data_used = None
     pro_used = None
 
-    return data_d 
+    return data_d
 
-def two_dimensional_stratified_sample(dataset, testSize):
+
+def two_dimensional_stratified_sample(dataset, testSize, random_state=None):
     df_conv, _ = dataset.convert_to_dataframe()
     y = dataset.label_names[0]
     protected = dataset.protected_attribute_names[0]
-    
+
     strata = df_conv[y].astype(str) + "-" + df_conv[protected].astype(str)
-    
-    y = df_conv.pop( y )
-    
-    X_train, X_test, y_train, y_test = train_test_split(df_conv, y, test_size=testSize, stratify=strata)
+
+    y = df_conv.pop(y)
+
+    X_train, X_test, y_train, y_test = train_test_split(df_conv, y, test_size=testSize, stratify=strata,
+                                                        random_state=random_state)
     train = pd.concat([X_train, y_train], axis=1)
     test = pd.concat([X_test, y_test], axis=1)
-    
-    trainAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
-                                       unfavorable_label=dataset.unfavorable_label,
-                                       df=train,
-                                       label_names=dataset.label_names,
-                                       protected_attribute_names=dataset.protected_attribute_names,
-                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
-    
-    testAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
-                                       unfavorable_label=dataset.unfavorable_label,
-                                       df=test,
-                                       label_names=dataset.label_names,
-                                       protected_attribute_names=dataset.protected_attribute_names,
-                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
-    
+
+    trainAIF = BinaryLabelDataset(favorable_label=dataset.favorable_label,
+                                  unfavorable_label=dataset.unfavorable_label,
+                                  df=train,
+                                  label_names=dataset.label_names,
+                                  protected_attribute_names=dataset.protected_attribute_names,
+                                  unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+
+    testAIF = BinaryLabelDataset(favorable_label=dataset.favorable_label,
+                                 unfavorable_label=dataset.unfavorable_label,
+                                 df=test,
+                                 label_names=dataset.label_names,
+                                 protected_attribute_names=dataset.protected_attribute_names,
+                                 unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+
     return trainAIF, testAIF
 
-def stratified_sample(dataset, testSize):
+
+def stratified_sample(dataset, testSize, random_state=None):
     df_conv, _ = dataset.convert_to_dataframe()
     y = dataset.label_names[0]
-    y = df_conv.pop( y )
-    X_train, X_test, y_train, y_test = train_test_split(df_conv, y, test_size=testSize, stratify=y)
+    y = df_conv.pop(y)
+    X_train, X_test, y_train, y_test = train_test_split(df_conv, y, test_size=testSize, stratify=y,
+                                                        random_state=random_state)
     train = pd.concat([X_train, y_train], axis=1)
     test = pd.concat([X_test, y_test], axis=1)
-    
-    trainAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
-                                       unfavorable_label=dataset.unfavorable_label,
-                                       df=train,
-                                       label_names=dataset.label_names,
-                                       protected_attribute_names=dataset.protected_attribute_names,
-                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
-    
-    testAIF = BinaryLabelDataset( favorable_label=dataset.favorable_label,
-                                       unfavorable_label=dataset.unfavorable_label,
-                                       df=test,
-                                       label_names=dataset.label_names,
-                                       protected_attribute_names=dataset.protected_attribute_names,
-                                       unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
-    
+
+    trainAIF = BinaryLabelDataset(favorable_label=dataset.favorable_label,
+                                  unfavorable_label=dataset.unfavorable_label,
+                                  df=train,
+                                  label_names=dataset.label_names,
+                                  protected_attribute_names=dataset.protected_attribute_names,
+                                  unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+
+    testAIF = BinaryLabelDataset(favorable_label=dataset.favorable_label,
+                                 unfavorable_label=dataset.unfavorable_label,
+                                 df=test,
+                                 label_names=dataset.label_names,
+                                 protected_attribute_names=dataset.protected_attribute_names,
+                                 unprivileged_protected_attributes=dataset.unprivileged_protected_attributes)
+
     return trainAIF, testAIF
 
-def sample_data(dataset, testSize, stratified=True):
+def sample_data(dataset, testSize, stratified=True, random_state=None):
     if (stratified):
-        return two_dimensional_stratified_sample(dataset, testSize)
+        return two_dimensional_stratified_sample(dataset, testSize, random_state)
     else:
-        return dataset.split([1-testSize], shuffle=False)
+        return dataset.split([1-testSize], shuffle=True)
 
 def get_total_finish(fin_dict): #keeps track of total time for each combination
     
@@ -1562,8 +1566,10 @@ def rebuild_from_log(filename, output=None):
     
     
 if __name__ == "__main__":
-    runParallel=False
-    main(runParallel)
+    runParallel = False
+
+    random_state = 1
+    main(runParallel, random_state)
    #name = "Run2Strat"
    #for i in range(10):
    #    rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.log', '/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.csv')
