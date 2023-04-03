@@ -17,7 +17,8 @@ from aif360.metrics import BinaryLabelDatasetMetric, ClassificationMetric
 # from aif360.algorithms.inprocessing import AdversarialDebiasing
 
 from aif360.algorithms.preprocessing import DisparateImpactRemover, LFR, Reweighing
-from aif360.algorithms.inprocessing import MetaFairClassifier, PrejudiceRemover
+from aif360.algorithms.inprocessing import MetaFairClassifier, PrejudiceRemover, GerryFairClassifier, ExponentiatedGradientReduction
+from grid_search_reduction_fixed import GridSearchReduction
 from aif360.algorithms.postprocessing import CalibratedEqOddsPostprocessing, EqOddsPostprocessing, RejectOptionClassification
 
 from sklearn import metrics
@@ -111,6 +112,19 @@ def top_single(my_list):  # not parrallelized function
         log('Here is the row: ' + str(i))
         log('Here is the counter ' + str(counter))
 
+        dataset_name = ""
+        if i[0] == 0:
+            dataset_name = "Bank"
+        elif i[0] == 1 or i[0] == 2:
+            dataset_name = "Adult"
+        elif i[0] == 3 or i[0] == 4:
+            dataset_name = "German"
+        elif i[0] == 5 or i[0] == 6:
+            dataset_name = "Compas"
+        else:
+            dataset_name = "Ricci"
+        print("Now looking at dataset: ", dataset_name)
+
         top_data_d = data_f(i[0])  # main pipeline of bma functions called here
         top_pre_d = pre(i[1], top_data_d)
 
@@ -166,6 +180,19 @@ def top(my_list, out_queue): #parrallelized function
     for i in my_list:
         log('Here is the row: ' + str(i))
         log('Here is the counter ' + str(counter))
+
+        dataset_name = ""
+        if i[0] == 0:
+            dataset_name = "Bank"
+        elif i[0] == 1 or i[0] == 2:
+            dataset_name = "Adult"
+        elif i[0] == 3 or i[0] == 4:
+            dataset_name = "German"
+        elif i[0] == 5 or i[0] == 6:
+            dataset_name = "Compas"
+        else:
+            dataset_name = "Ricci"
+        print("Now looking at dataset: ", dataset_name)
         
 #        if i[0] == 0:
 #            dataset = bank_dataset
@@ -266,7 +293,7 @@ def divide_chunks(l, n):
 def multi_run_wrapper(args):
    return top(*args)
         
-def main(runParallel=False, random_state=None):
+def main(runParallel=False, random_state=None, run_name="Run0"):
     #setting up the datasets
     bank_dataset = BankDataset()
     adult_dataset = AdultDataset()
@@ -315,6 +342,19 @@ def main(runParallel=False, random_state=None):
     
     ricci_train, ricci_vt = sample_data(ricci_dataset, testSize, stratified, random_state)
     ricci_test, ricci_valid = sample_data(ricci_vt, .5, stratified, random_state)
+
+    # for the German dataset, we need to re-set the labels to work properly with all mitigation strategies
+    german_train.labels = german_train.labels - 1
+    german_valid.labels = german_valid.labels - 1
+    german_test.labels = german_test.labels - 1
+
+    german_train.favorable_label = german_train.favorable_label - 1
+    german_valid.favorable_label = german_valid.favorable_label - 1
+    german_test.favorable_label = german_test.favorable_label - 1
+
+    german_train.unfavorable_label = german_train.unfavorable_label - 1
+    german_valid.unfavorable_label = german_valid.unfavorable_label - 1
+    german_test.unfavorable_label = german_test.unfavorable_label - 1
     
     #1 = dataset
     #2 = pre
@@ -325,7 +365,7 @@ def main(runParallel=False, random_state=None):
     a_list = []
 
     dataset, pre_proc, in_proc, class_proc, post_proc = 8, 3, 4, 4, 4
-    dataset, pre_proc, in_proc, class_proc, post_proc = 8, 2, 1, 2, 3
+    # dataset, pre_proc, in_proc, class_proc, post_proc = 8, 1, 4, 1, 1
     #data, pre_p, in_p, class_p, post_p = 8, 1, 1, 2, 1
     l = [(a,b,c,d,e)  for a in range(dataset) for b in range(pre_proc) for c in range(in_proc) for d in range(class_proc)for e in range(post_proc)] #create list of inputs
 
@@ -335,6 +375,9 @@ def main(runParallel=False, random_state=None):
             # if (x[2] == 1) or (x[2] == 2):  # run only MFC
             a_list.append(x)
 
+    # a_list = [(1,0,0,2,0),(1,0,1,0,1),(1,0,2,0,1)]
+
+    print(a_list)
     if runParallel:
         # upper bound to n cores -- added by Simon to be nice on SONIC
         if (len(sys.argv) < 4):
@@ -380,7 +423,7 @@ def main(runParallel=False, random_state=None):
         print('sequential processing stopped')
     dfTemp0 = append_func(result)               #append results to dataframe
     dfFinal0, dfFinal1 = df_sort(dfTemp0)       #clean dataframe, second dataframe is identical bar being ranked differently
-    output(dfFinal0,dfFinal1)
+    output(dfFinal0,dfFinal1, run_name)
 
     return None
 
@@ -462,7 +505,7 @@ def data_f(data_used):
         dataset_orig_test = german_test
         dataset_orig_valid = german_valid
     elif data_used == 4:
-        nam = 'German' 
+        nam = 'German'
         privileged_groups = [{'age': 1}]
         unprivileged_groups = [{'age': 0}]
         dataset_orig_train = german_train
@@ -678,10 +721,12 @@ def lookup_in(i):
     in_p = []
     
     if i == 1:
-        in_p.append('mfc_sr')
+        #in_p.append('mfc_sr')
+        in_p.append('egr_fp')
         in_p.append(i)
     elif i == 2:
-        in_p.append('mfc_fdr')
+        #in_p.append('mfc_fdr')
+        in_p.append('gsr_eo')
         in_p.append(i)
     elif i == 3:
         in_p.append('pr')
@@ -693,7 +738,7 @@ def lookup_in(i):
 
 def lookup_class(i):
     if i == 1:
-        return 'Logisitic Regression'
+        return 'Logistic Regression'
     elif i == 2:
         return 'Random Forest'
     elif i == 3:
@@ -806,41 +851,89 @@ def in_p(bma, in_dict): #applies in-processing classifier
     start = in_dict['start']      
 
     if bma == 1:
+        print("Running ExponentiatedGradientReduction")
         #MFC = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'sr')
-        MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
-        MFC = MFC.fit(data)
-        
-        data_pred_valid = MFC.predict(dataset_valid)
-        data_pred = MFC.predict(dataset_test)
-        
+        # MFC = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'sr')
+        # MFC = MFC.fit(data)
+        #
+        # data_pred_valid = MFC.predict(dataset_valid)
+        # data_pred = MFC.predict(dataset_test)
+        # C = 10
+        # print_flag = False
+        # gamma = .01
+        # max_iterations = 10
+        #
+        # GF = GerryFairClassifier(C=C, printflag=print_flag, gamma=gamma, fairness_def='FP',
+        #      max_iters=max_iterations, heatmapflag=False)
+        # GF = GF.fit(data, early_termination=True)
+        #
+        # data_pred_valid = GF.predict(dataset_valid)
+        # data_pred = GF.predict(dataset_test)
+
+        estimator = LogisticRegression(solver='lbfgs', max_iter=1000)
+        constraint = "EqualizedOdds"
+        EGR = ExponentiatedGradientReduction(estimator=estimator, constraints=constraint)
+        EGR = EGR.fit(data)
+
+        data_pred_valid = EGR.predict(dataset_valid)
+        data_pred = EGR.predict(dataset_test)
+
         pred = data_pred.labels
         pred_prob = data_pred.scores
         pred_valid = data_pred_valid.labels
-        nam = 'mfc_sr'
-        MFC = None
+        nam = 'egr_fp'
+        EGR = None
     if bma == 2:
+        print("Running GridSearchReduction")
         #MFC2 = MetaFairClassifier(tau=0, sensitive_attr= sens, type = 'fdr')
-        MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
-        MFC2 = MFC2.fit(data)
-        
-        data_pred_valid = MFC2.predict(dataset_valid)
-        data_pred = MFC2.predict(dataset_test)
+        # MFC2 = MetaFairClassifier(tau=0.8, sensitive_attr= sens, type = 'fdr')
+        # MFC2 = MFC2.fit(data)
+        #
+        # data_pred_valid = MFC2.predict(dataset_valid)
+        # data_pred = MFC2.predict(dataset_test)
+
+        # EGR = ExponentiatedGradientReduction()
+        # EGR = EGR.fit(data)
+        #
+        # data_pred_valid = EGR.predict(dataset_valid)
+        # data_pred = EGR.predict(dataset_test)
+        estimator = LogisticRegression(solver='lbfgs', max_iter=1000)
+        GSR = GridSearchReduction(estimator=estimator, constraints="EqualizedOdds")
+        GSR = GSR.fit(data)
+
+        data_pred_valid = GSR.predict(dataset_valid)
+        data_pred = GSR.predict(dataset_test)
             
         pred = data_pred.labels
+
         pred_prob = data_pred.scores
         pred_valid = data_pred_valid.labels
-        nam = 'mfc_fdr'
-        MFC2 = None       
+        nam = 'gsr_eo'
+        GSR = None
     elif bma == 3:
+        print("Running PrejudiceRemover")
         #PR = PrejudiceRemover(sensitive_attr= sens, eta=25.0)
         PR = PrejudiceRemover(sensitive_attr= sens, eta=1.0)
         PR = PR.fit(data)
         
         data_pred_valid = PR.predict(dataset_valid)
         data_pred = PR.predict(dataset_test)
-            
-        pred = data_pred.labels
+
         pred_prob = data_pred.scores
+        pred_prob_val = data_pred_valid.scores
+
+        pred_thres = 0.5
+        y_valid_pred = np.zeros_like(data_pred_valid.labels)
+        y_valid_pred[pred_prob_val >= pred_thres] = data_pred_valid.favorable_label
+        y_valid_pred[~(pred_prob_val >= pred_thres)] = data_pred_valid.unfavorable_label
+        data_pred_valid.labels = y_valid_pred
+
+        y_test_pred = np.zeros_like(data_pred.labels)
+        y_test_pred[pred_prob >= pred_thres] = data_pred.favorable_label
+        y_test_pred[~(pred_prob >= pred_thres)] = data_pred.unfavorable_label
+        data_pred.labels = y_test_pred
+
+        pred = data_pred.labels
         pred_valid = data_pred_valid.labels
         nam = 'pr'
         PR = None       
@@ -921,8 +1014,8 @@ def classifier(clss, class_dict):
     start = class_dict['start']
 
     pred_thres = .5
-    data_pred = dataset_test.copy()
-    data_pred_valid = dataset_valid.copy()
+    data_pred = dataset_test.copy(deepcopy=True)
+    data_pred_valid = dataset_valid.copy(deepcopy=True)
 
     if clss == 1:
 
@@ -963,6 +1056,9 @@ def classifier(clss, class_dict):
         pred = rf.predict(dataset_test.features).reshape(-1, 1)
         pred_prob_val = rf.predict_proba(dataset_valid.features)[:, pos_ind].reshape(-1, 1)
 
+        data_pred_valid.scores = pred_prob_val
+        data_pred.scores = pred_prob
+
         y_valid_pred = np.zeros_like(data_pred_valid.labels)
         y_valid_pred[pred_prob_val >= pred_thres] = data_pred_valid.favorable_label
         y_valid_pred[~(pred_prob_val >= pred_thres)] = data_pred_valid.unfavorable_label
@@ -984,6 +1080,9 @@ def classifier(clss, class_dict):
         pred_prob = nb.predict_proba(dataset_test.features)[:, pos_ind].reshape(-1, 1)
         pred = nb.predict(dataset_test.features).reshape(-1, 1)
         pred_prob_val = nb.predict_proba(dataset_valid.features)[:, pos_ind].reshape(-1, 1)
+
+        data_pred_valid.scores = pred_prob_val
+        data_pred.scores = pred_prob
 
         y_valid_pred = np.zeros_like(data_pred_valid.labels)
         y_valid_pred[pred_prob_val >= pred_thres] = data_pred_valid.favorable_label
@@ -1067,12 +1166,17 @@ def post(bma, post_dict): #applies post-processing algorithms
     sens = post_dict['sens']
     dataset_test = post_dict['dataset_test']  
     dataset_valid = post_dict['dataset_valid']
-    data_pred = post_dict.get('data_pred').copy(deepcopy=True)
+    data_pred = post_dict.get('data_pred')
     data_pred_valid = post_dict.get('data_pred_valid')
     pred = post_dict.get('pred')
     pred_prob = post_dict.get('pred_prob')
     start = post_dict['start']
-        
+
+    dataset_valid = dataset_valid.copy(deepcopy=True)
+    dataset_test = dataset_test.copy(deepcopy=True)
+    data_pred = data_pred.copy(deepcopy=True)
+    data_pred_valid = data_pred_valid.copy(deepcopy=True)
+
     if bma == 1:
         cost_constraint = "fnr"
         CPP = CalibratedEqOddsPostprocessing(privileged_groups = privileged_groups,
@@ -1081,6 +1185,7 @@ def post(bma, post_dict): #applies post-processing algorithms
                                          seed=None)
         CPP = CPP.fit(dataset_valid, data_pred_valid)   
         data_pred = CPP.predict(data_pred)
+        data_pred_valid = CPP.predict(data_pred_valid)
         pred = data_pred.labels
         pred_prob = data_pred.scores
         nam = 'cpp'
@@ -1091,6 +1196,7 @@ def post(bma, post_dict): #applies post-processing algorithms
                                      seed=None)
         EOP= EOP.fit(dataset_valid, data_pred_valid)  
         data_pred = EOP.predict(data_pred)
+        data_pred_valid = EOP.predict(data_pred_valid)
         pred = data_pred.labels
         pred_prob = data_pred.scores
         nam = 'eop'
@@ -1100,6 +1206,7 @@ def post(bma, post_dict): #applies post-processing algorithms
                                  unprivileged_groups = unprivileged_groups)
         ROC = ROC.fit(dataset_valid, data_pred_valid)  
         data_pred = ROC.predict(data_pred)
+        data_pred_valid = ROC.predict(data_pred_valid)
         pred = data_pred.labels
         pred_prob = data_pred.scores
         nam = 'roc'
@@ -1463,8 +1570,8 @@ def apr_score(data, pred):#returns performance metrics
    
     if pred is not None:
         acc = accuracy_score(data.labels, pred)
-        prec = precision_score(data.labels, pred, average = 'weighted')
-        recc = recall_score(data.labels, pred, average = 'weighted')
+        prec = precision_score(data.labels, pred)
+        recc = recall_score(data.labels, pred)
     else:
         acc = None
         prec = None
@@ -1528,14 +1635,14 @@ def df_format(df):
         
     return df
 
-def output(df, df2):
+def output(df, df2, run_name=None):
 
     if len(sys.argv) > 1:
         name1 = sys.argv[1] + "-output.csv"
         name2 = sys.argv[1] + "-output1.csv"
     else:
-        name1 = "Output.csv"
-        name2 = "Output1.csv"
+        name1 = run_name + "-Output.csv"
+        name2 = run_name + "-Output1.csv"
     df.to_csv(name1, index=False)
     df2.to_csv(name2, index=False)
     return True
@@ -1569,7 +1676,11 @@ if __name__ == "__main__":
     runParallel = False
 
     random_state = 1
-    main(runParallel, random_state)
+    num_runs = 5
+    for run in range(num_runs):
+        run_name = "Run" + str(run)
+        random_state = run
+        main(runParallel, random_state, run_name)
    #name = "Run2Strat"
    #for i in range(10):
    #    rebuild_from_log('/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.log', '/Users/scaton/Documents/Papers/FairMLComp/logs/'+name+'-'+str(i+1)+'.csv')

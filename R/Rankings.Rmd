@@ -225,7 +225,14 @@ tidyCombined <- function(combined){
   combined <- combined[, c(10, 11, 13, 12, 1:9)]
   
   row.names(combined) <- NULL
-  print(xtable(combined), file=paste0(getwd(), "/results.tex"), compress=F)
+  
+  # reformatting to the old format
+  combined_temp <- combined %>% 
+    select(-c(FairRankIndivGroup, PerfFairEqualRankIndGroup)) %>% 
+    arrange(EqualWeightRank) %>% 
+    relocate(EqualWeightRank, .before = PerfRank)
+  
+  print(xtable(combined_temp), file=paste0(getwd(), "/results.tex"), compress=F)
   
   only_pre <- combined %>% filter(Pre != "-", In == "-", Post == '-')
   only_in <- combined %>% filter(In != "-", Pre == "-", Post == '-')
@@ -267,71 +274,96 @@ tryCatch({
 }, error=function(cond){message(paste("cannot change working directory"))
 })
 
-## With validation
-stratResults <- deriveEqualRank(parseResultFiles("SamplingStratComp",pathname='../data/StratVsRand/'))
-randomResults <- deriveEqualRank(parseResultFiles("SamplingRandComp",pathname='../data/StratVsRand/'))
-
-#Without validation
-stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples",pathname='../data/basic/'))
-randomResults <- deriveEqualRank(parseResultFiles("SingleSamples",pathname='../data/basic/'))
+# ## With validation
+# stratResults <- deriveEqualRank(parseResultFiles("SamplingStratComp",pathname='../data/StratVsRand/'))
+# randomResults <- deriveEqualRank(parseResultFiles("SamplingRandComp",pathname='../data/StratVsRand/'))
+# 
+# #Without validation
+# stratResults <- deriveEqualRank(parseResultFiles("SingleStratSamples",pathname='../data/basic/'))
+# randomResults <- deriveEqualRank(parseResultFiles("SingleSamples",pathname='../data/basic/'))
 
 # #New results
 # run1 <- deriveEqualRank(parseResultFiles("Run2Strat",pathname='../../logs/', endTemplate=".csv"))
 # run2 <- deriveEqualRank(parseResultFiles("ErrorHandlingStrat",pathname='../../logs/', endTemplate=".csv"))
-#   
-# runCombined <- deriveEqualRank(parseResultFiles(nameTemplate = c("Run2Strat", "ErrorHandlingStrat"),pathname='../../logs/', endTemplate=".csv"))
-  
+#
+
+
+## New Results ##
+runs <- parseResultFiles(nameTemplate = c("Run"),pathname='../ClusterRuns/', endTemplate="Output.csv")
+
+runsAggregated <- aggregateResults(runs)
+
+runsRanked <- deriveEqualRank(runsAggregated)  
 
 ```
 
 ## Sample analysis and tests
 
+Note: this was done to compare random and stratified results. No longer relevant for the new analysis, hence commented out.
+
 ```{r}
 
-  
-combined <- merge(stratResults, randomResults, by="Combo")
-combined$DiffEqual <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
-hist(combined$Diff, breaks=15)
-summary(combined$Diff) 
-
-#### random vs stratified ####
-
-ggplot(combined, aes(x=DiffEqual)) + geom_histogram()
-
-# a basic paired Wilcoxon test for differences in ranks
-wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE) 
-# p value 0.8906, meaning that there's no systematic positive or negative change in ranks
-wilcox.test(combined$FairRankAll.x, combined$FairRankAll.y, paired = TRUE) 
-# p value 0.4019, meaning that there's no systematic positive or negative change in ranks
-wilcox.test(combined$FairRankIndiv.x, combined$FairRankIndiv.y, paired = TRUE) 
-# p value 0.9874, meaning that there's no systematic positive or negative change in ranks
-wilcox.test(combined$FairRankGroup.x, combined$FairRankGroup.y, paired = TRUE) 
-# p value 0.2645, meaning that there's no systematic positive or negative change in ranks
-wilcox.test(combined$RuntimeRank.x, combined$RuntimeRank.y, paired = TRUE) 
-# p value 0.3461, meaning that there's no systematic positive or negative change in ranks
-wilcox.test(combined$PerfRank.x, combined$PerfRank.y, paired = TRUE) 
-# p value 0.7529, meaning that there's no systematic positive or negative change in ranks
-wilcox.test(combined$PerfFairEqualRank.x, combined$PerfFairEqualRank.y, paired = TRUE) 
-# p value 0.7694, meaning that there's no systematic positive or negative change in ranks
-
-
-# add some stats for comparing combination of approaches
-combined$Combo <- as.character(combined$Combo)
+# combined <- merge(stratResults, randomResults, by="Combo")
+# combined$DiffEqual <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
+# hist(combined$Diff, breaks=15)
+# summary(combined$Diff) 
+# 
+# #### random vs stratified ####
+# 
+# ggplot(combined, aes(x=DiffEqual)) + geom_histogram()
+# 
+# # a basic paired Wilcoxon test for differences in ranks
+# wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE) 
+# # p value 0.8906, meaning that there's no systematic positive or negative change in ranks
+# wilcox.test(combined$FairRankAll.x, combined$FairRankAll.y, paired = TRUE) 
+# # p value 0.4019, meaning that there's no systematic positive or negative change in ranks
+# wilcox.test(combined$FairRankIndiv.x, combined$FairRankIndiv.y, paired = TRUE) 
+# # p value 0.9874, meaning that there's no systematic positive or negative change in ranks
+# wilcox.test(combined$FairRankGroup.x, combined$FairRankGroup.y, paired = TRUE) 
+# # p value 0.2645, meaning that there's no systematic positive or negative change in ranks
+# wilcox.test(combined$RuntimeRank.x, combined$RuntimeRank.y, paired = TRUE) 
+# # p value 0.3461, meaning that there's no systematic positive or negative change in ranks
+# wilcox.test(combined$PerfRank.x, combined$PerfRank.y, paired = TRUE) 
+# # p value 0.7529, meaning that there's no systematic positive or negative change in ranks
+# wilcox.test(combined$PerfFairEqualRank.x, combined$PerfFairEqualRank.y, paired = TRUE) 
+# # p value 0.7694, meaning that there's no systematic positive or negative change in ranks
+# 
+# 
+# # add some stats for comparing combination of approaches
+# combined$Combo <- as.character(combined$Combo)
 ```
 
 ## Analysis Prep
 
 ```{r}
 #### sampled results ####
-set.seed(1)
-df <- read.csv(paste0(getwd(), "/fairCombosOrig.csv"), stringsAsFactors = T)
-df <- sampleNObs(df, 5, c("Combo", "Dataset", "Sens_Attr"))
-combined <- deriveEqualRank(aggregateResults(df))
-combined <- combined[order(combined$PerfFairEqualRank), ]
+
+tryCatch({
+  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+}, error=function(cond){message(paste("cannot change working directory"))
+})
+
+# set.seed(1)
+# df <- read.csv(paste0(getwd(), "/fairCombosOrig.csv"), stringsAsFactors = T)
+# 
+# # test:
+# df <- read.csv("Output.csv", stringsAsFactors = T)
+# df$Time <- gsub('\\{', '', df$Time)
+# df$Time <- gsub('\\}', '', df$Time)
+# df$Time <- as.numeric(df$Time)
+# 
+# df$Combo <- paste0(df$Pre, '+', df$In_p, '+', df$Post, '+', df$Classifier)
+# df$Combo <- factor(df$Combo)
+# df$Score <- NULL
+# df$Rank <- NULL
+# df <- sampleNObs(df, 5, c("Combo", "Dataset", "Sens_Attr"))
+
+# combined <- deriveEqualRank(aggregateResults(df))
+# combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
 
-combined_new <- tidyCombined(combined)
+combined_new <- tidyCombined(runsRanked)
 ```
 
 ## Visual Analysis
@@ -379,27 +411,6 @@ ggsave("BoxplotMeanWeightedRankRuntimeViolin.png", width = 20, height = 14, unit
 
 ```
 
-## Correlation Plot
-
-```{r}
-library(corrplot)
-
-corr_matrix <- cor(combined_new %>% 
-                     select(PerfRank, FairRankAll, 
-                            FairRankIndiv,
-                            FairRankGroup,
-                            RuntimeRank,
-                            EqualWeightRank,
-                            PerfFairEqualRank))
-
-file_path= "RankingsCorrelationPlot.png"
-png(height=20, width=20, units="cm", file=file_path,
-    res = 250)
-
-corrplot.mixed(corr_matrix, tl.pos = "lt")
-dev.off()
-```
-
 ## Pareto Front Analysis
 
 ```{r}
@@ -415,7 +426,8 @@ combined_new_temp <- combined_new %>%
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
-ggplot(combined_new_temp, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(aes(shape = factor(Type))) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
+plot.new()
+ggplot(combined_new_temp, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(aes(shape = factor(Type))) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs) + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
 
 ggsave("EqualFairPerfRuntime.png", width = 15, height = 10, units = "cm")
 
@@ -436,7 +448,7 @@ combined_new_temp <- combined_new %>%
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
-ggplot(combined_new_temp, aes(x = PerfRank, y = FairRankAll)) + geom_point(aes(shape = Type)) + plot_front(combined_new, prefs_2) +   geom_point(data = skyl_2, size = 3, aes(color=Scenario)) + geom_step(data = skyl_2,direction = "vh")+ xlab("Performance Rank") + ylab("Fairness Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = PerfRank, y = FairRankAll)) + geom_point(aes(shape = Type)) + plot_front(combined_new_temp, prefs_2) +   geom_point(data = skyl_2, size = 3, aes(color=Scenario)) + geom_step(data = skyl_2,direction = "vh")+ xlab("Performance Rank") + ylab("Fairness Rank") + labs(shape="Combination")
 ggsave("FairVsPerf.png", width = 15, height = 10, units = "cm")
 
 # example 3: individual fairness vs group fairness
@@ -449,7 +461,7 @@ combined_new_temp <- combined_new %>%
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
-ggplot(combined_new_temp, aes(x = FairRankIndiv, y = FairRankGroup)) + geom_point(aes(shape = Type)) + plot_front(combined_new, prefs_3) +   geom_point(data = skyl_3, size = 3, aes(color=Scenario))  + geom_step(data = skyl_3,direction = "vh")+ xlab("Individual Fairness Rank") + ylab("Group Fairness Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = FairRankIndiv, y = FairRankGroup)) + geom_point(aes(shape = Type)) + plot_front(combined_new_temp, prefs_3) +   geom_point(data = skyl_3, size = 3, aes(color=Scenario))  + geom_step(data = skyl_3,direction = "vh")+ xlab("Individual Fairness Rank") + ylab("Group Fairness Rank") + labs(shape="Combination")
 ggsave("IndVsGroupFairness.png", width = 15, height = 10, units = "cm")
 
 
@@ -493,7 +505,7 @@ weightFair=2
 weightPerf=2
 weightRun=1
 
-combined <- deriveEqualRank(aggregateResults(df), weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- deriveEqualRank(runsAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
 combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
@@ -507,7 +519,7 @@ combined_new_temp <- combined_new %>%
   left_join(skyl) %>% 
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
-ggplot(combined_new_temp, aes(x = PerfFairEqualRankIndGroup, y = RuntimeRank)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (with focus on Group Fairness) and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = PerfFairEqualRankIndGroup, y = RuntimeRank)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (with focus on Group Fairness) and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
 
 ggsave("HigherFairPerfRuntime.png", width = 15, height = 10, units = "cm")
 
@@ -528,7 +540,7 @@ weightFair=1
 weightPerf=1
 weightRun=1
 
-combined <- deriveEqualRank(aggregateResults(df), weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- deriveEqualRank(runsAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
 combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
@@ -544,7 +556,7 @@ combined_new_temp <- combined_new %>%
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
-ggplot(combined_new_temp, aes(x = FairRankGroup, y = FairRankIndiv)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Group Fairness Rank") + ylab("Individul Fairness Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = FairRankGroup, y = FairRankIndiv)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Group Fairness Rank") + ylab("Individul Fairness Rank") + labs(shape="Combination")
 
 ggsave("HigherGroupFair.png", width = 15, height = 10, units = "cm")
 
@@ -564,7 +576,7 @@ weightFair=1
 weightPerf=1
 weightRun=1
 
-combined <- deriveEqualRank(aggregateResults(df), weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- deriveEqualRank(runsAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
 combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
@@ -600,4 +612,26 @@ mat_3d <- cbind(combined_new$PerfRank, combined_new$FairRank,
 persp3d(mat_3d[,1],mat_3d[,2],mat_3d[,3], alpha=0.7)
 
 ggplot(combined_new, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(shape = 21) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh")
+```
+
+## Correlation Plot
+
+```{r}
+library(corrplot)
+
+corr_matrix <- cor(combined_new %>% 
+                     select(PerfRank, FairRankAll, 
+                            FairRankIndiv,
+                            FairRankGroup,
+                            RuntimeRank,
+                            EqualWeightRank,
+                            PerfFairEqualRank))
+
+file_path= "RankingsCorrelationPlot.png"
+png(height=20, width=20, units="cm", file=file_path,
+    res = 250)
+
+corrplot.mixed(corr_matrix, tl.pos = "lt")
+dev.off()
+plot.new()
 ```
