@@ -289,11 +289,14 @@ tryCatch({
 
 
 ## New Results ##
-runs <- parseResultFiles(nameTemplate = c("Run"),pathname='../ClusterRuns/', endTemplate="Output.csv")
+runsStratified <- parseResultFiles(nameTemplate = c("Run"),pathname='../ClusterRuns/Stratified/', endTemplate="Output.csv")
+runsRandom <- parseResultFiles(nameTemplate = c("Run"),pathname='../ClusterRuns/Random/', endTemplate="Output.csv")
 
-runsAggregated <- aggregateResults(runs)
+runsStratifiedAggregated <- aggregateResults(runsStratified)
+runsRandomAggregated <- aggregateResults(runsRandom)
 
-runsRanked <- deriveEqualRank(runsAggregated)  
+runsStratifiedRanked <- deriveEqualRank(runsStratifiedAggregated)  
+runsRandomRanked <- deriveEqualRank(runsRandomAggregated)  
 
 ```
 
@@ -303,34 +306,33 @@ Note: this was done to compare random and stratified results. No longer relevant
 
 ```{r}
 
-# combined <- merge(stratResults, randomResults, by="Combo")
-# combined$DiffEqual <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
-# hist(combined$Diff, breaks=15)
-# summary(combined$Diff) 
-# 
-# #### random vs stratified ####
-# 
-# ggplot(combined, aes(x=DiffEqual)) + geom_histogram()
-# 
-# # a basic paired Wilcoxon test for differences in ranks
-# wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE) 
-# # p value 0.8906, meaning that there's no systematic positive or negative change in ranks
-# wilcox.test(combined$FairRankAll.x, combined$FairRankAll.y, paired = TRUE) 
-# # p value 0.4019, meaning that there's no systematic positive or negative change in ranks
-# wilcox.test(combined$FairRankIndiv.x, combined$FairRankIndiv.y, paired = TRUE) 
-# # p value 0.9874, meaning that there's no systematic positive or negative change in ranks
-# wilcox.test(combined$FairRankGroup.x, combined$FairRankGroup.y, paired = TRUE) 
-# # p value 0.2645, meaning that there's no systematic positive or negative change in ranks
-# wilcox.test(combined$RuntimeRank.x, combined$RuntimeRank.y, paired = TRUE) 
-# # p value 0.3461, meaning that there's no systematic positive or negative change in ranks
-# wilcox.test(combined$PerfRank.x, combined$PerfRank.y, paired = TRUE) 
-# # p value 0.7529, meaning that there's no systematic positive or negative change in ranks
-# wilcox.test(combined$PerfFairEqualRank.x, combined$PerfFairEqualRank.y, paired = TRUE) 
-# # p value 0.7694, meaning that there's no systematic positive or negative change in ranks
-# 
-# 
-# # add some stats for comparing combination of approaches
-# combined$Combo <- as.character(combined$Combo)
+combined <- merge(runsStratifiedRanked, runsRandomRanked, by="Combo")
+combined$DiffEqual <- combined$EqualWeightRank.x - combined$EqualWeightRank.y
+hist(combined$Diff, breaks=15)
+summary(combined$Diff)
+
+#### random vs stratified ####
+
+ggplot(combined, aes(x=DiffEqual)) + geom_histogram()
+
+# a basic paired Wilcoxon test for differences in ranks
+wilcox.test(combined$EqualWeightRank.x, combined$EqualWeightRank.y, paired = TRUE)
+# p value 0.5104, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankAll.x, combined$FairRankAll.y, paired = TRUE)
+# p value 0.3314, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankIndiv.x, combined$FairRankIndiv.y, paired = TRUE)
+# p value 0.07277, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$FairRankGroup.x, combined$FairRankGroup.y, paired = TRUE)
+# p value 0.3971, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$RuntimeRank.x, combined$RuntimeRank.y, paired = TRUE)
+# p value 0.1824, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$PerfRank.x, combined$PerfRank.y, paired = TRUE)
+# p value 0.1557, meaning that there's no systematic positive or negative change in ranks
+wilcox.test(combined$PerfFairEqualRank.x, combined$PerfFairEqualRank.y, paired = TRUE)
+# p value 0.1034, meaning that there's no systematic positive or negative change in ranks
+
+# add some stats for comparing combination of approaches
+combined$Combo <- as.character(combined$Combo)
 ```
 
 ## Analysis Prep
@@ -338,32 +340,9 @@ Note: this was done to compare random and stratified results. No longer relevant
 ```{r}
 #### sampled results ####
 
-tryCatch({
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-}, error=function(cond){message(paste("cannot change working directory"))
-})
-
-# set.seed(1)
-# df <- read.csv(paste0(getwd(), "/fairCombosOrig.csv"), stringsAsFactors = T)
-# 
-# # test:
-# df <- read.csv("Output.csv", stringsAsFactors = T)
-# df$Time <- gsub('\\{', '', df$Time)
-# df$Time <- gsub('\\}', '', df$Time)
-# df$Time <- as.numeric(df$Time)
-# 
-# df$Combo <- paste0(df$Pre, '+', df$In_p, '+', df$Post, '+', df$Classifier)
-# df$Combo <- factor(df$Combo)
-# df$Score <- NULL
-# df$Rank <- NULL
-# df <- sampleNObs(df, 5, c("Combo", "Dataset", "Sens_Attr"))
-
-# combined <- deriveEqualRank(aggregateResults(df))
-# combined <- combined[order(combined$PerfFairEqualRank), ]
-
 #### tidy up and rebuild ####
 
-combined_new <- tidyCombined(runsRanked)
+combined_new <- tidyCombined(runsStratifiedRanked)
 ```
 
 ## Visual Analysis
