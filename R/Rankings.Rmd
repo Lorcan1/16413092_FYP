@@ -343,6 +343,16 @@ combined$Combo <- as.character(combined$Combo)
 #### tidy up and rebuild ####
 
 combined_new <- tidyCombined(runsStratifiedRanked)
+
+# rename to consistent Latex format
+combined_new <- combined_new %>% 
+  rename("R_perf" = "PerfRank",
+         "R_fair" = "FairRankAll",
+         "R_fair,ind" = "FairRankIndiv",
+         "R_fair,group" = "FairRankGroup",
+         "R_runtime" = "RuntimeRank",
+         "R_EFP" = "PerfFairEqualRank",
+         "R_EFPQ" = "EqualWeightRank")
 ```
 
 ## Visual Analysis
@@ -350,42 +360,45 @@ combined_new <- tidyCombined(runsStratifiedRanked)
 ```{r}
 #### plots ####
 
-ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
+# ggplot(combined_new_test, aes(x=Scenario,y=`$R_{EFPQ}$`, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
+# ggsave("BoxplotMeanWeightedRankAll.png", width = 20, height = 14, units = "cm")
+
+ggplot(combined_new, aes(x=Scenario,y=R_EFPQ, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
 ggsave("BoxplotMeanWeightedRankAll.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=PerfFairEqualRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair")
+ggplot(combined_new, aes(x=Scenario,y=R_EFP, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Weighted Rank: Perf + Fair")
 ggsave("BoxplotMeanWeightedRankPerfFair.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=PerfRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Perf")
+ggplot(combined_new, aes(x=Scenario,y=R_perf, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Perf")
 ggsave("BoxplotMeanWeightedRankPerf.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=FairRankAll, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Fair")
+ggplot(combined_new, aes(x=Scenario,y=R_fair, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Fair")
 ggsave("BoxplotMeanWeightedRankFair.png", width = 20, height = 14, units = "cm")
 
 ggplot(combined_new, aes(x=Scenario,y=FairRankIndivGroup, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Fair")
 ggsave("BoxplotMeanWeightedRankFairIndGroup.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=RuntimeRank, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Runtime")
+ggplot(combined_new, aes(x=Scenario,y=R_runtime, fill=Scenario)) + geom_boxplot() + ggtitle("Mean Rank: Runtime")
 ggsave("BoxplotMeanWeightedRankRuntime.png", width = 20, height = 14, units = "cm")
 
 ## now with violin plots
 
-ggplot(combined_new, aes(x=Scenario,y=EqualWeightRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
+ggplot(combined_new, aes(x=Scenario,y=R_EFPQ, fill=Scenario)) + geom_violin() + ggtitle("Mean Weighted Rank: Perf + Fair + Runtime")
 ggsave("BoxplotMeanWeightedRankAllViolin.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=PerfFairEqualRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Weighted Rank: Perf + Fair")
+ggplot(combined_new, aes(x=Scenario,y=R_EFP, fill=Scenario)) + geom_violin() + ggtitle("Mean Weighted Rank: Perf + Fair")
 ggsave("BoxplotMeanWeightedRankPerfFairViolin.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=PerfRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Perf")
+ggplot(combined_new, aes(x=Scenario,y=R_perf, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Perf")
 ggsave("BoxplotMeanWeightedRankPerfViolin.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=FairRankAll, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Fair")
+ggplot(combined_new, aes(x=Scenario,y=R_fair, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Fair")
 ggsave("BoxplotMeanWeightedRankFairViolin.png", width = 20, height = 14, units = "cm")
 
 ggplot(combined_new, aes(x=Scenario,y=FairRankIndivGroup, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Fair")
 ggsave("BoxplotMeanWeightedRankFairIndGroupViolin.png", width = 20, height = 14, units = "cm")
 
-ggplot(combined_new, aes(x=Scenario,y=RuntimeRank, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Runtime")
+ggplot(combined_new, aes(x=Scenario,y=R_runtime, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Runtime")
 ggsave("BoxplotMeanWeightedRankRuntimeViolin.png", width = 20, height = 14, units = "cm")
 
 ```
@@ -396,7 +409,7 @@ ggsave("BoxplotMeanWeightedRankRuntimeViolin.png", width = 20, height = 14, unit
 # trying a pareto front
 # example 1: runtime vs equal fairness and performance
 library(rPref)
-prefs <- low(PerfFairEqualRank) * low(RuntimeRank)
+prefs <- low(R_EFP) * low(R_runtime)
 skyl <- psel(combined_new, prefs) %>% 
   mutate("Type"="Non-dominated")
 # add dominated/non-dominated info to df
@@ -406,7 +419,7 @@ combined_new_temp <- combined_new %>%
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
 plot.new()
-ggplot(combined_new_temp, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(aes(shape = factor(Type))) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs) + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = R_EFP, y = R_runtime)) + geom_point(aes(shape = factor(Type))) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs) + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
 
 ggsave("EqualFairPerfRuntime.png", width = 15, height = 10, units = "cm")
 
@@ -418,7 +431,7 @@ ggsave("EqualFairPerfRuntime.png", width = 15, height = 10, units = "cm")
 #   geom_point(size = 3) 
 
 # example 2: fairness vs performance
-prefs_2 <- low(PerfRank) * low(FairRankAll)
+prefs_2 <- low(R_perf) * low(R_fair)
 skyl_2 <- psel(combined_new, prefs_2)%>% 
   mutate("Type"="Non-dominated")
 # add dominated/non-dominated info to df
@@ -427,11 +440,11 @@ combined_new_temp <- combined_new %>%
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
-ggplot(combined_new_temp, aes(x = PerfRank, y = FairRankAll)) + geom_point(aes(shape = Type)) + plot_front(combined_new_temp, prefs_2) +   geom_point(data = skyl_2, size = 3, aes(color=Scenario)) + geom_step(data = skyl_2,direction = "vh")+ xlab("Performance Rank") + ylab("Fairness Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = R_perf, y = R_fair)) + geom_point(aes(shape = Type)) + plot_front(combined_new_temp, prefs_2) +   geom_point(data = skyl_2, size = 3, aes(color=Scenario)) + geom_step(data = skyl_2,direction = "vh")+ xlab("Performance Rank") + ylab("Fairness Rank") + labs(shape="Combination")
 ggsave("FairVsPerf.png", width = 15, height = 10, units = "cm")
 
 # example 3: individual fairness vs group fairness
-prefs_3 <- low(FairRankIndiv) * low(FairRankGroup)
+prefs_3 <- low(`R_fair,ind`) * low(`R_fair,group`)
 skyl_3 <- psel(combined_new, prefs_3)%>% 
   mutate("Type"="Non-dominated")
 # add dominated/non-dominated info to df
@@ -440,29 +453,29 @@ combined_new_temp <- combined_new %>%
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
-ggplot(combined_new_temp, aes(x = FairRankIndiv, y = FairRankGroup)) + geom_point(aes(shape = Type)) + plot_front(combined_new_temp, prefs_3) +   geom_point(data = skyl_3, size = 3, aes(color=Scenario))  + geom_step(data = skyl_3,direction = "vh")+ xlab("Individual Fairness Rank") + ylab("Group Fairness Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = `R_fair,ind`, y = `R_fair,group`)) + geom_point(aes(shape = Type)) + plot_front(combined_new_temp, prefs_3) +   geom_point(data = skyl_3, size = 3, aes(color=Scenario))  + geom_step(data = skyl_3,direction = "vh")+ xlab("Individual Fairness Rank") + ylab("Group Fairness Rank") + labs(shape="Combination")
 ggsave("IndVsGroupFairness.png", width = 15, height = 10, units = "cm")
 
 
-# example 4: derive the better-than graph
-pref <- low(PerfFairEqualRank) * low(RuntimeRank)
-btg <- get_btg(combined_new, pref)
-# Create labels for the nodes containing relevant values
-labels <- paste0(combined_new$PerfFairEqualRank, "\n", combined_new$RuntimeRank)
-plot_btg(combined_new, pref, labels) 
-
-combined_grouped <- combined_new %>% 
-  group_by(Scenario) %>% 
-  summarise(mean_PerfFairEqualRank = mean(PerfFairEqualRank),
-            mean_RuntimeRank = mean(RuntimeRank)) %>% 
-  ungroup()
-
-pref_g <- low(mean_PerfFairEqualRank) * low(mean_RuntimeRank)
-btg_g <- get_btg(combined_grouped, pref_g)
-# Create labels for the nodes containing relevant values
-labels_g <- paste0(combined_grouped$Scenario)
-
-plot_btg(combined_grouped, pref_g, labels_g) 
+# # example 4: derive the better-than graph
+# pref <- low(R_EFP) * low(R_runtime)
+# btg <- get_btg(combined_new, pref)
+# # Create labels for the nodes containing relevant values
+# labels <- paste0(combined_new$R_EFP, "\n", combined_new$R_runtime)
+# plot_btg(combined_new, pref, labels) 
+# 
+# combined_grouped <- combined_new %>% 
+#   group_by(Scenario) %>% 
+#   summarise(mean_PerfFairEqualRank = mean(PerfFairEqualRank),
+#             mean_RuntimeRank = mean(RuntimeRank)) %>% 
+#   ungroup()
+# 
+# pref_g <- low(mean_PerfFairEqualRank) * low(mean_RuntimeRank)
+# btg_g <- get_btg(combined_grouped, pref_g)
+# # Create labels for the nodes containing relevant values
+# labels_g <- paste0(combined_grouped$Scenario)
+# 
+# plot_btg(combined_grouped, pref_g, labels_g) 
 
 ```
 
@@ -606,6 +619,11 @@ corr_matrix <- cor(combined_new %>%
                             EqualWeightRank,
                             PerfFairEqualRank))
 
+# corr_matrix_new <- cor(combined_new_test %>% 
+#                      select(`"R"["perf"]`, `"R"["fair"]`,
+#                             `"R"["fair,ind"]`,`"R"["fair,group"]`,
+#                             `"R"["runtime"]`, `"R"["EFP"]`, `"R"["EFPQ"]`))
+
 file_path= "RankingsCorrelationPlot.png"
 png(height=20, width=20, units="cm", file=file_path,
     res = 250)
@@ -613,4 +631,7 @@ png(height=20, width=20, units="cm", file=file_path,
 corrplot.mixed(corr_matrix, tl.pos = "lt")
 dev.off()
 plot.new()
+
+# corrplot.mixed(corr_matrix_new, tl.pos = "lt")
+
 ```
