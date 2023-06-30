@@ -355,6 +355,49 @@ combined_new <- combined_new %>%
          "R_EFPQ" = "EqualWeightRank")
 ```
 
+### Basic Pipeline Observations
+```{r}
+
+rankFilter <- function(df, type, n) {
+  x <- df[, c(type, "Scenario")]
+  names(x)[1] <- "temp"
+  x <- x[order(x$temp), ]
+  x$type <- type
+  return(x[1:n, ])
+}
+
+perf <- rankFilter(combined_new, "PerfRank", 10)
+fairAll <- rankFilter(combined_new, "FairRankAll", 10)
+fairBoth <- rankFilter(combined_new, "FairRankIndivGroup", 10)
+individual <- rankFilter(combined_new, "FairRankIndiv", 10)
+group <- rankFilter(combined_new, "FairRankGroup", 10)
+runtime <- rankFilter(combined_new, "RuntimeRank", 10)
+equalWeight <- rankFilter(combined_new, "EqualWeightRank", 10)
+equalWeightPerf <- rankFilter(combined_new, "PerfFairEqualRank", 10)
+equalAll <- rankFilter(combined_new, "PerfFairEqualRankIndGroup", 10)
+
+top10 <- fairAll
+top10 <- rbind(top10, fairBoth)
+top10 <- rbind(top10, individual)
+top10 <- rbind(top10, group)
+#top10 <- rbind(top10, runtime)
+top10 <- rbind(top10, equalWeight)
+top10 <- rbind(top10, equalWeightPerf)
+top10 <- rbind(top10, equalAll)
+
+x <- data.frame(table(top10$Scenario))
+names(x) <- c("Scenario", "Frequency")
+ggplot(x, aes(x=Scenario,y=Frequency, fill=Scenario)) + geom_bar(stat="identity") + theme(legend.position = "none")
+ggsave("Top10Freq.png", width = 20, height = 14, units = "cm")
+
+top10_b <- rbind(perf, runtime)
+x <- data.frame(table(top10_b$Scenario))
+names(x) <- c("Scenario", "Frequency")
+ggplot(x, aes(x=Scenario,y=Frequency, fill=Scenario)) + geom_bar(stat="identity") + theme(legend.position = "none")
+ggsave("Top10Freq_performance.png", width = 20, height = 14, units = "cm")
+```
+
+
 ## Visual Analysis
 
 ```{r}
