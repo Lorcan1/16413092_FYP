@@ -355,49 +355,6 @@ combined_new <- combined_new %>%
          "R_EFPQ" = "EqualWeightRank")
 ```
 
-### Basic Pipeline Observations
-```{r}
-
-rankFilter <- function(df, type, n) {
-  x <- df[, c(type, "Scenario")]
-  names(x)[1] <- "temp"
-  x <- x[order(x$temp), ]
-  x$type <- type
-  return(x[1:n, ])
-}
-
-perf <- rankFilter(combined_new, "PerfRank", 10)
-fairAll <- rankFilter(combined_new, "FairRankAll", 10)
-fairBoth <- rankFilter(combined_new, "FairRankIndivGroup", 10)
-individual <- rankFilter(combined_new, "FairRankIndiv", 10)
-group <- rankFilter(combined_new, "FairRankGroup", 10)
-runtime <- rankFilter(combined_new, "RuntimeRank", 10)
-equalWeight <- rankFilter(combined_new, "EqualWeightRank", 10)
-equalWeightPerf <- rankFilter(combined_new, "PerfFairEqualRank", 10)
-equalAll <- rankFilter(combined_new, "PerfFairEqualRankIndGroup", 10)
-
-top10 <- fairAll
-top10 <- rbind(top10, fairBoth)
-top10 <- rbind(top10, individual)
-top10 <- rbind(top10, group)
-#top10 <- rbind(top10, runtime)
-top10 <- rbind(top10, equalWeight)
-top10 <- rbind(top10, equalWeightPerf)
-top10 <- rbind(top10, equalAll)
-
-x <- data.frame(table(top10$Scenario))
-names(x) <- c("Scenario", "Frequency")
-ggplot(x, aes(x=Scenario,y=Frequency, fill=Scenario)) + geom_bar(stat="identity") + theme(legend.position = "none")
-ggsave("Top10Freq.png", width = 20, height = 14, units = "cm")
-
-top10_b <- rbind(perf, runtime)
-x <- data.frame(table(top10_b$Scenario))
-names(x) <- c("Scenario", "Frequency")
-ggplot(x, aes(x=Scenario,y=Frequency, fill=Scenario)) + geom_bar(stat="identity") + theme(legend.position = "none")
-ggsave("Top10Freq_performance.png", width = 20, height = 14, units = "cm")
-```
-
-
 ## Visual Analysis
 
 ```{r}
@@ -443,6 +400,75 @@ ggsave("BoxplotMeanWeightedRankFairIndGroupViolin.png", width = 20, height = 14,
 
 ggplot(combined_new, aes(x=Scenario,y=R_runtime, fill=Scenario)) + geom_violin() + ggtitle("Mean Rank: Runtime")
 ggsave("BoxplotMeanWeightedRankRuntimeViolin.png", width = 20, height = 14, units = "cm")
+
+```
+
+### Basic Pipeline Observations
+```{r}
+
+rankFilter <- function(df, type, n) {
+  x <- df[, c(type, "Scenario")]
+  names(x)[1] <- "temp"
+  x <- x[order(x$temp), ]
+  x$type <- type
+  return(x[1:n, ])
+}
+
+perf <- rankFilter(combined_new, "R_perf", 10)
+fairAll <- rankFilter(combined_new, "R_fair", 10)
+fairBoth <- rankFilter(combined_new, "FairRankIndivGroup", 10)
+individual <- rankFilter(combined_new, "R_fair,ind", 10)
+group <- rankFilter(combined_new, "R_fair,group", 10)
+runtime <- rankFilter(combined_new, "R_runtime", 10)
+equalWeight <- rankFilter(combined_new, "R_EFPQ", 10)
+equalWeightPerf <- rankFilter(combined_new, "R_EFP", 10)
+equalAll <- rankFilter(combined_new, "PerfFairEqualRankIndGroup", 10)
+
+top10 <- fairAll
+top10 <- rbind(top10, fairBoth)
+top10 <- rbind(top10, individual)
+top10 <- rbind(top10, group)
+#top10 <- rbind(top10, runtime)
+top10 <- rbind(top10, equalWeight)
+top10 <- rbind(top10, equalWeightPerf)
+top10 <- rbind(top10, equalAll)
+
+x <- data.frame(table(top10$Scenario))
+names(x) <- c("Scenario", "Frequency")
+ggplot(x, aes(x=Scenario,y=Frequency, fill=Scenario)) + geom_bar(stat="identity") + theme(legend.position = "none",axis.text.x = element_text(angle = 30, hjust = 1))
+ggsave("Top10Freq.png", width = 14.5, height = 8, units = "cm")
+
+top10_b <- rbind(perf, runtime)
+x <- data.frame(table(top10_b$Scenario))
+names(x) <- c("Scenario", "Frequency")
+ggplot(x, aes(x=Scenario,y=Frequency, fill=Scenario)) + geom_bar(stat="identity") + theme(legend.position = "none",axis.text.x = element_text(angle = 30, hjust = 1))
+ggsave("Top10Freq_performance.png", width = 16.5, height = 9, units = "cm")
+```
+
+
+
+## Correlation Plot
+
+```{r}
+library(corrplot)
+
+corr_matrix <- cor(combined_new %>% 
+                     select(R_perf, R_fair, 
+                            `R_fair,ind`,
+                            `R_fair,group`,
+                            R_runtime,
+                            R_EFP,
+                            R_EFPQ))
+
+file_path= "RankingsCorrelationPlot.png"
+png(height=20, width=20, units="cm", file=file_path,
+    res = 250)
+
+corrplot.mixed(corr_matrix, tl.pos = "lt")
+dev.off()
+plot.new()
+
+# corrplot.mixed(corr_matrix_new, tl.pos = "lt")
 
 ```
 
@@ -540,13 +566,22 @@ weightFair=2
 weightPerf=2
 weightRun=1
 
-combined <- deriveEqualRank(runsAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- deriveEqualRank(runsStratifiedAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
 combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
 combined_new <- tidyCombined(combined)
+# rename to consistent Latex format
+combined_new <- combined_new %>% 
+  rename("R_perf" = "PerfRank",
+         "R_fair" = "FairRankAll",
+         "R_fair,ind" = "FairRankIndiv",
+         "R_fair,group" = "FairRankGroup",
+         "R_runtime" = "RuntimeRank",
+         "R_EFP" = "PerfFairEqualRank",
+         "R_EFPQ" = "EqualWeightRank")
 
-prefs <- low(PerfFairEqualRankIndGroup) * low(RuntimeRank)
+prefs <- low(R_fair) * low(R_runtime)
 skyl <- psel(combined_new, prefs)%>% 
   mutate("Type"="Non-dominated")
 # add dominated/non-dominated info to df
@@ -554,7 +589,7 @@ combined_new_temp <- combined_new %>%
   left_join(skyl) %>% 
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
-ggplot(combined_new_temp, aes(x = PerfFairEqualRankIndGroup, y = RuntimeRank)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (with focus on Group Fairness) and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = R_fair, y = R_runtime)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (with focus on Group Fairness) and Performance Rank") + ylab("Runtime Rank") + labs(shape="Combination")
 
 ggsave("HigherFairPerfRuntime.png", width = 15, height = 10, units = "cm")
 
@@ -575,13 +610,22 @@ weightFair=1
 weightPerf=1
 weightRun=1
 
-combined <- deriveEqualRank(runsAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- deriveEqualRank(runsStratifiedAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
 combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
 combined_new <- tidyCombined(combined)
+# rename to consistent Latex format
+combined_new <- combined_new %>% 
+  rename("R_perf" = "PerfRank",
+         "R_fair" = "FairRankAll",
+         "R_fair,ind" = "FairRankIndiv",
+         "R_fair,group" = "FairRankGroup",
+         "R_runtime" = "RuntimeRank",
+         "R_EFP" = "PerfFairEqualRank",
+         "R_EFPQ" = "EqualWeightRank")
 
-prefs <- low(FairRankGroup) * low(FairRankIndiv)
+prefs <- low(`R_fair,group`) * low(`R_fair,ind`)
 
 skyl <- psel(combined_new, prefs)%>% 
   mutate("Type"="Non-dominated")
@@ -591,7 +635,7 @@ combined_new_temp <- combined_new %>%
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
 
-ggplot(combined_new_temp, aes(x = FairRankGroup, y = FairRankIndiv)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Group Fairness Rank") + ylab("Individul Fairness Rank") + labs(shape="Combination")
+ggplot(combined_new_temp, aes(x = `R_fair,group`, y = `R_fair,ind`)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_temp, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Group Fairness Rank") + ylab("Individul Fairness Rank") + labs(shape="Combination")
 
 ggsave("HigherGroupFair.png", width = 15, height = 10, units = "cm")
 
@@ -611,13 +655,22 @@ weightFair=1
 weightPerf=1
 weightRun=1
 
-combined <- deriveEqualRank(runsAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
+combined <- deriveEqualRank(runsStratifiedAggregated, weightAcc,weightPrec,weightRec,weightSP,weightDI,weightTI,weightAO,weightEO,weightInd,weightGroup,weightFair,weightPerf,weightRun)
 combined <- combined[order(combined$PerfFairEqualRank), ]
 
 #### tidy up and rebuild ####
 combined_new_test <- tidyCombined(combined)
+# rename to consistent Latex format
+combined_new_test <- combined_new_test %>% 
+  rename("R_perf" = "PerfRank",
+         "R_fair" = "FairRankAll",
+         "R_fair,ind" = "FairRankIndiv",
+         "R_fair,group" = "FairRankGroup",
+         "R_runtime" = "RuntimeRank",
+         "R_EFP" = "PerfFairEqualRank",
+         "R_EFPQ" = "EqualWeightRank")
 
-prefs <- low(PerfFairEqualRank) * low(RuntimeRank)
+prefs <- low(R_EFP) * low(R_runtime)
 skyl <- psel(combined_new_test, prefs)%>% 
   mutate("Type"="Non-dominated")
 # add dominated/non-dominated info to df
@@ -625,7 +678,7 @@ combined_new_test <- combined_new_test %>%
   left_join(skyl) %>% 
   mutate(Type = ifelse(is.na(Type), "Dominated", Type)) %>% 
   mutate(Type = factor(Type, levels=c("Non-dominated", "Dominated")))
-ggplot(combined_new_test, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_test, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (Average Odds) and Performance (Recall) Rank") + ylab("Runtime Rank") +labs(shape="Combination")
+ggplot(combined_new_test, aes(x = R_EFP, y = R_runtime)) + geom_point(aes(shape = Type)) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new_test, prefs)  + geom_step(data = skyl,direction = "vh") + xlab("Equally Weighted Fairness (Average Odds) and Performance (Recall) Rank") + ylab("Runtime Rank") +labs(shape="Combination")
 
 ggsave("OnlyIndividualComponents.png", width = 20, height = 14, units = "cm")
 
@@ -647,34 +700,4 @@ mat_3d <- cbind(combined_new$PerfRank, combined_new$FairRank,
 persp3d(mat_3d[,1],mat_3d[,2],mat_3d[,3], alpha=0.7)
 
 ggplot(combined_new, aes(x = PerfFairEqualRank, y = RuntimeRank)) + geom_point(shape = 21) +   geom_point(data = skyl, size = 3, aes(color=Scenario)) + plot_front(combined_new, prefs)  + geom_step(data = skyl,direction = "vh")
-```
-
-## Correlation Plot
-
-```{r}
-library(corrplot)
-
-corr_matrix <- cor(combined_new %>% 
-                     select(PerfRank, FairRankAll, 
-                            FairRankIndiv,
-                            FairRankGroup,
-                            RuntimeRank,
-                            EqualWeightRank,
-                            PerfFairEqualRank))
-
-# corr_matrix_new <- cor(combined_new_test %>% 
-#                      select(`"R"["perf"]`, `"R"["fair"]`,
-#                             `"R"["fair,ind"]`,`"R"["fair,group"]`,
-#                             `"R"["runtime"]`, `"R"["EFP"]`, `"R"["EFPQ"]`))
-
-file_path= "RankingsCorrelationPlot.png"
-png(height=20, width=20, units="cm", file=file_path,
-    res = 250)
-
-corrplot.mixed(corr_matrix, tl.pos = "lt")
-dev.off()
-plot.new()
-
-# corrplot.mixed(corr_matrix_new, tl.pos = "lt")
-
 ```
